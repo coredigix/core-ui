@@ -1,0 +1,39 @@
+{
+  "name": "core-ui",
+  "version": "1.0.0",
+  "description": "web front framework",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coredigix/core-ui.git"
+  },
+  "keywords": [
+    "css",
+    "reactor",
+    "gridfw"
+  ],
+  "author": "coredigix",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coredigix/core-ui/issues"
+  },
+  "homepage": "https://github.com/coredigix/core-ui#readme",
+  "devDependencies": {
+    "cli-table": "^0.3.1",
+    "eco": "^1.1.0-rc-3",
+    "gulp": "^4.0.0",
+    "gulp-chug": "^0.5.1",
+    "gulp-coffeescript": "0.0.15",
+    "gulp-include": "^2.3.1",
+    "gulp-pug": "^4.0.1",
+    "gulp-remove-empty-lines": "^0.1.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-template": "^5.0.0",
+    "gulp-util": "^3.0.8",
+    "through2": "^3.0.0"
+  }
+}

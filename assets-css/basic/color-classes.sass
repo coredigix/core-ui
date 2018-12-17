@@ -1,0 +1,21 @@
+/*create basic color classes */
+<%
+for(var k in colors) {
+	var v = colors[k];
+	// main color
+	if(typeof v is 'string'){
+	%>
+	.<%= k %>
+		color: <%= v %>
+	<%
+	}
+%>
+
+}
+%>
+// @each $colorName, $colorLst in $colorLevels
+// 	$basicColor: list-get($colorLst, 2)
+
+// 	// basci text color
+// 	.#{$colorName}
+// 		color: $basicColor
