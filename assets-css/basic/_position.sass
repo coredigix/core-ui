@@ -1,0 +1,21 @@
+=position($args)
+	$n: length($args)
+	@if n == 0
+		@error 'Illegal arguments'
+	@else
+		display: nth($arg, 0)
+		@if n == 2
+			top: nth($arg, 1)
+			left: nth($arg, 1)
+		@else if n == 3
+			top: nth($arg, 1)
+			left: nth($arg, 2)
+		@else if n == 5
+			top: nth($arg, 1)
+			right: nth($arg, 2)
+			bottom: nth($arg, 3)
+			left: nth($arg, 4)
+		@else
+			@error "Illegal arguments"
+
+

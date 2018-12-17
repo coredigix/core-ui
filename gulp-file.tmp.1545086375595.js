@@ -30,7 +30,9 @@ PKG = require('./package.json');
 rmEmptyLines = require('gulp-remove-empty-lines');
 
 settings = {
-  PKG: PKG
+  rootDir: __dirname,
+  PKG: PKG,
+  mode: gutil.env.mode === 'prod' ? 'prod' : 'dev'
 };
 
 // compile js (background, popup, ...)
@@ -43,20 +45,33 @@ compileCoffee = function() {
 };
 
 compileSass = function() {
-  return gulp.src("assets-css/index.sass").pipe(include({
-    hardFail: true
-  })).pipe(rmEmptyLines()).pipe(rename("css-include.sass")).pipe(gulp.dest("build")).pipe(template(settings)).pipe(rename("css-template.sass")).pipe(gulp.dest("build")).pipe(rename(`${PKG.name}.${PKG.version}.sass`)).pipe(sass().on('error', errorHandler)).pipe(gulp.dest("build")).on('error', errorHandler);
+  // .pipe include hardFail: true
+  // .pipe rmEmptyLines()
+  // .pipe rename "css-include.sass"
+  // .pipe gulp.dest "build"
+
+  // .pipe template settings
+  // .pipe rename "css-template.sass"
+  // .pipe gulp.dest "build"
+  return gulp.src("assets-css/index.sass").pipe(rename(`${PKG.name}.${PKG.version}.sass`)).pipe(sass(settings.mode === 'prod' ? {
+    outputStyle: 'compressed'
+  } : {
+    outputStyle: 'expanded'
+  }).on('error', errorHandler)).pipe(gulp.dest("build")).on('error', errorHandler);
 };
 
 compileDocPug = function() {
-  return gulp.src("doc-assets/**/[^_]*.pug").pipe(pug(settings)).pipe(gulp.dest("doc")).on('error', errorHandler);
+  return gulp.src("assets-doc/**/[^_]*.pug").pipe(pug({
+    self: true,
+    data: settings
+  })).pipe(gulp.dest("doc")).on('error', errorHandler);
 };
 
 // compile
 watch = function() {
-  gulp.watch('assets/**/*.coffee', compileCoffee);
-  gulp.watch('assets/**/*.sass', compileSass);
-  gulp.watch('doc-assets/**/*.pug', compileDocPug);
+  gulp.watch('assets-js/**/*.coffee', compileCoffee);
+  gulp.watch(['assets-css/**/*.sass', 'assets-css/**/*.scss'], compileSass);
+  gulp.watch('assets-doc/**/*.pug', compileDocPug);
 };
 
 // create default task

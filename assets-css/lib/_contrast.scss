@@ -1,0 +1,9 @@
+// returns color depending on input contrast
+
+@function contrast-switch( $color, $dark-color: $black, $light-color: $white){
+	@if(lightness($color) > 50){
+		@return $dark-color;
+	} @else {
+		@return $light-color;
+	}
+}

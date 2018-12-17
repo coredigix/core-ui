@@ -1,0 +1,9 @@
+doctype
+html
+	head
+		block head
+			base(href=`${self.rootDir}/doc/`)
+			link(rel='stylesheet' href=`../build/core-ui.${self.PKG.version}.css`)
+			script(src=`../build/core-ui.${self.PKG.version}.js`)
+	body
+		block body
