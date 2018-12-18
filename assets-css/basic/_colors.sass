@@ -1,0 +1,35 @@
+
+
+/**
+ * text colors
+ * Has format: text-color
+ */
+@each $n, $v in $colors
+	.text-#{$n}
+		$i: 1
+		@each $cl in $v
+			$desc: nth($colorDescription, $i)
+			$i: $i + 1
+			@if $desc == 'base'
+				color: $cl
+			@else
+				&.#{$desc}
+					color: $cl
+
+/**
+ * background color
+ * @format .color
+ */
+@each $n, $v in $colors
+	.#{$n}
+		$i: 1
+		@each $cl in $v
+			$desc: nth($colorDescription, $i)
+			$i: $i + 1
+			@if $desc == 'base'
+				color: contrast-switch($cl)
+				background-color: $cl
+			@else
+				&.#{$desc}
+					color: contrast-switch($cl)
+					background-color: $cl

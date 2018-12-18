@@ -47,8 +47,10 @@ compileSass = ->
 			if settings.mode is 'prod'
 				outputStyle: 'compressed'
 			else
-				outputStyle: 'expanded'
+				outputStyle: 'compact'
+				# outputStyle: 'expanded'
 		).on 'error', errorHandler
+		.pipe rmEmptyLines()
 		.pipe gulp.dest "build"
 		.on 'error', errorHandler
 

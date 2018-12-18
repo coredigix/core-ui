@@ -1,0 +1,22 @@
+.list
+	@extend %margin-top;
+	padding-left: 0
+	list-style-type: none
+	li
+		@extend %padding;
+		// horizontal rule
+		&.hr
+			padding-top: 1em
+				
+	&.hover
+		li:hover
+			cursor: pointer
+			background-color: $grey-light
+ol.list
+	list-style-type: decimal
+	padding-left: 2em
+	background-color: $grey-light2
+	li
+		// padding-left: 0.2em
+		background-color: $white
+		border-left: 2px $grey solid

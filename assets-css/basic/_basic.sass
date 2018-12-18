@@ -1,0 +1,90 @@
+// body, html
+*
+	box-sizing: border-box
+	-webkit-box-sizing: border-box
+	background-repeat: no-repeat
+html, body
+	margin: 0
+	background: $white
+	+size(100%)
+	-moz-osx-font-smoothing: grayscale
+	-webkit-font-smoothing: antialiased
+	// text
+	line-height: 1.42857143
+	color: $color-text
+	font-family: "Roboto", "Helvetica", "Arial", sans-serif
+	font-weight: 400
+	font-size: 16px
+	@extend %noselect
+
+	// @media screen and (min-width: $xs)
+	// 	font-size: 16px
+
+p
+	margin: 0
+	padding: 0
+
+// repalce <hr> with extra space
+hr
+	border: none
+	margin: 1em 0 0 0
+
+// display
+.inline
+	display: inline
+.inline-block
+	display: inline-block
+.table
+	display: table
+.table-cell
+	display: table-cell
+.table-row
+	display: table-row
+
+.fit-parent
+	width: 100%
+	height: auto
+.fit-content
+	width: fit-content
+	height: fit-content
+
+// direction
+.rtl
+	direction: rtl
+.ltr
+	direction: ltr
+
+
+// pointer
+.cursor-text
+	cursor: text
+.cursor-hand
+	cursor: pointer
+
+// disable all events on an element
+.no-events
+	pointer-events: none
+
+// hide
+.hidden
+	display: none
+.hide
+	visibility: hidden
+
+// hidden on device and down
+// @example: hidden-lg: visible on xl devices only
+// @example: hidden-md: hide on medium devices and down
+@each $s, $sz in (xs: $sm - 1, sm: $md - 1, md: $lg - 1, lg: $xl - 1)
+	@media(max-width: $sz)
+		.hidden-#{$s}
+			display: none
+
+// margin
+%margin-top, .m-top
+	margin-top: 1.2rem
+
+// padding
+%padding-large
+	padding: 15px 10px
+%padding
+	padding: 10px 24px
