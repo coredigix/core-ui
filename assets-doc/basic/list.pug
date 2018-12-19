@@ -4,32 +4,132 @@ append head
 block body
 	.container
 		h1 Lists:
+		p Lists are continuous, vertical indexes of text or images.
 		h2 Simple list
 		
-		.card
-			ul.list
-				li Lorem ipsum dolor sit amet,
-				li consectetur adipisicing elit
-				li sed do eiusmod
-				li.hr tempor incididunt ut labore
-				li dolore magna aliqua.
-				li Ut enim ad minim veniam
+		p Use attribute "type" to specify bull type (disc|square|circle). Default to none
+		.row
+			//- simple list
+			.col.sm6.md4
+				.card
+					ul.list
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li.hr tempor incididunt ut labore
+						li dolore magna aliqua.
+						li Ut enim ad minim veniam
+			//- simple list
+			.col.sm6.md4
+				.card
+					ul.list(type="disc")
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li.hr tempor incididunt ut labore
+						li dolore magna aliqua.
+						li Ut enim ad minim veniam
+			//- simple list
+			.col.sm6.md4
+				.card
+					ul.list(type="square")
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li.hr tempor incididunt ut labore
+						li dolore magna aliqua.
+						li Ut enim ad minim veniam
+			//- simple list
+			.col.sm6.md4
+				.card
+					ul.list(type="circle")
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li.hr tempor incididunt ut labore
+						li dolore magna aliqua.
+						li Ut enim ad minim veniam
+		h2 Ordered list
+		p Use attribute "type" to specify numbring type (1|a|A|i|I). Default to 1
+		.row
+			//- ordered list
+			.col.sm6.md4
+				.card
+					ol.list
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li tempor incididunt ut labore
+						li.hr dolore magna aliqua.
+						li Ut enim ad minim veniam
+			//- ordered list
+			.col.sm6.md4
+				.card
+					ol.list(type="a")
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li tempor incididunt ut labore
+						li.hr dolore magna aliqua.
+						li Ut enim ad minim veniam
+			//- ordered list
+			.col.sm6.md4
+				.card
+					ol.list(type="A")
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li tempor incididunt ut labore
+						li.hr dolore magna aliqua.
+						li Ut enim ad minim veniam
+			//- ordered list
+			.col.sm6.md4
+				.card
+					ol.list(type="i")
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li tempor incididunt ut labore
+						li.hr dolore magna aliqua.
+						li Ut enim ad minim veniam
+			//- ordered list
+			.col.sm6.md4
+				.card
+					ol.list(type="I")
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li tempor incididunt ut labore
+						li.hr dolore magna aliqua.
+						li Ut enim ad minim veniam
 
-		.card
-			ol.list
-				li Lorem ipsum dolor sit amet,
-				li consectetur adipisicing elit
-				li sed do eiusmod
-				li tempor incididunt ut labore
-				li.hr dolore magna aliqua.
-				li Ut enim ad minim veniam
-
-		h2 hover:
-		.card
-			ul.list.hover
-				li Lorem ipsum dolor sit amet,
-				li consectetur adipisicing elit
-				li sed do eiusmod
-				li.hr tempor incididunt ut labore
-				li dolore magna aliqua.
-				li Ut enim ad minim veniam
+		h2 hover an striped list:
+		p Ajouter les classes "hover" et "striped" pour avoir ces effets.
+		.row
+			.col.sm6.md4
+				.card
+					ul.list.hover
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li.hr tempor incididunt ut labore
+						li dolore magna aliqua.
+						li Ut enim ad minim veniam
+			.col.sm6.md4
+				.card
+					ul.list.striped.hover
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li.hr tempor incididunt ut labore
+						li dolore magna aliqua.
+						li Ut enim ad minim veniam
+			.col.sm6.md4
+				.card
+					ol.list.striped.hover
+						li Lorem ipsum dolor sit amet,
+						li consectetur adipisicing elit
+						li sed do eiusmod
+						li.hr tempor incididunt ut labore
+						li dolore magna aliqua.
+						li Ut enim ad minim veniam
