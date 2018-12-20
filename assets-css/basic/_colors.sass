@@ -11,10 +11,21 @@
 			$desc: nth($colorDescription, $i)
 			$i: $i + 1
 			@if $desc == 'base'
-				color: $cl
+				color: $cl!important
 			@else
 				&.#{$desc}
-					color: $cl
+					color: $cl!important
+// @each $n, $v in $colors-basic
+// 	.text-#{$n}
+// 		$i: 1
+// 		@each $cl in $v
+// 			$desc: nth($colorDescription, $i)
+// 			$i: $i + 1
+// 			@if $desc == 'base'
+// 				color: $cl!important
+// 			@else
+// 				&.#{$desc}
+// 					color: $cl!important
 
 /**
  * background color
@@ -27,9 +38,22 @@
 			$desc: nth($colorDescription, $i)
 			$i: $i + 1
 			@if $desc == 'base'
-				color: contrast-switch($cl)
-				background-color: $cl
+				color: contrast-switch($cl)!important
+				background-color: $cl!important
 			@else
 				&.#{$desc}
-					color: contrast-switch($cl)
-					background-color: $cl
+					color: contrast-switch($cl)!important
+					background-color: $cl!important
+// @each $n, $v in $colors-basic
+// 	.bg-#{$n}
+// 		$i: 1
+// 		@each $cl in $v
+// 			$desc: nth($colorDescription, $i)
+// 			$i: $i + 1
+// 			@if $desc == 'base'
+// 				color: contrast-switch($cl)
+// 				background-color: $cl
+// 			@else
+// 				&.#{$desc}
+// 					color: contrast-switch($cl)
+// 					background-color: $cl

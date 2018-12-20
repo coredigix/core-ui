@@ -1,17 +1,16 @@
 // body, html
-*
+*, :after, :before
 	box-sizing: border-box
 	-webkit-box-sizing: border-box
-	background-repeat: no-repeat
 html, body
 	margin: 0
 	background: $white
+	color: $color-text
 	+size(100%)
 	-moz-osx-font-smoothing: grayscale
 	-webkit-font-smoothing: antialiased
 	// text
 	line-height: 1.42857143
-	color: $color-text
 	font-family: "Roboto", "Helvetica", "Arial", sans-serif
 	font-weight: 400
 	font-size: 16px
@@ -83,8 +82,15 @@ hr
 %margin-top, .m-top
 	margin-top: 1.2rem
 
+%margin, .margin
+	margin: 1.2rem
+
 // padding
 %padding-large
 	padding: 15px 10px
 %padding
 	padding: 10px 24px
+
+// height bars
+.bar
+	min-height: 0.3em

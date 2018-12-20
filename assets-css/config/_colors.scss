@@ -27,49 +27,82 @@ $colors:(
 	blue-grey: #eceff1 #cfd8dc #b0bec5 #90a4ae #78909c #607d8b #546e7a #455a64 #37474f #263238
 );
 
+// add basic colors
+$color-basic: 6; // basic color index in the set
+// $colors-basic:(
+// 	default: map-get($colors, grey),
+// 	primary: map-get($colors, indigo),
+// 	info: map-get($colors, light-blue),
+// 	warn: map-get($colors, orange),
+// 	danger: map-get($colors, red)
+// );
+// $colors: map-merge($colors, $colors-basic);
+
 // main colors
 $black: #000;
-$color-text: rgba($black, 0.87);
+$color-text: rgba($black, 0.84);
+$color-heading: $black;
 $color-border: #e0e0e0;
 $white: #fff;
 $transparent: transparent;
 
-$red: #f44336;
-$pink: #e91e63;
-$purple: #9c27b0;
-$deep-purple: #673ab7;
-$indigo: #3f51b5;
-$blue: #2196f3;
-$light-blue: #03a9f4;
-$cyan: #00bcd4;
-$teal: #009688;
-$green: #4caf50;
-$light-green: #8bc34a;
-$lime: #cddc39;
-$yellow: #ffeb3b;
-$amber: #ffc107;
-$orange: #ff9800;
-$deep-orange: #ff5722;
+$red: nth(map-get($colors, red), $color-basic);
+$pink: nth(map-get($colors, pink), $color-basic);
+$purple: nth(map-get($colors, purple), $color-basic);
+$deep-purple: nth(map-get($colors, deep-purple), $color-basic);
+$indigo: nth(map-get($colors, indigo), $color-basic);
+$blue: nth(map-get($colors, blue), $color-basic);
+$light-blue: nth(map-get($colors, light-blue), $color-basic);
+$cyan: nth(map-get($colors, cyan), $color-basic);
+$teal: nth(map-get($colors, teal), $color-basic);
+$green: nth(map-get($colors, green), $color-basic);
+$light-green: nth(map-get($colors, light-green), $color-basic);
+$lime: nth(map-get($colors, lime), $color-basic);
+$yellow: nth(map-get($colors, yellow), $color-basic);
+$amber: nth(map-get($colors, amber), $color-basic);
+$orange: nth(map-get($colors, orange), $color-basic);
+$deep-orange: nth(map-get($colors, deep-orange), $color-basic);
 
-$brown: #795548;
-$grey: #9e9e9e;
+$brown: nth(map-get($colors, brown), $color-basic);
+$grey: nth(map-get($colors, grey), $color-basic);
+
+
 $grey-light2: #f5f5f5;
 $grey-light: #e0e0e0;
 $grey-dark: #757575;
 $blue-grey: #607d8b;
 
+
+
 // levels
-$color-primary: #6200EE;
 // $color-primary-light: ;
-$color-primary-dark: #3700B3;
-$color-secondary: #03DAC5;
+// $color-primary-dark: #3700B3;
+// $color-secondary: #03DAC5;
 // $color-secondary-light: ;
 // $color-secondary-dark: ;
 
-$color-warn: #EE6002;
+$color-default: $grey;
+$color-default-lighten2: nth(map-get($colors, grey), $color-basic - 2);
+$color-default-lighten4: nth(map-get($colors, grey), $color-basic - 4);
+
+$color-primary: $indigo;
+$color-primary-lighten2: nth(map-get($colors, indigo), $color-basic - 2);
+$color-primary-lighten4: nth(map-get($colors, indigo), $color-basic - 4);
+
+$color-info: $light-blue;
+$color-info-lighten2: nth(map-get($colors, light-blue), $color-basic - 2);
+$color-info-lighten4: nth(map-get($colors, light-blue), $color-basic - 4);
+
+$color-warn: $orange;
+$color-warn-lighten2: nth(map-get($colors, orange), $color-basic - 2);
+$color-warn-lighten4: nth(map-get($colors, orange), $color-basic - 4);
+
+$color-danger: $red;
+$color-danger-lighten2: nth(map-get($colors, red), $color-basic - 2);
+$color-danger-lighten4: nth(map-get($colors, red), $color-basic - 4);
+
 // $color-warn-light: ;
 // $color-warn-dark: ;
-$color-error: #B00020;
 // $color-error-light: ;
 // $color-error-dark: ;
 

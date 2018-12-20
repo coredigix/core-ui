@@ -1,0 +1,89 @@
+
+// liniaire progress
+.progress
+	// progress container
+	.pc
+		background-color: $color-default-lighten4
+	// progress bar
+	.pb
+		padding: 0.1em
+		background-color: $color-default
+
+	@each $el, $colr, $lightcolr in (primary $color-primary $color-primary-lighten4), (info $color-info $color-info-lighten4), (warn $color-warn $color-warn-lighten4), (danger $color-danger $color-danger-lighten4)
+		&.#{$el}
+			.label
+				color: rgba($colr, 0.84)
+			.pc
+				background-color: $lightcolr
+			.pb
+				background-color: $colr
+
+	// loading
+	&.loading
+		.pc
+			overflow: hidden
+		.pb
+			width: 20%!important
+			max-width: 20%!important
+			animation: cui-progress-loading 1s cubic-bezier(0.24, 0.41, 0.57, 0.9) infinite, cui-ltr-progress-loading 1s cubic-bezier(.445,.05,.55,.95) infinite
+
+	// right to left
+	&.rtl, .rtl &
+		.pb
+			animation: cui-progress-loading 1s cubic-bezier(0.24, 0.41, 0.57, 0.9) infinite, cui-rtl-progress-loading 1s cubic-bezier(.445,.05,.55,.95) infinite
+
+
+	// circular progress
+	@at-root svg.progress
+		+size(36px)
+		overflow: hidden
+		circle
+			stroke: $color-default
+			stroke-width: 4px
+			stroke-miterlimit: 20px
+			stroke-linecap: round
+			fill: none
+		@each $el, $colr in (primary $color-primary), (info $color-info), (warn $color-warn), (danger $color-danger)
+			&.#{$el}
+				circle
+					stroke: $colr
+		// &.disabled
+		
+		// Loading
+		&.loading
+			circle
+				animation: cui-progress-cirle-loading 1s cubic-bezier(0.24, 0.41, 0.57, 0.9) infinite
+
+
+// liniaire progress animation
+@keyframes cui-ltr-progress-loading
+	from
+		margin-left: 0
+	to
+		margin-left: 100%
+@keyframes cui-rtl-progress-loading
+	from
+		margin-right: 0
+	to
+		margin-right: 100%
+@keyframes cui-progress-loading
+	0%
+		width: 0
+		max-width: 0
+	50%
+		width: 50%
+		max-width: 50%
+	100%
+		width: 0
+		max-width: 0
+
+@keyframes cui-progress-cirle-loading
+	0%
+		stroke-dasharray: 1,279.602
+		stroke-dashoffset: 0
+	50%
+		stroke-dasharray: 89,279.602
+		stroke-dashoffset: -35
+	100%
+		stroke-dasharray: 89,279.602
+		stroke-dashoffset: -124

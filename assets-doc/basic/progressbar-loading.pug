@@ -1,0 +1,103 @@
+extends ../_layout
+append head
+	title Icons
+block body
+	.container
+		h1 Liniaire progress bar:
+
+		h2 Basic progress bars:
+		//- simple progress bar
+		.m-top.progress
+			.label Label for the progress bar
+			//- progress container
+			.pc
+				//- progress bar
+				.pb(style={width:'56%'})
+		//- primary
+		.m-top.progress.primary
+			.label Label for the progress bar
+			.pc #[.pb(style={width:'40%'})]
+		//- info
+		.m-top.progress.info
+			.label Please wait...
+			.pc #[.pb(style={width:'35%'})]
+		//- warn
+		.m-top.progress.warn
+			.label Loading 85%
+			.pc #[.pb(style={width:'85%'})]
+		//- danger
+		.m-top.progress.danger
+			.label Operation Failed
+			.pc #[.pb(style={width:'40%'})]
+		//- Disabled
+		.m-top.progress.disabled
+			.label Loading 25%
+			.pc #[.pb(style={width:'25%'})]
+				
+		h2 Custom color:
+
+		.m-top.progress
+			.label.text-brown Loading 25%
+			.pc.brown.lighten3 #[.pb.brown(style={width:'25%'})]
+
+		.m-top.progress
+			.label.text-green Loading 25%
+			.pc.green.lighten3 #[.pb.green(style={width:'25%'})]
+
+		.m-top.progress
+			.label.text-blue Loading 25%
+			.pc.blue.lighten3 #[.pb.blue(style={width:'25%'})]
+
+		.m-top.progress
+			.label.text-purple Loading 25%
+			.pc.purple.lighten3 #[.pb.purple(style={width:'25%'})]
+
+		.m-top.progress
+			.label.text-blue-grey Loading 25%
+			.pc.blue-grey.lighten3 #[.pb.blue-grey(style={width:'25%'})]
+		
+		h2 Indeterminate linear progress indicator
+		p just add class "loading" to the progress bar.
+
+		.m-top.progress.primary.loading
+			.label Loading...
+			.pc #[.pb(style={width:'40%'})]
+
+		h2 RTL: Any progress inside an element with "rtl" class
+		.m-top.progress.primary.loading.rtl
+			.label Loading...
+			.pc #[.pb(style={width:'40%'})]
+
+		.rtl
+			.m-top.progress.primary.loading.rtl
+				.label Loading...
+				.pc #[.pb(style={width:'40%'})]
+
+		//- circular progress
+		h1 Circular progress bar:
+
+		div
+			svg.margin.progress(viewBox="25 25 50 50")
+				circle(r="20" cx="48" cy="50" stroke-dasharray= "130, 200")
+
+			svg.margin.progress.primary(viewBox="25 25 50 50")
+				circle(r="20" cx="50" cy="50" stroke-dasharray= "110, 200")
+
+			svg.margin.progress.info(viewBox="25 25 50 50")
+				circle(r="20" cx="50" cy="50" stroke-dasharray= "150, 200")
+
+			svg.margin.progress.warn(viewBox="25 25 50 50")
+				circle(r="20" cx="50" cy="50" stroke-dasharray= "130, 200")
+
+			svg.margin.progress.danger(viewBox="25 25 50 50")
+				circle(r="20" cx="50" cy="50" stroke-dasharray= "128, 200")
+
+			svg.margin.progress.disabled(viewBox="25 25 50 50")
+				circle(r="20" cx="50" cy="50" stroke-dasharray= "160, 200")
+
+		div
+			svg.margin.progress.disabled(viewBox="25 25 50 50" style={width: '150px', height:'150px'})
+				circle(r="20" cx="50" cy="50" stroke-dasharray= "160, 200")
+
+			svg.margin.progress.loading(viewBox="25 25 50 50" style={width: '150px', height:'150px'})
+				circle(r="20" cx="50" cy="50" stroke-dasharray= "230, 200")
