@@ -89,6 +89,10 @@ $color-primary: $indigo;
 $color-primary-lighten2: nth(map-get($colors, indigo), $color-basic - 2);
 $color-primary-lighten4: nth(map-get($colors, indigo), $color-basic - 4);
 
+$color-success: $green;
+$color-success-lighten2: nth(map-get($colors, green), $color-basic - 2);
+$color-success-lighten4: nth(map-get($colors, green), $color-basic - 4);
+
 $color-info: $light-blue;
 $color-info-lighten2: nth(map-get($colors, light-blue), $color-basic - 2);
 $color-info-lighten4: nth(map-get($colors, light-blue), $color-basic - 4);

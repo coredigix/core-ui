@@ -9,7 +9,7 @@
 		padding: 0.1em
 		background-color: $color-default
 
-	@each $el, $colr, $lightcolr in (primary $color-primary $color-primary-lighten4), (info $color-info $color-info-lighten4), (warn $color-warn $color-warn-lighten4), (danger $color-danger $color-danger-lighten4)
+	@each $el, $colr, $lightcolr in (primary $color-primary $color-primary-lighten4), (success $color-success $color-success-lighten4), (info $color-info $color-info-lighten4), (warn $color-warn $color-warn-lighten4), (danger $color-danger $color-danger-lighten4)
 		&.#{$el}
 			.label
 				color: rgba($colr, 0.84)
@@ -54,7 +54,7 @@
 			cy: 50px
 		circle.pt
 			stroke: $color-default-lighten4
-		@each $el, $colr, $clrLight in (primary $color-primary $color-primary-lighten4), (info $color-info $color-info-lighten4), (warn $color-warn $color-warn-lighten4), (danger $color-danger $color-danger-lighten4)
+		@each $el, $colr, $clrLight in (primary $color-primary $color-primary-lighten4), (success $color-success $color-success-lighten4), (info $color-info $color-info-lighten4), (warn $color-warn $color-warn-lighten4), (danger $color-danger $color-danger-lighten4)
 			&.#{$el}
 				circle.pp
 					stroke: $colr

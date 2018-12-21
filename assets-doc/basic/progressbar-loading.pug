@@ -17,6 +17,10 @@ block body
 		.m-top.progress.primary
 			.label Label for the progress bar
 			.pc #[.pb(style={width:'40%'})]
+		//- primary
+		.m-top.progress.success
+			.label Label for the success progress bar
+			.pc #[.pb(style={width:'100%'})]
 		//- info
 		.m-top.progress.info
 			.label Please wait...
@@ -64,12 +68,12 @@ block body
 			.pc #[.pb(style={width:'40%'})]
 
 		h2 RTL: Any progress inside an element with "rtl" class
-		.m-top.progress.primary.loading.rtl
+		.m-top.progress.success.loading.rtl
 			.label Loading...
 			.pc #[.pb(style={width:'40%'})]
 
 		.rtl
-			.m-top.progress.primary.loading.rtl
+			.m-top.progress.info.loading.rtl
 				.label Loading...
 				.pc #[.pb(style={width:'40%'})]
 
@@ -82,6 +86,9 @@ block body
 
 			svg.margin.progress.primary(viewBox="25 25 50 50")
 				circle.pp(stroke-dasharray= "100, 125")
+
+			svg.margin.progress.success(viewBox="25 25 50 50")
+				circle.pp(stroke-dasharray= "90, 125")
 
 			svg.margin.progress.info(viewBox="25 25 50 50")
 				circle.pp(stroke-dasharray= "85, 125")
@@ -101,6 +108,10 @@ block body
 				circle.pp(stroke-dasharray= "90, 125")
 
 			svg.margin.progress.primary(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "100, 125")
+
+			svg.margin.progress.success(viewBox="25 25 50 50")
 				circle.pt
 				circle.pp(stroke-dasharray= "100, 125")
 
@@ -140,6 +151,8 @@ block body
 				circle.pp(stroke-dasharray= "62.5 125")
 			svg.margin.progress.radial.primary(viewBox="35 29 30 22")
 				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.success(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "39.5 125")
 			svg.margin.progress.radial.danger(viewBox="35 29 30 22")
 				circle.pp(stroke-dasharray= "42.5 125")
 			svg.margin.progress.radial.info(viewBox="35 29 30 22")
@@ -151,29 +164,36 @@ block body
 			svg.margin.progress.radial.primary(viewBox="35 29 30 22")
 				circle.pt
 				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.success(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "39.5 125")
 			svg.margin.progress.radial.danger(viewBox="35 29 30 22")
 				circle.pt
 				circle.pp(stroke-dasharray= "42.5 125")
 			svg.margin.progress.radial.info(viewBox="35 29 30 22")
 				circle.pt
 				circle.pp(stroke-dasharray= "30.5 125")
-		//- large
+		//- large - without track
 		div
-
-			//- without track
 			svg.margin.progress.radial.large(viewBox="35 29 30 22")
 				circle.pp(stroke-dasharray= "62.5 125")
 			svg.margin.progress.radial.large.primary(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.large.success(viewBox="35 29 30 22")
 				circle.pp(stroke-dasharray= "39.5 125")
 			svg.margin.progress.radial.large.danger(viewBox="35 29 30 22")
 				circle.pp(stroke-dasharray= "42.5 125")
 			svg.margin.progress.radial.large.info(viewBox="35 29 30 22")
 				circle.pp(stroke-dasharray= "30.5 125")
-			//- with track
+		//- large - with track
+		div
 			svg.margin.progress.radial.large(viewBox="35 29 30 22")
 				circle.pt
 				circle.pp(stroke-dasharray= "62.5 125")
 			svg.margin.progress.radial.large.primary(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.large.success(viewBox="35 29 30 22")
 				circle.pt
 				circle.pp(stroke-dasharray= "39.5 125")
 			svg.margin.progress.radial.large.danger(viewBox="35 29 30 22")
