@@ -117,6 +117,12 @@ $color-danger-lighten4: nth(map-get($colors, red), $color-basic - 4);
 $color-danger-dark2: nth(map-get($colors, red), $color-basic + 2);
 $color-danger-dark4: nth(map-get($colors, red), $color-basic + 4);
 
+$color-disabled: $grey;
+$color-disabled-lighten2: nth(map-get($colors, grey), $color-basic - 2);
+$color-disabled-lighten4: nth(map-get($colors, grey), $color-basic - 4);
+$color-disabled-dark2: nth(map-get($colors, grey), $color-basic + 2);
+$color-disabled-dark4: nth(map-get($colors, grey), $color-basic + 4);
+
 // $color-warn-light: ;
 // $color-warn-dark: ;
 // $color-error-light: ;
