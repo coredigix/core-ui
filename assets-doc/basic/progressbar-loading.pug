@@ -1,6 +1,6 @@
 extends ../_layout
 append head
-	title Icons
+	title Progress bars, loading
 block body
 	.container
 		h1 Liniaire progress bar:
@@ -78,26 +78,113 @@ block body
 
 		div
 			svg.margin.progress(viewBox="25 25 50 50")
-				circle(r="20" cx="48" cy="50" stroke-dasharray= "130, 200")
+				circle.pp(stroke-dasharray= "90, 125")
 
 			svg.margin.progress.primary(viewBox="25 25 50 50")
-				circle(r="20" cx="50" cy="50" stroke-dasharray= "110, 200")
+				circle.pp(stroke-dasharray= "100, 125")
 
 			svg.margin.progress.info(viewBox="25 25 50 50")
-				circle(r="20" cx="50" cy="50" stroke-dasharray= "150, 200")
+				circle.pp(stroke-dasharray= "85, 125")
 
 			svg.margin.progress.warn(viewBox="25 25 50 50")
-				circle(r="20" cx="50" cy="50" stroke-dasharray= "130, 200")
+				circle.pp(stroke-dasharray= "70, 125")
 
 			svg.margin.progress.danger(viewBox="25 25 50 50")
-				circle(r="20" cx="50" cy="50" stroke-dasharray= "128, 200")
+				circle.pp(stroke-dasharray= "99, 125")
 
 			svg.margin.progress.disabled(viewBox="25 25 50 50")
-				circle(r="20" cx="50" cy="50" stroke-dasharray= "160, 200")
+				circle.pp(stroke-dasharray= "112, 125")
 
 		div
-			svg.margin.progress.disabled(viewBox="25 25 50 50" style={width: '150px', height:'150px'})
-				circle(r="20" cx="50" cy="50" stroke-dasharray= "160, 200")
+			svg.margin.progress(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "90, 125")
 
-			svg.margin.progress.loading(viewBox="25 25 50 50" style={width: '150px', height:'150px'})
-				circle(r="20" cx="50" cy="50" stroke-dasharray= "230, 200")
+			svg.margin.progress.primary(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "100, 125")
+
+			svg.margin.progress.info(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "85, 125")
+
+			svg.margin.progress.warn(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "70, 125")
+
+			svg.margin.progress.danger(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "99, 125")
+
+			svg.margin.progress.disabled(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "112, 125")
+		//- large
+		div
+			svg.margin.progress.large.disabled(viewBox="25 25 50 50")
+				circle.pp(stroke-dasharray= "90, 125")
+			svg.margin.progress.large.loading(viewBox="25 25 50 50")
+				circle.pp(stroke-dasharray= "80, 125")
+			svg.margin.progress.large.disabled(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "90, 125")
+			svg.margin.progress.large.loading(viewBox="25 25 50 50")
+				circle.pt
+				circle.pp(stroke-dasharray= "80, 125")
+
+		//- Radial progress bar
+		h1 Radial progress bar:
+		div
+			//- without track
+			svg.margin.progress.radial(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "62.5 125")
+			svg.margin.progress.radial.primary(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.danger(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "42.5 125")
+			svg.margin.progress.radial.info(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "30.5 125")
+			//- with track
+			svg.margin.progress.radial(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "62.5 125")
+			svg.margin.progress.radial.primary(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.danger(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "42.5 125")
+			svg.margin.progress.radial.info(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "30.5 125")
+		//- large
+		div
+
+			//- without track
+			svg.margin.progress.radial.large(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "62.5 125")
+			svg.margin.progress.radial.large.primary(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.large.danger(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "42.5 125")
+			svg.margin.progress.radial.large.info(viewBox="35 29 30 22")
+				circle.pp(stroke-dasharray= "30.5 125")
+			//- with track
+			svg.margin.progress.radial.large(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "62.5 125")
+			svg.margin.progress.radial.large.primary(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "39.5 125")
+			svg.margin.progress.radial.large.danger(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "42.5 125")
+			svg.margin.progress.radial.large.info(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "30.5 125")
+		h2 Loading
+		div
+			p Add class "loading" to svg
+			svg.margin.progress.radial.large.info.loading(viewBox="35 29 30 22")
+				circle.pt
+				circle.pp(stroke-dasharray= "30.5 125")

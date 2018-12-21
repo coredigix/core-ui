@@ -37,23 +37,44 @@
 	@at-root svg.progress
 		+size(36px)
 		overflow: hidden
+		// size
+		&.large
+			+size(128px)
+		// circles
 		circle
 			stroke: $color-default
-			stroke-width: 4px
+			stroke-width: 2px
 			stroke-miterlimit: 20px
 			stroke-linecap: round
+			transform: rotate(-90deg)
+			transform-origin: 50px 50px
 			fill: none
-		@each $el, $colr in (primary $color-primary), (info $color-info), (warn $color-warn), (danger $color-danger)
+			r: 20px
+			cx: 50px
+			cy: 50px
+		circle.pt
+			stroke: $color-default-lighten4
+		@each $el, $colr, $clrLight in (primary $color-primary $color-primary-lighten4), (info $color-info $color-info-lighten4), (warn $color-warn $color-warn-lighten4), (danger $color-danger $color-danger-lighten4)
 			&.#{$el}
-				circle
+				circle.pp
 					stroke: $colr
+				circle.pt
+					stroke: $clrLight
 		// &.disabled
 		
 		// Loading
 		&.loading
-			circle
-				animation: cui-progress-cirle-loading 1s cubic-bezier(0.24, 0.41, 0.57, 0.9) infinite
+			circle.pp
+				animation: cui-progress-crcl-dash 1.5s ease-in-out infinite //, cui-progress-crcl-rotate 2s linear infinite
 
+		// radial
+		&.radial
+			height: 13px
+			circle
+				transform: rotate(180deg)
+			// size
+			&.large
+				height: 64px
 
 // liniaire progress animation
 @keyframes cui-ltr-progress-loading
@@ -76,14 +97,17 @@
 	100%
 		width: 0
 		max-width: 0
-
-@keyframes cui-progress-cirle-loading
+// svg circulat animation
+@keyframes cui-progress-crcl-dash
 	0%
-		stroke-dasharray: 1,279.602
+		stroke-dasharray: 1,200
 		stroke-dashoffset: 0
 	50%
-		stroke-dasharray: 89,279.602
+		stroke-dasharray: 89,200
 		stroke-dashoffset: -35
 	100%
-		stroke-dasharray: 89,279.602
+		stroke-dasharray: 89,200
 		stroke-dashoffset: -124
+@keyframes cui-progress-crcl-rotate
+	100%
+		transform: rotate(360deg)
