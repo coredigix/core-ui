@@ -84,26 +84,38 @@ $blue-grey: #607d8b;
 $color-default: $grey;
 $color-default-lighten2: nth(map-get($colors, grey), $color-basic - 2);
 $color-default-lighten4: nth(map-get($colors, grey), $color-basic - 4);
+$color-default-dark2: nth(map-get($colors, grey), $color-basic + 2);
+$color-default-dark4: nth(map-get($colors, grey), $color-basic + 4);
 
 $color-primary: $indigo;
 $color-primary-lighten2: nth(map-get($colors, indigo), $color-basic - 2);
 $color-primary-lighten4: nth(map-get($colors, indigo), $color-basic - 4);
+$color-primary-dark2: nth(map-get($colors, indigo), $color-basic + 2);
+$color-primary-dark4: nth(map-get($colors, indigo), $color-basic + 4);
 
 $color-success: $green;
 $color-success-lighten2: nth(map-get($colors, green), $color-basic - 2);
 $color-success-lighten4: nth(map-get($colors, green), $color-basic - 4);
+$color-success-dark2: nth(map-get($colors, green), $color-basic + 2);
+$color-success-dark4: nth(map-get($colors, green), $color-basic + 4);
 
 $color-info: $light-blue;
 $color-info-lighten2: nth(map-get($colors, light-blue), $color-basic - 2);
 $color-info-lighten4: nth(map-get($colors, light-blue), $color-basic - 4);
+$color-info-dark2: nth(map-get($colors, light-blue), $color-basic + 2);
+$color-info-dark4: nth(map-get($colors, light-blue), $color-basic + 4);
 
 $color-warn: $orange;
 $color-warn-lighten2: nth(map-get($colors, orange), $color-basic - 2);
 $color-warn-lighten4: nth(map-get($colors, orange), $color-basic - 4);
+$color-warn-dark2: nth(map-get($colors, orange), $color-basic + 2);
+$color-warn-dark4: nth(map-get($colors, orange), $color-basic + 4);
 
 $color-danger: $red;
 $color-danger-lighten2: nth(map-get($colors, red), $color-basic - 2);
 $color-danger-lighten4: nth(map-get($colors, red), $color-basic - 4);
+$color-danger-dark2: nth(map-get($colors, red), $color-basic + 2);
+$color-danger-dark4: nth(map-get($colors, red), $color-basic + 4);
 
 // $color-warn-light: ;
 // $color-warn-dark: ;

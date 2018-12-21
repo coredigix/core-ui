@@ -1,0 +1,11 @@
+.badge
+	font-weight: 300
+	font-size: 0.8rem
+	border-radius: $border-radius
+	min-width: 3em
+	padding: .2em .4em
+	margin: .2em
+
+	@each $cl in primary success info warn danger disabled
+		&.#{$cl}
+			@extend .bg-#{$cl}
