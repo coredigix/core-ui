@@ -3,6 +3,7 @@
 	// color: $color-default-darken4
 	background-color: $color-default-lighten4
 	border-left: .2em solid
+	cursor: default
 
 	@each $cl, $c, $clr, $bg in (primary $color-primary $color-primary-dark4 $color-primary-lighten4) (success $color-success $color-success-dark4 $color-success-lighten4) (info $color-info $color-info-dark4 $color-info-lighten4) (warn $color-warn $color-warn-dark4 $color-warn-lighten4) (danger $color-danger $color-danger-dark4 $color-danger-lighten4) (disabled $color-disabled $color-disabled-dark4 $color-disabled-lighten4)
 		&.#{$cl}

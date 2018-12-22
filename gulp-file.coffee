@@ -15,7 +15,7 @@ PKG				= require './package.json'
 rmEmptyLines	= require 'gulp-remove-empty-lines'
 
 settings =
-	rootDir: __dirname
+	rootDir: __dirname.replace /\\/g, '/'
 	PKG: PKG
 	mode: if gutil.env.mode is 'prod' then 'prod' else 'dev'
 
