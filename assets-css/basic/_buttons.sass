@@ -1,0 +1,56 @@
+.btn
+	@extend %padding-tiny
+	display: inline-block
+	text-align: center
+	white-space: nowrap
+	vertical-align: middle
+	margin: .25em
+	touch-action: manipulation
+	cursor: pointer
+	outline: 0
+	border-radius: $border-radius
+
+	color: $color-default-dark2
+	background-color: $color-default-lighten4
+	// border-bottom: 2px solid
+	// box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)
+	// box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)
+	box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset
+
+	// @each $s in primary success info warn danger
+	// 	&.#{$s}
+	// 		@extend .bg-#{$s};
+
+	@each $k, $cl, $lightColor, $darkColor in (primary $color-primary $color-primary-lighten4 $color-primary-dark4), (success $color-success $color-success-lighten4 $color-success-dark4), (info $color-info $color-info-lighten4 $color-info-dark4), (warn $color-warn $color-warn-lighten4 $color-warn-dark4), (danger $color-danger $color-danger-lighten4 $color-danger-dark4)
+		&.#{$k}
+			color: contrast-switch($cl, $darkColor, $lightColor)
+			background-color: $cl
+			// border-color: $darkColor
+			// box-shadow: 0 2px 2px 0 rgba($darkColor,0.14), 0 3px 1px -2px rgba($darkColor,0.12), 0 1px 5px 0 rgba($darkColor,0.2)
+			&:hover
+				color: $darkColor
+				background-color: $lightColor
+			// outlined buttons
+			&.outline
+				color: $darkColor
+				&:hover
+					color: $cl
+			// optional buttons
+			&.optional
+				color: $color-default-dark2
+
+
+
+	// disabled
+	&.disabled
+		pointer-events: none
+		color: $color-disabled
+		background-color: $color-disabled-lighten4
+		// box-shadow: 0 2px 2px 0 rgba($color-disabled,0.14), 0 3px 1px -2px rgba($color-disabled,0.12), 0 1px 5px 0 rgba($color-disabled,0.2)
+		box-shadow: none
+	// outlined buttons
+	&.outline
+		background: none
+		border: 1px solid
+	&.optional
+		background: none

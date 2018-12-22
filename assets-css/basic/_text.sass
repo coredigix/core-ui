@@ -1,11 +1,4 @@
 // SELECT
-%select, .select
-	-webkit-touch-callout: initial
-	-webkit-user-select: initial
-	-khtml-user-select: initial
-	-moz-user-select: element
-	-ms-user-select: initial
-	user-select: initial
 %noselect, .noselect
 	-webkit-touch-callout: none
 	-webkit-user-select: none
@@ -13,6 +6,13 @@
 	-moz-user-select: none
 	-ms-user-select: none
 	user-select: none
+%select, .select, input, textarea
+	-webkit-touch-callout: initial
+	-webkit-user-select: initial
+	-khtml-user-select: initial
+	-moz-user-select: element
+	-ms-user-select: initial
+	user-select: initial
 
 // align
 .t

@@ -117,11 +117,11 @@ $color-danger-lighten4: nth(map-get($colors, red), $color-basic - 4);
 $color-danger-dark2: nth(map-get($colors, red), $color-basic + 2);
 $color-danger-dark4: nth(map-get($colors, red), $color-basic + 4);
 
-$color-disabled: $grey;
-$color-disabled-lighten2: nth(map-get($colors, grey), $color-basic - 2);
-$color-disabled-lighten4: nth(map-get($colors, grey), $color-basic - 4);
-$color-disabled-dark2: nth(map-get($colors, grey), $color-basic + 2);
-$color-disabled-dark4: nth(map-get($colors, grey), $color-basic + 4);
+$color-disabled: rgba(0, 0, 0, 0.26);
+$color-disabled-lighten2: rgba(0, 0, 0, 0.14);
+$color-disabled-lighten4: rgba(0, 0, 0, 0.12);
+$color-disabled-dark2: rgba(0, 0, 0, 0.36);
+$color-disabled-dark4: rgba(0, 0, 0, 0.46);
 
 // $color-warn-light: ;
 // $color-warn-dark: ;

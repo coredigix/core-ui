@@ -86,10 +86,19 @@ hr
 	margin: 1.2rem
 
 // padding
-%padding-large, .p-large
+%padding-large
 	padding: 15px 10px
-%padding, .padding
+%padding
 	padding: 10px 24px
+%padding-tiny
+	padding: 8px 16px
+
+.padding
+	@extend %padding;
+.p-large
+	@extend %padding-large;
+.p-tiny
+	@extend %padding-tiny;
 
 // height bars
 .bar
