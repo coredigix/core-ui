@@ -1,0 +1,40 @@
+extends ../_layout
+append head
+	title Forms
+block body
+	.container
+		h1 Text Inputs:
+
+		h2 Basic use:
+		form.row
+			.col.sm6
+				p Add class "f-cntrl" to the field container to active magic!
+				label.f-cntrl
+					input(type="text" placeholder="Input text")
+				label.f-cntrl
+					input(type="password" placeholder="Input password")
+				label.f-cntrl
+					input(type="text" placeholder="Disabled input" disabled)
+			.col.sm6
+				p Icons: use material icons (or any)
+				label.f-cntrl
+					i.ico dashboard
+					input(type="text" placeholder="Input text")
+				label.f-cntrl
+					input(type="text" placeholder="Input text")
+					i.ico class
+				label.f-cntrl
+					i.ico contact_support
+					input(type="text" placeholder="Input text")
+					i.ico done
+			.col.sm6
+				p with label:
+				.f-cntrl
+					.label Input label:
+					label
+						i.ico dashboard
+						input(type="text" placeholder="Input text")
+
+		h2 States
+
+

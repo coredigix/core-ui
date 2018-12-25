@@ -82,7 +82,9 @@ $blue-grey: #607d8b;
 // $color-secondary-dark: ;
 
 $color-default: $grey;
+$color-default-lighten1: nth(map-get($colors, grey), $color-basic - 1);
 $color-default-lighten2: nth(map-get($colors, grey), $color-basic - 2);
+// $color-default-lighten3: nth(map-get($colors, grey), $color-basic - 3);
 $color-default-lighten4: nth(map-get($colors, grey), $color-basic - 4);
 $color-default-dark2: nth(map-get($colors, grey), $color-basic + 2);
 $color-default-dark4: nth(map-get($colors, grey), $color-basic + 4);
@@ -120,6 +122,7 @@ $color-danger-dark4: nth(map-get($colors, red), $color-basic + 4);
 $color-disabled: rgba(0, 0, 0, 0.26);
 $color-disabled-lighten2: rgba(0, 0, 0, 0.14);
 $color-disabled-lighten4: rgba(0, 0, 0, 0.12);
+$color-disabled-lighten6: rgba(0, 0, 0, 0.06);
 $color-disabled-dark2: rgba(0, 0, 0, 0.36);
 $color-disabled-dark4: rgba(0, 0, 0, 0.46);
 
