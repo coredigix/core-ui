@@ -8,6 +8,9 @@
 	.pb
 		padding: 0.1em
 		background-color: $color-default
+	.label
+		font-size: 0.75em
+		color: rgba($color-text, 0.54)
 
 	@each $el, $colr, $lightcolr in (primary $color-primary $color-primary-lighten4), (success $color-success $color-success-lighten4), (info $color-info $color-info-lighten4), (warn $color-warn $color-warn-lighten4), (danger $color-danger $color-danger-lighten4)
 		&.#{$el}
