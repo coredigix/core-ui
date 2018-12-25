@@ -1,0 +1,17 @@
+/**
+ * State
+ */
+.when
+	&-done,
+	&-info,
+	&-warn,
+	&-error,
+	&-loading
+		display: none
+
+.has-done .when-done,
+.has-info .when-info,
+.has-warn .when-warn,
+.has-error .when-error,
+.loading .when-loading
+	display: block

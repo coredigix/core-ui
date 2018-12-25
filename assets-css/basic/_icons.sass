@@ -1,37 +1,29 @@
 
-.ico
+%ico
 	font-family: 'Material Icons'
 	font-weight: normal
 	font-style: normal
-	font-size: 1.2em
 	line-height: 1
 	letter-spacing: normal
 	text-transform: none
-	white-space: nowrap
-	word-wrap: normal
-	direction: ltr
 	-webkit-font-feature-settings: 'liga'
 	font-feature-settings: 'liga'
 	-webkit-font-smoothing: antialiased
+	direction: ltr
+	white-space: nowrap
+	word-wrap: normal
+	font-size: 1.2em
 	display: inline-block
+	
+.ico
+	@extend %ico;
 	vertical-align: middle
-
 
 [data-icon]
 	&:before
-		font-size: 1.2em
+		@extend %ico;
 		content: attr(data-icon)
 		margin-right: .2em
-		font-family: 'Material Icons'
-		font-weight: normal
-		font-style: normal
-		line-height: 1
-		letter-spacing: normal
-		text-transform: none
-		-webkit-font-feature-settings: 'liga'
-		font-feature-settings: 'liga'
-		-webkit-font-smoothing: antialiased
-		display: inline-block
 		vertical-align: text-bottom
 
 		.rtl &

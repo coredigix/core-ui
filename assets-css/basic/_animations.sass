@@ -1,0 +1,20 @@
+// add loading icon
+.ico-loading
+	&:after
+		@extend %ico
+		content: 'sync'
+		will-change: transform
+		animation: cui-rotate $animate-slow linear infinite
+
+
+// rotation
+.rotate
+	will-change: transform
+	animation: cui-rotate $animate-slow linear infinite
+.anti-rotate
+	will-change: transform
+	animation: cui-rotate $animate-slow linear reverse infinite
+
+@keyframes cui-rotate
+	to
+		transform: rotate(360deg)
