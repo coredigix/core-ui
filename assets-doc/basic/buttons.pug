@@ -5,7 +5,7 @@ block body
 	.container
 		h1 Buttons:
 
-		h2 DEFAULT BUTTONS
+		h2 DEFAULT BUTTONS:
 		div
 			span.btn(tabindex=1) Default
 			span.btn.primary(tabindex=2) Primary
@@ -24,7 +24,7 @@ block body
 			span.btn.active.danger Danger
 			span.btn.active.disabled disabled
 
-		h2 OUTLINED BUTTONS
+		h2 OUTLINED BUTTONS:
 		div
 			span.btn.outline Default
 			span.btn.outline.primary Primary
@@ -43,27 +43,66 @@ block body
 			span.btn.active.outline.danger Danger
 			span.btn.active.outline.disabled disabled
 
-		h2 LOW IMPORTANT BUTTONS
-		p Add class "optional"
+		h2 LOW IMPORTANT BUTTONS:
+		p Add class "flat"
 		div
-			span.btn.optional Default
-			span.btn.optional.primary Primary
-			span.btn.optional.success Success
-			span.btn.optional.info Info
-			span.btn.optional.warn Warning
-			span.btn.optional.danger Danger
-			span.btn.optional.disabled disabled
+			span.btn.flat Default
+			span.btn.flat.primary Primary
+			span.btn.flat.success Success
+			span.btn.flat.info Info
+			span.btn.flat.warn Warning
+			span.btn.flat.danger Danger
+			span.btn.flat.disabled disabled
 		//- active
 		div
-			span.btn.active.optional Default
-			span.btn.active.optional.primary Primary
-			span.btn.active.optional.success Success
-			span.btn.active.optional.info Info
-			span.btn.active.optional.warn Warning
-			span.btn.active.optional.danger Danger
-			span.btn.active.optional.disabled disabled
+			span.btn.active.flat Default
+			span.btn.active.flat.primary Primary
+			span.btn.active.flat.success Success
+			span.btn.active.flat.info Info
+			span.btn.active.flat.warn Warning
+			span.btn.active.flat.danger Danger
+			span.btn.active.flat.disabled disabled
 
-		h2 With icons
+		h2 With icons:
 		span.btn #[i.ico assignment_turned_in] Default
 		span.btn.outline #[i.ico check_circle] Default
 		span.btn.flat #[i.ico drag_indicator] Default
+
+		//- Button group
+		h2 Button Group:
+		.row
+			.col.sm6.md4
+				.group
+					.btn Button1
+					.btn Button2
+					.btn Button3
+			.col.sm4.md2
+				.v-group
+					.btn Button1
+					.btn Button2
+					.btn Button3
+		//- Loading
+		h2 Loading:
+		.row
+			.col.sm6.md4
+				.btn.loading button content
+		//- Progress
+		h2 Progress:
+		.row
+			.col.sm6.md4
+				.btn
+					span button content
+					.progress #[.pc #[.pb(style={width:'60%'})]]
+		//- circle
+		h2 Circle:
+		div
+			.btn.circle.ico add
+			.btn.circle.ico send
+			.btn.circle.ico add_alarm
+			.btn.circle.ico mail
+			.btn.circle.ico flag
+			.btn.circle.ico.loading flag
+		div
+			-socials = 'paypal flattr googleplus wikipedia pinterest w3c reddit appstore blogger flickr google viadeo linkedin vk rss skype twitter youtube vimeo yahoo amazon tumblr soundcloud gmail itunes googleplay facebook dropbox cloudapp buffer stackoverflow superpowers github instagram'.split(' ');
+			each s in socials
+				.btn.circle.social(class= s)

@@ -155,26 +155,9 @@ label.f-cntrl
 				stroke-dashoffset: 0
 				background: currentColor
 				border-color: currentColor
-		&.hover:hover
-			input+span svg
-				background: currentColor
-				border-color: currentColor
-
-	// states
-	// @each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
-	// 	&.#{$state}
-	// 		input
-	// 			&:checked+span
-	// 				svg
-	// 					background: $bg
-	// 					border-color: $bg
-			// hover
-			// &.hover:hover
-			// 	input+span svg
-			// 		border-color: $bg
-	// &:hover
-	// 	.label
-	// 		color: $color-default-darken2
+	&.hover:hover
+		input+span svg
+			border-color: currentColor
 // Radio
 .f-radio
 	@extend %f-cntrl-ripple
@@ -192,6 +175,9 @@ label.f-cntrl
 
 		&:checked+span
 			background: currentColor
+			border-color: currentColor
+	&.hover:hover
+		input+span
 			border-color: currentColor
 // switch
 .f-switch
@@ -224,17 +210,10 @@ label.f-cntrl
 		input+span
 			&:after
 				width: 1.25em
-	// states
-	@each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
-		&.#{$state}
-			// hover
-			&.hover:hover
-				input+span
-					background: $bg
-					border-color: $bg
-
-
-
+	&.hover:hover
+		input+span
+			background: currentColor
+			border-color: currentColor
 // key frames
 @keyframes round-wave
 	50%
