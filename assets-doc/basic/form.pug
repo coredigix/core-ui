@@ -200,6 +200,18 @@ block body
 							polyline(points="1.5 6 4.5 9 10.5 1")
 					span.label Check box label
 					
+			//- radio
+			.col.sm4.md3
+				p Radio
+				label.block.f-radio
+					input(type="radio" name="rd1")
+					span
+					span.label Radio label
+				label.block.f-radio.primary #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
+				label.block.f-radio.success #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
+				label.block.f-radio.info #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
+				label.block.f-radio.warn #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
+				label.block.f-radio.danger #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
 			//- switches
 			.col.sm4.md3
 				p Switch:

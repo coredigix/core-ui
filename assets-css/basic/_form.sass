@@ -19,6 +19,31 @@ label.f-cntrl, .f-cntrl label
 		top: .38em
 		&+input, &+textarea
 			padding-left: 2.3em
+// Ripple effect
+%f-cntrl-ripple
+	input
+		&+span
+			&:before
+				content: ''
+				+size(1em)
+				background: $color-default
+				display: block
+				transform: scale(0)
+				border-radius: 50%
+				position: absolute
+				pointer-events: none
+		&:checked+span
+			&:before
+				transform: scale(3.5)
+				opacity: 0
+				transition: all .6s ease
+	// states
+	@each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
+		&.#{$state}
+			input
+				&+span
+					&:before
+						background: $bg
 
 .f-cntrl
 	input, textarea
@@ -78,17 +103,35 @@ label.f-cntrl, .f-cntrl label
 // label
 label.f-cntrl
 	@extend %margin-top-tiny
-// checkbox
-.f-checkbox
+// radio checkbox commons
+%f-radio-checkbox
 	cursor: pointer
-	input[type=checkbox]
+	input
 		display: none
 		&+span
-			@extend %margin-right-tiny;
+			@extend %margin-right-tiny
+			box-sizing: content-box
 			display: inline-block
 			vertical-align: middle
 			+size(1em)
 			position: relative
+		&:checked+span
+			animation: round-wave .4s ease
+	@each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
+		&.#{$state}
+			input
+				&:checked~*
+					color: $clr
+			// hover
+			&.hover:hover
+				color: $clr
+
+// checkbox
+.f-checkbox
+	@extend %f-cntrl-ripple
+	@extend %f-radio-checkbox
+	input
+		&+span
 			svg
 				+size(1em)
 				cursor: pointer
@@ -107,60 +150,60 @@ label.f-cntrl
 				transition: stroke-dashoffset .3s .1s ease
 				// transition-delay: .1s
 				// transition: stroke-dashoffset 350ms cubic-bezier(1,0,.37,.91)
-			&:before
-				content: ''
-				+size(100%)
-				background: $color-default
-				display: block
-				transform: scale(0)
-				border-radius: 50%
-				position: absolute
 		&:checked+span
-			animation: round-wave .4s ease
 			svg
 				stroke-dashoffset: 0
-				background: $color-default
-			&:before
-				transform: scale(3.5)
-				opacity: 0
-				transition: all .6s ease
+				background: currentColor
+				border-color: currentColor
+		&.hover:hover
+			input+span svg
+				background: currentColor
+				border-color: currentColor
+
 	// states
-	@each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
-		&.#{$state}
-			input[type=checkbox]
-				&+span
-					&:before
-						background: $bg
-				&:checked~*
-					color: $clr
-				&:checked+span
-					svg
-						background: $bg
-						border-color: $bg
+	// @each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
+	// 	&.#{$state}
+	// 		input
+	// 			&:checked+span
+	// 				svg
+	// 					background: $bg
+	// 					border-color: $bg
 			// hover
-			&.hover:hover
-				color: $clr
-				input+span svg
-					border-color: $bg
+			// &.hover:hover
+			// 	input+span svg
+			// 		border-color: $bg
 	// &:hover
 	// 	.label
 	// 		color: $color-default-darken2
+// Radio
+.f-radio
+	@extend %f-cntrl-ripple
+	@extend %f-radio-checkbox
+	input
+		&+span
+			border: 2px solid $color-default-lighten2
+			border-radius: 50%
+			// &:after
+			// 	content: ''
+			// 	+size(1em)
+			// 	display: block
+			// 	border-radius: 50%
+			// 	border: 4px solid transparent
+
+		&:checked+span
+			background: currentColor
+			border-color: currentColor
 // switch
 .f-switch
-	cursor: pointer
+	@extend %f-cntrl-ripple
+	@extend %f-radio-checkbox
 	input
-		display: none
 		&+span
-			@extend %margin-right-tiny
-			box-sizing: content-box
 			width: 2em
 			height: 1em
-			display: inline-block
-			vertical-align: middle
 			background: $color-default-lighten2
 			border: 2px solid $color-default-lighten2
 			border-radius: 2em
-			position: relative
 			&:after
 				content: ''
 				+size(1em)
@@ -168,25 +211,15 @@ label.f-cntrl
 				background: $white
 				display: inline-block
 				transition: all $animate-fast ease
-			// wave effect
+			// ripple effect
 			&:before
-				content: ''
-				+size(1em)
-				background: $color-default
-				display: block
-				transform: scale(0)
-				border-radius: 50%
-				position: absolute
 				right: 0
 		&:checked+span
-			animation: round-wave .4s ease
+			background-color: currentColor
+			border-color: currentColor
 			&:after
 				margin-left: 2em
 				transform: translateX(-100%)
-			&:before
-				transform: scale(3.5)
-				opacity: 0
-				transition: all .6s ease
 	&:active
 		input+span
 			&:after
@@ -194,17 +227,8 @@ label.f-cntrl
 	// states
 	@each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
 		&.#{$state}
-			input
-				&:checked~*
-					color: $clr
-				&:checked+span
-					background: $bg
-					border-color: $bg
-					&:before
-						background: $bg
 			// hover
 			&.hover:hover
-				color: $clr
 				input+span
 					background: $bg
 					border-color: $bg
