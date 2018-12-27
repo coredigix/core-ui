@@ -159,6 +159,16 @@ block body
 						svg(viewBox='0 0 12 10')
 							polyline(points="1.5 6 4.5 9 10.5 1")
 					span.label Check box label
+				label.block.f-checkbox.disabled
+					input(type="checkbox")
+					span #[svg(viewBox='0 0 12 10') #[polyline(points="1.5 6 4.5 9 10.5 1")]]
+					span.label Disabled checkbox
+				label.block.f-checkbox.disabled
+					input(type="checkbox" checked)
+					span #[svg(viewBox='0 0 12 10') #[polyline(points="1.5 6 4.5 9 10.5 1")]]
+					span.label Disabled checkbox
+
+					
 
 			//- checkboxes with hover
 			.col.sm4.md3
@@ -199,6 +209,14 @@ block body
 						svg(viewBox='0 0 12 10')
 							polyline(points="1.5 6 4.5 9 10.5 1")
 					span.label Check box label
+				label.block.f-checkbox.hover.disabled
+					input(type="checkbox")
+					span #[svg(viewBox='0 0 12 10') #[polyline(points="1.5 6 4.5 9 10.5 1")]]
+					span.label Disabled checkbox
+				label.block.f-checkbox.hover.disabled
+					input(type="checkbox" checked)
+					span #[svg(viewBox='0 0 12 10') #[polyline(points="1.5 6 4.5 9 10.5 1")]]
+					span.label Disabled checkbox
 					
 			//- radio
 			.col.sm4.md3
@@ -212,14 +230,18 @@ block body
 				label.block.f-radio.info #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
 				label.block.f-radio.warn #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
 				label.block.f-radio.danger #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
+				label.block.f-radio.disabled.danger #[input(type="radio" name="rd1")]#[span]#[span.label Disabled radio]
+				label.block.f-radio.disabled.danger #[input(type="radio" name="rd1" checked)]#[span]#[span.label Disabled radio]
 			.col.sm4.md3
 				p Radio with "hover"
-				label.block.f-radio.hover #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
-				label.block.f-radio.hover.primary #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
-				label.block.f-radio.hover.success #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
-				label.block.f-radio.hover.info #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
-				label.block.f-radio.hover.warn #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
-				label.block.f-radio.hover.danger #[input(type="radio" name="rd1")]#[span]#[span.label Radio label]
+				label.block.f-radio.hover #[input(type="radio" name="rd2")]#[span]#[span.label Radio label]
+				label.block.f-radio.hover.primary #[input(type="radio" name="rd2")]#[span]#[span.label Radio label]
+				label.block.f-radio.hover.success #[input(type="radio" name="rd2")]#[span]#[span.label Radio label]
+				label.block.f-radio.hover.info #[input(type="radio" name="rd2")]#[span]#[span.label Radio label]
+				label.block.f-radio.hover.warn #[input(type="radio" name="rd2")]#[span]#[span.label Radio label]
+				label.block.f-radio.hover.danger #[input(type="radio" name="rd2")]#[span]#[span.label Radio label]
+				label.block.f-radio.hover.disabled.danger #[input(type="radio" name="rd2")]#[span]#[span.label Disabled radio]
+				label.block.f-radio.hover.disabled.danger #[input(type="radio" name="rd2" checked)]#[span]#[span.label Disabled radio]
 			//- switches
 			.col.sm4.md3
 				p Switch:
@@ -232,6 +254,8 @@ block body
 				label.block.f-switch.info #[input(type="checkbox")]#[span]#[span.label Switch label]
 				label.block.f-switch.warn #[input(type="checkbox")]#[span]#[span.label Switch label]
 				label.block.f-switch.danger #[input(type="checkbox")]#[span]#[span.label Switch label]
+				label.block.f-switch.disabled.danger #[input(type="checkbox")]#[span]#[span.label Disabled switch]
+				label.block.f-switch.disabled.danger #[input(type="checkbox" checked)]#[span]#[span.label Disabled switch]
 
 			//- switches with hover --------------
 			.col.sm4.md3
@@ -245,6 +269,8 @@ block body
 				label.block.f-switch.hover.info #[input(type="checkbox")]#[span]#[span.label Switch label]
 				label.block.f-switch.hover.warn #[input(type="checkbox")]#[span]#[span.label Switch label]
 				label.block.f-switch.hover.danger #[input(type="checkbox")]#[span]#[span.label Switch label]
+				label.block.f-switch.hover.disabled.danger #[input(type="checkbox")]#[span]#[span.label Disabled switch]
+				label.block.f-switch.hover.disabled.danger #[input(type="checkbox" checked)]#[span]#[span.label Disabled switch]
 	//- select, dropdown
 	.container
 		h1 select, dropdown

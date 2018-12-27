@@ -4,12 +4,6 @@
  * outlined buttons (secondary, use class "outline")
  * flat buttons (thiriary, use class "flat")
  */
-%btn-disabled
-	pointer-events: none
-	color: $color-disabled
-	background-color: $color-disabled-lighten4
-	// box-shadow: 0 2px 2px 0 rgba($color-disabled,0.14), 0 3px 1px -2px rgba($color-disabled,0.12), 0 1px 5px 0 rgba($color-disabled,0.2)
-	box-shadow: none
 .btn
 	@extend %padding-tiny
 	display: inline-block
@@ -58,12 +52,6 @@
 				color: $color-default-dark2
 				&:hover
 					background-color: $lightColor
-
-
-
-	// disabled
-	&.disabled
-		@extend %btn-disabled
 	// outlined buttons
 	&.outline
 		background: none
@@ -92,7 +80,7 @@
 // loading
 .btn
 	&.loading
-		@extend %btn-disabled
+		@extend %disabled
 		position: relative
 		&:after
 			@extend %ico
@@ -112,6 +100,8 @@
 		font-size: 1em
 		padding: .45em
 		+size(2.4em)
+		text-decoration: none
+		color: $color-default-dark2
 		&:hover
 			color: $color-primary
 			background: $color-primary-lighten4

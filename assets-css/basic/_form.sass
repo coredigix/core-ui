@@ -118,13 +118,16 @@ label.f-cntrl
 		&:checked+span
 			animation: round-wave .4s ease
 	@each $state, $clr, $bg in (primary, $color-primary, $color-primary-lighten2) (success, $color-success, $color-success-lighten2) (info, $color-info, $color-info-lighten2) (warn, $color-warn, $color-warn-lighten2) (danger, $color-danger, $color-danger-lighten2)
-		&.#{$state}
+		&.#{$state}:not(.disabled)
 			input
 				&:checked~*
 					color: $clr
 			// hover
 			&.hover:hover
 				color: $clr
+	&.disabled
+		background: none
+		color: $color-disabled
 
 // checkbox
 .f-checkbox
@@ -155,7 +158,7 @@ label.f-cntrl
 				stroke-dashoffset: 0
 				background: currentColor
 				border-color: currentColor
-	&.hover:hover
+	&.hover:hover, &.disabled
 		input+span svg
 			border-color: currentColor
 // Radio
@@ -175,10 +178,12 @@ label.f-cntrl
 
 		&:checked+span
 			background: currentColor
-			border-color: currentColor
+			border: none
+			padding: 2px
 	&.hover:hover
 		input+span
 			border-color: currentColor
+
 // switch
 .f-switch
 	@extend %f-cntrl-ripple
@@ -188,7 +193,8 @@ label.f-cntrl
 			width: 2em
 			height: 1em
 			background: $color-default-lighten2
-			border: 2px solid $color-default-lighten2
+			padding: 2px
+			// border: 2px solid $color-default-lighten2
 			border-radius: 2em
 			&:after
 				content: ''
@@ -202,7 +208,6 @@ label.f-cntrl
 				right: 0
 		&:checked+span
 			background-color: currentColor
-			border-color: currentColor
 			&:after
 				margin-left: 2em
 				transform: translateX(-100%)
@@ -210,7 +215,7 @@ label.f-cntrl
 		input+span
 			&:after
 				width: 1.25em
-	&.hover:hover
+	&.hover:hover, &.disabled
 		input+span
 			background: currentColor
 			border-color: currentColor
