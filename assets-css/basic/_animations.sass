@@ -4,7 +4,7 @@
 		@extend %ico
 		content: 'sync'
 		will-change: transform
-		animation: cui-rotate $animate-slow linear infinite
+		animation: cui-rotate $animate-slow linear reverse infinite
 
 
 // rotation
@@ -15,6 +15,45 @@
 	will-change: transform
 	animation: cui-rotate $animate-slow linear reverse infinite
 
+
+
+// text loader
+.text-loading
+	span
+		display: block
+		height: .5em
+		margin: .5em 0
+		background: $color-default-lighten2 linear-gradient(to right,$color-default-lighten2 0,$color-default-lighten4 15%,$color-default-lighten2 30%)
+		background-size: 1200px 100%
+		animation: cui-txt-loader 2s linear infinite
+		&:nth-child(1)
+			width: 95%
+		&:nth-child(2)
+			width: 90%
+		&:nth-child(3)
+			width: 94%
+		&:nth-child(4)
+			width: 95%
+		&:nth-child(5)
+			width: 98%
+		&:nth-child(6)
+			width: 97%
+		&:nth-child(7)
+			width: 92%
+		&:nth-child(8)
+			width: 96%
+		&:nth-child(9)
+			width: 98%
+// image loading
+img.loading
+	background: $color-default-lighten2 linear-gradient(to right,$color-default-lighten2 0,$color-default-lighten4 15%,$color-default-lighten2 30%)
+	background-size: 1200px 100%
+	animation: cui-txt-loader 2s linear infinite
+
+// keyframes
 @keyframes cui-rotate
 	to
 		transform: rotate(360deg)
+@keyframes cui-txt-loader
+	to
+		background-position: 1200px 0

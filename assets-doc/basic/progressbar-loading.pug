@@ -208,3 +208,41 @@ block body
 			svg.margin.progress.radial.large.info.loading(viewBox="35 29 30 22")
 				circle.pt
 				circle.pp(stroke-dasharray= "30.5 125")
+
+		h1 Loaders:
+		p Use classes "rotate" and "anti-rotate" to make any element rotate
+		div
+			span.ico.anti-rotate sync
+		p.m-top add class "when-loading" to an element, this element will show-up when adding class "loading" to it's parents
+		div.loading
+			span.when-loading Loading...
+
+		p.m-top add class "ico-loading" to any element to show some loading
+		div.ico-loading
+
+		.row
+			.col.sm6.md4
+				b Text loading
+				p Best approche for text loading:
+				div.text-loading
+					span
+					span
+					span
+					span
+					span
+					span
+					span
+					span
+					span
+					span
+			.col.sm6.md4
+				b Image loading
+				p Best approche for image loading:
+				img.loading(width="200px" height="150px")
+
+
+	br
+	br
+	br
+	br
+	br
