@@ -14,7 +14,7 @@
 	touch-action: manipulation
 	cursor: pointer
 	outline: 0
-	border-radius: $border-radius
+	border-radius: 2em
 
 	color: $color-default-dark2
 	background-color: $color-default-lighten2
@@ -30,6 +30,11 @@
 	// @each $s in primary success info warn danger
 	// 	&.#{$s}
 	// 		@extend .bg-#{$s};
+	
+	// primary
+	// &.primary
+	// 	color:
+	// 	background: #387DFF linear-gradient(-179deg,#5690FF 0,#387DFF 97%)
 
 	@each $k, $cl, $lightColor, $darkColor in (primary $color-primary $color-primary-lighten4 $color-primary-dark4), (success $color-success $color-success-lighten4 $color-success-dark4), (info $color-info $color-info-lighten4 $color-info-dark4), (warn $color-warn $color-warn-lighten4 $color-warn-dark4), (danger $color-danger $color-danger-lighten4 $color-danger-dark4)
 		&.#{$k}
@@ -65,17 +70,27 @@
 // button group
 .group
 	@extend %clearfix
+	white-space: nowrap
 	>*
 		float: left
 		margin: 0
-		white-space: nowrap
+		border-radius: 0
 		// right to left
 		.rtl &
 			float: right
+		&:first-child
+			border-radius: 2em 0 0 2em
+		&:last-child
+			border-radius: 0 2em 2em 0
 .v-group
 	>*
 		display: block
+		border-radius: 0
 		margin: 0
+		&:first-child
+			border-radius: 2em 2em 0 0
+		&:last-child
+			border-radius: 0 0 2em 2em
 
 // loading
 .btn

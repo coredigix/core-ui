@@ -1,21 +1,10 @@
+// removed to preserve 40ko of filesize
 
-
-/**
- * text colors
- * Has format: text-color
- */
-@each $n, $v in $colors
-	.text-#{$n}
-		$i: 1
-		@each $cl in $v
-			$desc: nth($colorDescription, $i)
-			$i: $i + 1
-			@if $desc == 'base'
-				color: $cl!important
-			@else
-				&.#{$desc}
-					color: $cl!important
-// @each $n, $v in $colors-basic
+// /**
+//  * text colors
+//  * Has format: text-color
+//  */
+// @each $n, $v in $colors
 // 	.text-#{$n}
 // 		$i: 1
 // 		@each $cl in $v
@@ -26,49 +15,38 @@
 // 			@else
 // 				&.#{$desc}
 // 					color: $cl!important
+// 					
 
-/**
- * background color
- * @format .color
- */
-@each $n, $v in $colors
-	.#{$n}
-		@if length($v) == 1
-			color: contrast-switch($v, $black, $white)!important
-			background-color: $v!important
-		@else
-			$i: 1
-			$lightColor: nth($v, 1)
-			$darkColor: nth($v, 10)
-			@each $cl in $v
-				$desc: nth($colorDescription, $i)
-				$i: $i + 1
-				@if $desc == 'base'
-					// color: contrast-switch($cl)!important
-					color: contrast-switch($cl, $darkColor, $lightColor)!important
-					background-color: $cl!important
-				@else
-					&.#{$desc}
-						// color: $cl)!important
-						color: contrast-switch($cl, $darkColor, $lightColor)!important
-						background-color: $cl!important
-// @each $n, $v in $colors-basic
-// 	.bg-#{$n}
-// 		$i: 1
-// 		@each $cl in $v
-// 			$desc: nth($colorDescription, $i)
-// 			$i: $i + 1
-// 			@if $desc == 'base'
-// 				color: contrast-switch($cl)
-// 				background-color: $cl
-// 			@else
-// 				&.#{$desc}
-// 					color: contrast-switch($cl)
-// 					background-color: $cl
+
+// /**
+//  * background color
+//  * @format .color
+//  */
+// @each $n, $v in $colors
+// 	.#{$n}
+// 		@if length($v) == 1
+// 			color: contrast-switch($v, $black, $white)!important
+// 			background-color: $v!important
+// 		@else
+// 			$i: 1
+// 			$lightColor: nth($v, 1)
+// 			$darkColor: nth($v, 10)
+// 			@each $cl in $v
+// 				$desc: nth($colorDescription, $i)
+// 				$i: $i + 1
+// 				@if $desc == 'base'
+// 					// color: contrast-switch($cl)!important
+// 					color: contrast-switch($cl, $darkColor, $lightColor)!important
+// 					background-color: $cl!important
+// 				@else
+// 					&.#{$desc}
+// 						// color: $cl)!important
+// 						color: contrast-switch($cl, $darkColor, $lightColor)!important
+// 						background-color: $cl!important
 
 @each $k, $cl, $lightColor, $darkColor in (primary $color-primary $color-primary-lighten4 $color-primary-dark4), (success $color-success $color-success-lighten4 $color-success-dark4), (info $color-info $color-info-lighten4 $color-info-dark4), (warn $color-warn $color-warn-lighten4 $color-warn-dark4), (danger $color-danger $color-danger-lighten4 $color-danger-dark4), (disabled $color-default $color-default-lighten4 $color-default-dark4)
 	.text-#{$k}
-		color: $cl!important
+		color: $cl //!important
 	.bg-#{$k}
-		color: contrast-switch($cl, $darkColor, $lightColor)!important
-		background-color: $cl!important
+		color: contrast-switch($cl, $darkColor, $lightColor) //!important
+		background-color: $cl //!important

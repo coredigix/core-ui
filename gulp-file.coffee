@@ -4,32 +4,38 @@ gutil			= require 'gulp-util'
 include			= require "gulp-include"
 rename			= require "gulp-rename"
 coffeescript	= require 'gulp-coffeescript'
-PluginError		= gulp.PluginError
-cliTable		= require 'cli-table'
-template		= require 'gulp-template'
 pug				= require 'gulp-pug'
 through 		= require 'through2'
 path			= require 'path'
 sass			= require 'gulp-sass'
 PKG				= require './package.json'
-rmEmptyLines	= require 'gulp-remove-empty-lines'
 
+GfwCompiler		= require 'gridfw-compiler'
+uglify			= require('gulp-uglify-es').default
+
+# settings
+isProd= gutil.env.hasOwnProperty('prod')
 settings =
+	mode: if isProd then 'prod' else 'dev'
+	isProd: isProd
+	# infos
 	rootDir: __dirname.replace /\\/g, '/'
 	PKG: PKG
-	mode: if gutil.env.mode is 'prod' then 'prod' else 'dev'
 
 # compile js (background, popup, ...)
 compileCoffee = ->
-	gulp.src "assets-js/index.coffee"
+	glp=gulp.src "assets-js/index.coffee"
 		.pipe include hardFail: true
-		.pipe rmEmptyLines()
-		.pipe template settings
+		.pipe GfwCompiler.template(settings).on 'error', GfwCompiler.logError
 		
-		.pipe coffeescript(bare: true).on 'error', errorHandler
+		.pipe coffeescript(bare: true).on 'error', GfwCompiler.logError
 		.pipe rename "#{PKG.name}.#{PKG.version}.js"
-		.pipe gulp.dest "build"
-		.on 'error', errorHandler
+	# if is prod
+	if isProd
+		glp = glp.pipe uglify()
+	# dest
+	glp.pipe gulp.dest "build"
+		.on 'error', GfwCompiler.logError
 
 compileSass = ->
 	gulp.src "assets-css/index.sass"
@@ -44,56 +50,46 @@ compileSass = ->
 
 		.pipe rename "#{PKG.name}.#{PKG.version}.sass"
 		.pipe sass(
-			if settings.mode is 'prod'
-				outputStyle: 'compressed'
-			else
-				outputStyle: 'compact'
-				# outputStyle: 'expanded'
-		).on 'error', errorHandler
-		.pipe rmEmptyLines()
+			outputStyle: if isProd then 'compressed' else 'compact'
+		).on 'error', GfwCompiler.logError
 		.pipe gulp.dest "build"
-		.on 'error', errorHandler
+		.on 'error', GfwCompiler.logError
 
+# compile doc views
 compileDocPug= ->
+	# check for available views
+	viewsPath = []
+	files = [] # keep all files until stream finished
+	_trFx = (file, enc, cb)->
+		viewsPath.push file.relative.replace /\.pug$/, '.html'
+		files.push file # keep the file untill all finished
+		cb null
+		return
+	_flshFx= (cb)->
+		for file in files
+			@push file
+		cb()
+		return
+	# return gulp
 	gulp.src "assets-doc/**/[^_]*.pug"
-		.pipe pug self: true, data: settings
+		# check for available views
+		.pipe through.obj _trFx, _flshFx
+		# compiles views
+		.pipe pug self: true, data: {links: viewsPath, ...settings}
 		.pipe gulp.dest "doc"
-		.on 'error', errorHandler
+		.on 'error', GfwCompiler.logError
 
 # compile
-watch = ->
-	gulp.watch 'assets-js/**/*.coffee', compileCoffee
-	gulp.watch ['assets-css/**/*.sass', 'assets-css/**/*.scss'], compileSass
-	gulp.watch 'assets-doc/**/*.pug', compileDocPug
+watch = (cb)->
+	unless isProd
+		gulp.watch 'assets-js/**/*.coffee', compileCoffee
+		gulp.watch ['assets-css/**/*.sass', 'assets-css/**/*.scss'], compileSass
+		gulp.watch 'assets-doc/**/*.pug', compileDocPug
+	cb()
 	return
 
 # create default task
 gulp.task 'default', gulp.series ( gulp.parallel compileCoffee, compileSass, compileDocPug ), watch
 
-# error handler
-errorHandler= (err)->
-	# get error line
-	expr = /:(\d+):(\d+):/.exec err.stack
-	if expr
-		line = parseInt expr[1]
-		col = parseInt expr[2]
-		code = err.code?.split("\n")[line-3 ... line + 3].join("\n")
-	else
-		code = line = col = '??'
-	# Render
-	table = new cliTable()
-	table.push {Name: err.name},
-		{Filename: err.filename||''},
-		{Message: err.message||''},
-		{Line: line||0},
-		{Col: col||0}
-	console.error table.toString()
-	console.log '\x1b[31mStack:'
-	console.error '\x1b[0m┌─────────────────────────────────────────────────────────────────────────────────────────┐'
-	console.error '\x1b[34m', err.stack
-	console.log '\x1b[0m└─────────────────────────────────────────────────────────────────────────────────────────┘'
-	console.log '\x1b[31mCode:'
-	console.error '\x1b[0m┌─────────────────────────────────────────────────────────────────────────────────────────┐'
-	console.error '\x1b[34m', code
-	console.log '\x1b[0m└─────────────────────────────────────────────────────────────────────────────────────────┘'
-	return
+
+# check for avialable views

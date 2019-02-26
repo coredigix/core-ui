@@ -26,15 +26,14 @@
 .col
 	padding: $layoutGridGutter
 	min-height: 1px
+	float: left
 	// xs: all devices
 	@for $i from 1 through 12
 		&.xs#{$i}
-			float: left
 			width: ( 100 * $i / 12 )#{'%'}
 	// others
 	@each $t,$s in (sm: $sm, md: $md, lg:$lg, xl: $xl)
 		@media(min-width: $s)
 			@for $i from 1 through 12
 				&.#{$t}#{$i}
-					float: left
 					width: ( 100 * $i / 12 )#{'%'}

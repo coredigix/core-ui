@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/coredigix/core-ui#readme",
   "devDependencies": {
-    "cli-table": "^0.3.1",
     "eco": "^1.1.0-rc-3",
     "gulp": "^4.0.0",
     "gulp-chug": "^0.5.1",
@@ -34,6 +33,10 @@
     "gulp-sass": "^4.0.2",
     "gulp-template": "^5.0.0",
     "gulp-util": "^3.0.8",
-    "through2": "^3.0.0"
+    "through2": "^3.0.0",
+    "gridfw-compiler": "^1.1.0",
+    "gulp-uglify-es": "^1.0.4"
+  },
+  "dependencies": {
   }
 }
