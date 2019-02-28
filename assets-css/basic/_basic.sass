@@ -13,7 +13,7 @@ html, body
 	line-height: 1.42857143
 	font-family: "Roboto", "Helvetica", "Arial", sans-serif
 	font-weight: 400
-	font-size: 16px
+	font-size: 14px
 	@extend %noselect
 // font
 
@@ -49,6 +49,11 @@ hr
 .fit-content
 	width: fit-content
 	height: fit-content
+.fit-screen
+	width: 100vw
+	height: 100vh
+.fit-h // fit screen height
+	height: 100vh
 
 // direction
 .rtl
@@ -68,7 +73,7 @@ hr
 	pointer-events: none
 
 // hide
-.hidden
+.hidden, %hidden
 	display: none
 .hide
 	visibility: hidden
@@ -96,14 +101,27 @@ hr
 
 // padding
 %padding-large
-	padding: 15px 10px
+	padding: 7px 5px
+	@media(min-width: $lg)
+		padding: 15px 10px
 %padding
-	padding: 10px 24px
+	padding: 5px 12px
+	@media(min-width: $lg)
+		padding: 10px 24px
+%padding-v
+	padding-top: 5px
+	padding-bottom: 5px
+	@media(min-width: $lg)
+		padding-top: 10px
+		padding-bottom: 10px
+
 %padding-tiny
 	padding: 8px 16px
 
 .padding
 	@extend %padding;
+.padding-v
+	@extend %padding-v;
 .p-large
 	@extend %padding-large;
 .p-tiny

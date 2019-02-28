@@ -1,25 +1,87 @@
 
+input, textarea, select, button
+	font-size: 14px
 input, textarea
 	@extend %select;
+
+// form input
+.f-input
+	@extend %padding-tiny
+	@extend %margin-top-tiny
 	line-height: 1.125
 	font-family: "Roboto", "Helvetica", "Arial", sans-serif
 	font-weight: 400
 	font-size: .9em
 
+	display: block
+	width: 100%
+	cursor: text
+	margin-top:
+	// apearence
+	border: 1px solid $color-default-lighten2
+	background-color: $color-default-lighten2
+	border-radius: $form-border-radius
+	touch-action: manipulation
+	-webkit-appearance: none
+	outline: none
+	// height: 2.573rem
+	&:hover, &:focus
+		background-color: $color-default-lighten1
+		border-color: $color-default-lighten1
+	&::selection
+		background-color: $white
+		color: $black
+	&:disabled
+		background-color: $color-disabled-lighten6!important
+		border-color: $color-disabled-lighten4!important
+		color: $color-disabled!important
+		cursor: not-allowed!important
+		// pointer-events: none
+		&::placeholder
+			color: $color-disabled
 
-// label
-label.f-cntrl, .f-cntrl label
+// form group (input with additionals icons)
+.f-group
+	@extend %margin-top-tiny
 	display: block
 	position: relative
-	cursor: text
+	border-radius: $form-border-radius
+	overflow: hidden
+	.f-input
+		padding-right: 2.4em
+		&~.ico
+			left: auto
+			right: .5em
 	// icon
 	.ico
 		position: absolute
-		left: .38em
-		top: .38em
-		&+input, &+textarea
-			padding-left: 2.3em
-// Ripple effect
+		left: .5em
+		top: .5em
+		&+.f-input
+			padding-left: 2.4em
+	// progress
+	.progress
+		margin-top: -.2em
+		overflow: hidden
+		z-index: 2
+		.pc
+			background: transparent
+
+// form control
+.f-cntrl
+	// states
+	@each $state, $cl, $lightColor, $darkColor in (has-done $color-success $color-success-lighten4 $color-success-dark4), (has-info $color-info $color-info-lighten4 $color-info-dark4), (has-warn $color-warn $color-warn-lighten4 $color-warn-dark4), (has-error $color-danger $color-danger-lighten4 $color-danger-dark4)
+		&.#{$state}
+			color: $cl
+			.f-input
+				color: $cl
+				background-color: $lightColor
+				border-color: $lightColor
+				&::placeholder
+					color: $cl
+			.desc
+				color: $cl
+// ripple effect
 %f-cntrl-ripple
 	input
 		&+span
@@ -44,65 +106,6 @@ label.f-cntrl, .f-cntrl label
 				&+span
 					&:before
 						background: $bg
-
-.f-cntrl
-	input, textarea
-		@extend %padding-tiny
-		border: 1px solid $color-default-lighten2
-		background-color: $color-default-lighten2
-		border-radius: $border-radius
-		touch-action: manipulation
-		// height: 2.573rem
-		-webkit-appearance: none
-		outline: none
-		display: block
-		width: 100%
-		// border: none
-		// bottom: 0
-		// background: transparent
-		// margin: 0
-		&:hover, &:focus
-			background-color: $color-default-lighten1
-			border-color: $color-default-lighten1
-		&::selection
-			background-color: $white
-			color: $black
-		&:disabled
-			background-color: $color-disabled-lighten6!important
-			border-color: $color-disabled-lighten4!important
-			color: $color-disabled!important
-			cursor: not-allowed!important
-			// pointer-events: none
-			&::placeholder
-				color: $color-disabled
-		// icon
-		&~.ico
-			left: auto
-			right: .38em
-	// progress
-	.progress
-		margin-top: -.2em
-		border-radius: 0 0 $border-radius $border-radius
-		overflow: hidden
-		z-index: 2
-		.pc
-			background: transparent
-
-	// states
-	@each $state, $cl, $lightColor, $darkColor in (has-done $color-success $color-success-lighten4 $color-success-dark4), (has-info $color-info $color-info-lighten4 $color-info-dark4), (has-warn $color-warn $color-warn-lighten4 $color-warn-dark4), (has-error $color-danger $color-danger-lighten4 $color-danger-dark4)
-		&.#{$state}
-			color: $cl
-			input, textarea
-				color: $cl
-				background-color: $lightColor
-				border-color: $lightColor
-				&::placeholder
-					color: $cl
-			.desc
-				color: $cl
-// label
-label.f-cntrl
-	@extend %margin-top-tiny
 // radio checkbox commons
 %f-radio-checkbox
 	cursor: pointer
@@ -128,7 +131,6 @@ label.f-cntrl
 	&.disabled
 		background: none
 		color: $color-disabled
-
 // checkbox
 .f-checkbox
 	@extend %f-cntrl-ripple
@@ -161,6 +163,7 @@ label.f-cntrl
 	&.hover:hover, &.disabled
 		input+span svg
 			border-color: currentColor
+
 // Radio
 .f-radio
 	@extend %f-cntrl-ripple
@@ -169,12 +172,6 @@ label.f-cntrl
 		&+span
 			border: 2px solid $color-default-lighten2
 			border-radius: 50%
-			// &:after
-			// 	content: ''
-			// 	+size(1em)
-			// 	display: block
-			// 	border-radius: 50%
-			// 	border: 4px solid transparent
 
 		&:checked+span
 			background: currentColor
@@ -183,6 +180,7 @@ label.f-cntrl
 	&.hover:hover
 		input+span
 			border-color: currentColor
+
 
 // switch
 .f-switch
@@ -223,3 +221,14 @@ label.f-cntrl
 @keyframes round-wave
 	50%
 		transform: scale(.9)
+
+// groups
+.group
+	.f-input
+		width: auto
+		margin: 0
+	.f-group
+		margin: 0
+		.f-input
+			border-radius: 0
+		

@@ -40,8 +40,8 @@ $color-basic: 6; // basic color index in the set
 
 // main colors
 $black: #000;
-$color-text: rgba($black, 0.84);
-$color-heading: $black;
+$color-text: #333; // rgba($black, 0.84);
+$color-heading: #212529; // $black;
 $color-border: #e0e0e0;
 $white: #fff;
 $transparent: transparent;
@@ -89,10 +89,10 @@ $color-default-lighten4: nth(map-get($colors, grey), $color-basic - 4);
 $color-default-dark2: nth(map-get($colors, grey), $color-basic + 2);
 $color-default-dark4: nth(map-get($colors, grey), $color-basic + 4);
 
-$color-primary: $indigo;
-$color-primary-lighten2: nth(map-get($colors, indigo), $color-basic - 2);
+$color-primary: #6190e8; //$indigo;
+$color-primary-lighten2: #79a1eb; // nth(map-get($colors, indigo), $color-basic - 2);
 $color-primary-lighten4: nth(map-get($colors, indigo), $color-basic - 4);
-$color-primary-dark2: nth(map-get($colors, indigo), $color-basic + 2);
+$color-primary-dark2: #5782d1;// nth(map-get($colors, indigo), $color-basic + 2);
 $color-primary-dark4: nth(map-get($colors, indigo), $color-basic + 4);
 
 $color-success: $green;

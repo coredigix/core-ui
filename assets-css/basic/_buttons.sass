@@ -11,10 +11,12 @@
 	white-space: nowrap
 	vertical-align: middle
 	margin: .25em
+	line-height: 1.15;
 	touch-action: manipulation
 	cursor: pointer
 	outline: 0
-	border-radius: 2em
+	border-radius: $form-border-radius
+	border: none
 
 	color: $color-default-dark2
 	background-color: $color-default-lighten2
@@ -110,19 +112,22 @@
 	&.circle
 		+size(2em)
 		padding: .45em
-	// social
-	&.social
-		font-size: 1em
-		padding: .45em
-		+size(2.4em)
-		text-decoration: none
-		color: $color-default-dark2
-		&:hover
-			color: $color-primary
-			background: $color-primary-lighten4
-		// (angellist #000 $color-text) (aol #f00 $color-text) (appnet #3178bd $color-text) (askfm #fd6547 $color-text) (betaseries #0099e1 $color-text) (bitbucket #205081 $color-text) (bitcoin #efefef #4d4d4d)  (call #008000 $color-text)(cal #d63538 $color-text) (cart #333 $color-text) 
-		@each $n, $bg, $clr in (facebook #4863ae white) (paypal #fff #32689a) (flattr #8aba42 white) (wikipedia #fff #000) (pinterest #c91618 white) (w3c #fbfbfb #050505) (reddit #fff #222) (appstore #000 white) (blogger #ee5a22 white) (flickr #ff0084 white) (google #4e6cf7 white) (googleplay #000 white) (googleplus #dd4b39 white) (viadeo #fff #000) (linkedin #0083a8 white) (vk #45688E white) (rss #ff7f25 white) (skype #00a2ed white) (twitter #46c0fb white) (youtube #f00 white) (vimeo #00a2cd white) (yahoo #a200c2 white) (amazon #ffad1d #030037) (tumblr #374a61 white) (soundcloud #fff #312c2a) (gmail #efefef #222) (itunes #efefeb #312c2a) (dropbox #fff #312c2a) (cloudapp #fbfbfb #050505) (buffer #232323 white) (stackoverflow #fff #555) (superpowers #fbfbfb #050505) (github #fbfbfb #050505) (instagram #3f729b white)
-			&.#{$n}
-				&:hover, &.active
-					color: $clr
-					background-color: $bg
+
+// social
+.social
+	font-size: 1em
+	padding: .45em
+	+size(2.4em)
+	text-decoration: none
+	color: $color-default-dark2
+	&:hover
+		color: $color-primary
+		background: $color-primary-lighten4
+a.social
+	color: $color-default-dark2
+// (angellist #000 $color-text) (aol #f00 $color-text) (appnet #3178bd $color-text) (askfm #fd6547 $color-text) (betaseries #0099e1 $color-text) (bitbucket #205081 $color-text) (bitcoin #efefef #4d4d4d)  (call #008000 $color-text)(cal #d63538 $color-text) (cart #333 $color-text) 
+@each $n, $bg, $clr in (facebook #4863ae white) (paypal #fff #32689a) (flattr #8aba42 white) (wikipedia #fff #000) (pinterest #c91618 white) (w3c #fbfbfb #050505) (reddit #fff #222) (appstore #000 white) (blogger #ee5a22 white) (flickr #ff0084 white) (google #4e6cf7 white) (googleplay #000 white) (googleplus #dd4b39 white) (viadeo #fff #000) (linkedin #0083a8 white) (vk #45688E white) (rss #ff7f25 white) (skype #00a2ed white) (twitter #46c0fb white) (youtube #f00 white) (vimeo #00a2cd white) (yahoo #a200c2 white) (amazon #ffad1d #030037) (tumblr #374a61 white) (soundcloud #fff #312c2a) (gmail #efefef #222) (itunes #efefeb #312c2a) (dropbox #fff #312c2a) (cloudapp #fbfbfb #050505) (buffer #232323 white) (stackoverflow #fff #555) (superpowers #fbfbfb #050505) (github #fbfbfb #050505) (instagram #3f729b white)
+	.#{$n}
+		&:hover, &.active
+			color: $clr
+			background-color: $bg

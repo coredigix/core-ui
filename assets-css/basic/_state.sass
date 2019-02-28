@@ -6,12 +6,18 @@
 	&-info,
 	&-warn,
 	&-error,
-	&-loading
+	&-loading,
+	&-checked
 		display: none
 
 .has-done .when-done,
 .has-info .when-info,
 .has-warn .when-warn,
 .has-error .when-error,
-.loading .when-loading
+.loading .when-loading,
+input:checked~.when-checked
 	display: block
+
+input:checked~.when-unchecked
+	display: none
+		
