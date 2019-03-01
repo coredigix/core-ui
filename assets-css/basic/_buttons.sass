@@ -6,6 +6,7 @@
  */
 .btn
 	@extend %padding-tiny
+	text-decoration: none
 	display: inline-block
 	text-align: center
 	white-space: nowrap
@@ -25,6 +26,10 @@
 	// box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)
 	box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.02) inset
 
+	&.lg
+		@extend %padding
+		font-size: 1.2em
+
 	&:active, &.active
 		box-shadow: inset 0 3px 5px rgba(0,0,0,.125)
 	&:hover
@@ -40,7 +45,8 @@
 
 	@each $k, $cl, $lightColor, $darkColor in (primary $color-primary $color-primary-lighten4 $color-primary-dark4), (success $color-success $color-success-lighten4 $color-success-dark4), (info $color-info $color-info-lighten4 $color-info-dark4), (warn $color-warn $color-warn-lighten4 $color-warn-dark4), (danger $color-danger $color-danger-lighten4 $color-danger-dark4)
 		&.#{$k}
-			color: contrast-switch($cl, $darkColor, $lightColor)
+			// color: contrast-switch($cl, $darkColor, $lightColor)
+			color: white
 			background-color: $cl
 			// background-image: linear-gradient($cl 60%, lighten($cl, 10%))
 			// background-image: linear-gradient(to bottom, $darkColor, $lightColor)

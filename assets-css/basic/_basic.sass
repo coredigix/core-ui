@@ -105,9 +105,9 @@ hr
 	@media(min-width: $lg)
 		padding: 15px 10px
 %padding
-	padding: 5px 12px
+	padding: .4em 1em
 	@media(min-width: $lg)
-		padding: 10px 24px
+		padding: .9em 2em
 %padding-v
 	padding-top: 5px
 	padding-bottom: 5px
@@ -115,13 +115,22 @@ hr
 		padding-top: 10px
 		padding-bottom: 10px
 
+%x-v-padding
+	padding-top: 55px
+	padding-bottom: 40px
+	@media(min-width: $lg)
+		padding-top: 110px
+		padding-bottom: 90px
+
 %padding-tiny
-	padding: 8px 16px
+	padding: .6em 1.2em
 
 .padding
 	@extend %padding;
-.padding-v
+.padding-v, .v-padding
 	@extend %padding-v;
+.x-v-padding
+	@extend %x-v-padding;
 .p-large
 	@extend %padding-large;
 .p-tiny
