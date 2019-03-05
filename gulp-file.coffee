@@ -10,7 +10,6 @@ path			= require 'path'
 sass			= require 'gulp-sass'
 PKG				= require './package.json'
 
-GfwCompiler		= require 'gridfw-compiler'
 uglify			= require('gulp-uglify-es').default
 
 # settings
@@ -21,6 +20,8 @@ settings =
 	# infos
 	rootDir: __dirname.replace /\\/g, '/'
 	PKG: PKG
+
+GfwCompiler		= require if isProd then '../compiler' else 'gridfw-compiler'
 
 # compile js (background, popup, ...)
 compileCoffee = ->
