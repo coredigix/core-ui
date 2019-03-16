@@ -30,7 +30,8 @@ compileCoffee = ->
 		.pipe GfwCompiler.template(settings).on 'error', GfwCompiler.logError
 		
 		.pipe coffeescript(bare: true).on 'error', GfwCompiler.logError
-		.pipe rename "#{PKG.name}.#{PKG.version}.js"
+		.pipe rename "#{PKG.name}.js"
+		# .pipe rename "#{PKG.name}.#{PKG.version}.js"
 	# if is prod
 	if isProd
 		glp = glp.pipe uglify()
@@ -49,7 +50,8 @@ compileSass = ->
 		# .pipe rename "css-template.sass"
 		# .pipe gulp.dest "build"
 
-		.pipe rename "#{PKG.name}.#{PKG.version}.sass"
+		.pipe rename "#{PKG.name}.sass"
+		# .pipe rename "#{PKG.name}.#{PKG.version}.sass"
 		.pipe sass(
 			outputStyle: if isProd then 'compressed' else 'compact'
 		).on 'error', GfwCompiler.logError
