@@ -1,0 +1,71 @@
+
+// hide
+.hidden, %hidden
+	display: none
+.hide
+	visibility: hidden
+
+
+// display
+.inline
+	display: inline
+.inline-block
+	display: inline-block
+.table
+	display: table
+.table-cell
+	display: table-cell
+.table-row
+	display: table-row
+.block
+	display: block
+
+
+// hidden on device and down
+// @example: hidden-lg: visible on xl devices only
+// @example: hidden-md: hide on medium devices and down
+@each $s, $sz in (xs: $sm - 1, sm: $md - 1, md: $lg - 1, lg: $xl - 1)
+	@media(max-width: $sz)
+		.hidden-#{$s}
+			display: none!important
+	@media(min-width: $sz)
+		.visible-#{$s}
+			display: none!important
+
+// // components visibility on screens
+// // visible on sm and up
+// .v-sm
+// 	@extend %hidden;
+// 	@media(min-width: $sm)
+// 		display: block
+// // visible on md and up
+// .v-md
+// 	@extend %hidden;
+// 	@media(min-width: $md)
+// 		display: none
+// // visible on lg and up
+// .v-lg
+// 	@extend %hidden;
+// 	@media(min-width: $lg)
+// 		display: none
+// // visible on xl and up
+// .v-xl
+// 	@extend %hidden;
+// 	@media(min-width: $xl)
+// 		display: none
+
+
+// flex
+.flex
+	display: flex
+	flex-wrap: wrap
+	&.nowrap
+		flex-wrap: nowrap
+	&.t-center
+		justify-content: center
+	&.t-left
+		justify-content: flex-start
+	&.t-right
+		justify-content: flex-end
+
+		

@@ -77,15 +77,17 @@
 
 // button group
 .group
-	@extend %clearfix
-	white-space: nowrap
+	// @extend %clearfix
+	// white-space: nowrap
+	align-items: stretch
+	display: flex
 	>*
-		float: left
-		margin: 0
+		// float: left
+		margin: 0 1px 0 0
 		border-radius: 0
 		// right to left
-		.rtl &
-			float: right
+		// .rtl &
+		// 	float: right
 		&:first-child
 			border-radius: 2em 0 0 2em
 		&:last-child

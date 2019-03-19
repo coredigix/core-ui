@@ -55,8 +55,8 @@ input, textarea
 	// icon
 	.ico
 		position: absolute
-		left: .5em
-		top: .5em
+		left: .6em
+		top: .6em
 		&+.f-input
 			padding-left: 2.4em
 	// progress
@@ -225,10 +225,18 @@ input, textarea
 // groups
 .group
 	.f-input
-		width: auto
+		flex-grow: 1
 		margin: 0
 	.f-group
 		margin: 0
 		.f-input
 			border-radius: 0
-		
+
+// input number
+.input-number
+	input[type=number]::-webkit-inner-spin-button
+		-webkit-appearance: none
+	.f-input
+		width: 60px
+	*:first-child
+		margin-right: 1px

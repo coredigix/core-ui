@@ -1,0 +1,35 @@
+// commons
+%carousel-items
+	white-space: nowrap
+	overflow: hidden
+	>*
+		display: inline-block
+		width: 100%
+		background: center no-repeat
+		background-size: cover
+// simple carousel
+.carousel
+	.items
+		@extend %carousel-items
+
+// vertical carousel
+.v-carousel
+	display: flex
+	.thumbs
+		width: 100px
+		margin-right: 10px
+		>*
+			margin-top: 5px
+			height: 50px
+			background: center no-repeat
+			background-size: cover
+			cursor: pointer
+			border: 1px solid white
+		.active
+			margin-right: -5px
+			border-color: #f90
+	.items
+		@extend %carousel-items
+		width: 100%
+		>*
+			padding-top: 80%

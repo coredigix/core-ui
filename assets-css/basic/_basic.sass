@@ -29,19 +29,6 @@ hr
 	border: none
 	margin: 1em 0 0 0
 
-// display
-.inline
-	display: inline
-.inline-block
-	display: inline-block
-.table
-	display: table
-.table-cell
-	display: table-cell
-.table-row
-	display: table-row
-.block
-	display: block
 
 .fit-parent
 	width: 100%
@@ -72,20 +59,6 @@ hr
 .no-events
 	pointer-events: none
 
-// hide
-.hidden, %hidden
-	display: none
-.hide
-	visibility: hidden
-
-// hidden on device and down
-// @example: hidden-lg: visible on xl devices only
-// @example: hidden-md: hide on medium devices and down
-@each $s, $sz in (xs: $sm - 1, sm: $md - 1, md: $lg - 1, lg: $xl - 1)
-	@media(max-width: $sz)
-		.hidden-#{$s}
-			display: none
-
 // margin
 %margin-top, .m-top
 	margin-top: 1.2rem
@@ -102,23 +75,23 @@ hr
 // padding
 %padding-large
 	padding: 7px 5px
-	@media(min-width: $lg)
-		padding: 15px 10px
+	@media(min-width: $md)
+		padding: 2em 1em
 %padding
-	padding: .4em 1em
-	@media(min-width: $lg)
-		padding: .9em 2em
+	padding: 1.2em 1em
+	@media(min-width: $md)
+		padding: 2em .9em
 %padding-v
 	padding-top: 5px
 	padding-bottom: 5px
-	@media(min-width: $lg)
+	@media(min-width: $md)
 		padding-top: 10px
 		padding-bottom: 10px
 
 %x-v-padding
 	padding-top: 55px
 	padding-bottom: 40px
-	@media(min-width: $lg)
+	@media(min-width: $md)
 		padding-top: 110px
 		padding-bottom: 90px
 
