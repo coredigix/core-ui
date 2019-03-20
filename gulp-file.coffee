@@ -20,7 +20,7 @@ settings =
 	rootDir: __dirname.replace /\\/g, '/'
 	PKG: PKG
 
-GfwCompiler		= require <% isProd ? "'../compiler'" : "'gridfw-compiler'" %>
+GfwCompiler		= require <%= isProd ? "'../compiler'" : "'gridfw-compiler'" %>
 
 # compile js (background, popup, ...)
 compileCoffee = ->
