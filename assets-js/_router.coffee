@@ -86,8 +86,9 @@ _routerSelectPath= (options, path, queue, isSelect)->
 			$html.toggleClass toggleClass, isSelect if toggleClass
 			# call cb
 			cb= if isSelect then cbIn else cbOut
-			try
-				cb options
-			catch err
-				core.fatalError 'Router', 'Uncaugth error', err
+			if typeof cb is 'function'
+				try
+					cb options
+				catch err
+					core.fatalError 'Router', 'Uncaugth error', err
 	return
