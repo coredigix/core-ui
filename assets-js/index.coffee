@@ -13,7 +13,7 @@ do ->
 	# general used vars
 	$body = $ document.body
 	# core
-	core= _create null,
+	Core= _create null,
 		# logger
 		debug: value: console.log.bind console
 		info: value: console.info.bind console
@@ -23,12 +23,15 @@ do ->
 
 	#=include _classess.coffee
 	#=include _router.coffee
-	#=include reactor/_index.coffee
+	
+	### REACTOR ###
+	do ->
+		#=include reactor/_index.coffee
 	
 	# interface
-	_defineProperties core,
+	_defineProperties Core,
 		Router: value: new Router()
 
 	#interface
-	window.core= core
+	window.Core= Core
 	return
