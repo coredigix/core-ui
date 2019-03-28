@@ -23,6 +23,7 @@ do ->
 
 	#=include _classess.coffee
 	#=include _router.coffee
+	#=include reactor/_index.coffee
 	
 	# interface
 	_defineProperties core,
