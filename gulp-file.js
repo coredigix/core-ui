@@ -23,7 +23,7 @@ PKG = require('./package.json');
 uglify = require('gulp-uglify-es').default;
 
 // settings
-isProd = false;
+isProd = true;
 
 settings = {
   isProd: isProd,
@@ -32,7 +32,7 @@ settings = {
   PKG: PKG
 };
 
-GfwCompiler = require('gridfw-compiler');
+GfwCompiler = require('../compiler');
 
 // compile js (background, popup, ...)
 compileCoffee = function() {
@@ -40,7 +40,13 @@ compileCoffee = function() {
     hardFail: true
   })).pipe(GfwCompiler.template(settings).on('error', GfwCompiler.logError)).pipe(coffeescript({
     bare: true
-  }).on('error', GfwCompiler.logError)).pipe(rename(`${PKG.name}.js`)).pipe(gulp.dest("build")).on('error', GfwCompiler.logError);
+  }).on('error', GfwCompiler.logError)).pipe(rename(`${PKG.name}.js`)).pipe(uglify({
+    compress: {
+      toplevel: false,
+      keep_infinity: true,
+      warnings: true
+    }
+  })).pipe(gulp.dest("build")).on('error', GfwCompiler.logError);
 };
 
 compileSass = function() {
@@ -54,7 +60,7 @@ compileSass = function() {
   // .pipe gulp.dest "build"
   return gulp.src("assets-css/index.sass").pipe(rename(`${  // .pipe rename "#{PKG.name}.#{PKG.version}.sass"
 PKG.name}.sass`)).pipe(sass({
-    outputStyle: 'compact'
+    outputStyle: 'compressed'
   }).on('error', GfwCompiler.logError)).pipe(gulp.dest("build")).on('error', GfwCompiler.logError);
 };
 
