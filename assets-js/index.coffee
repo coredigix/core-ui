@@ -12,6 +12,7 @@ do ->
 	_defineProperty= Object.defineProperty
 	_defineProperties= Object.defineProperties
 	_create= Object.create
+	_assign= Object.assign
 	# general used vars
 	$body = $ document.body
 	# core
@@ -23,12 +24,19 @@ do ->
 		error: value: console.error.bind console
 		fatalError: value: console.error.bind console
 
+	#=include _utils.coffee
 	#=include _classess.coffee
 	#=include _router.coffee
 	
 	### REACTOR ###
 	do ->
 		#=include reactor/_index.coffee
+		return
+	
+	### AJAX ###
+	do ->
+		#=include ajax/_main.coffee
+		return
 	
 	# interface
 	_defineProperties Core,
