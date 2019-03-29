@@ -75,17 +75,40 @@ compileDocPug= ->
 		.pipe gulp.dest "doc"
 		.on 'error', GfwCompiler.logError
 
+# compile tests
+_compileTestJS= ->
+	gulp.src "test/assets/[^_]*.coffee"
+		.pipe include hardFail: true
+		.pipe GfwCompiler.template(settings).on 'error', GfwCompiler.logError
+		
+		.pipe coffeescript(bare: true).on 'error', GfwCompiler.logError
+		.pipe gulp.dest "test/build/"
+		.on 'error', GfwCompiler.logError
+_compileTestPug= ->
+	gulp.src "test/assets/**/[^_]*.pug"
+		# compiles views
+		.pipe pug data: settings
+		.pipe gulp.dest "test/build"
+		.on 'error', GfwCompiler.logError
+
 # compile
 watch = (cb)->
 	unless isProd
 		gulp.watch 'assets-js/**/*.coffee', compileCoffee
 		gulp.watch ['assets-css/**/*.sass', 'assets-css/**/*.scss'], compileSass
 		gulp.watch 'assets-doc/**/*.pug', compileDocPug
+
+		gulp.watch 'test/assets/**/*.coffee', _compileTestJS
+		gulp.watch 'test/assets/**/*.pug', _compileTestPug
 	cb()
 	return
 
 # create default task
-gulp.task 'default', gulp.series ( gulp.parallel compileCoffee, compileSass, compileDocPug ), watch
+<% if(isProd){ %>
+gulp.task 'default', gulp.parallel compileCoffee, compileSass, compileDocPug
+<% }else{ %>
+gulp.task 'default', gulp.series ( gulp.parallel compileCoffee, compileSass, compileDocPug, _compileTestJS, _compileTestPug ), watch
+<% } %>
 
 
 # check for avialable views

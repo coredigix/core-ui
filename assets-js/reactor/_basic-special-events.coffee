@@ -9,11 +9,11 @@ class customEventWrapper extends EventWrapper
 ###*
  * Hover: call once pointer enters the element
 ###
-_evHoverGen= (listner)->
-	houtFlag= Symbol 'hover flag'
+_evHoverGen= (listener)->
+	hoverFlag= Symbol 'hover flag'
 	(event)->
 		unless @[hoverFlag]
-			listner.call this, new customEventWrapper event, 'hover', this
+			listener.call this, new customEventWrapper event, 'hover', this
 			@[hoverFlag]= true
 			# out listener to put flag to false
 			outListener= (evnt2)=>
@@ -37,10 +37,10 @@ _evHoutGen= (listener)->
 				unless _hasElement evnt2, this
 					@[houtFlag]= no
 					window.removeEventListener 'mouseover', outListener, true
-					listner.call this, new customEventWrapper event, 'hout', this
+					listener.call this, new customEventWrapper event, 'hout', this
 				return
 			window.addEventListener 'mouseover', outListener, true
-BASIC_SPECIAL_EVENTS.hout= ['mouseover', _evHoverGen]
+BASIC_SPECIAL_EVENTS.hout= ['mouseover', _evHoutGen]
 
 ###*
  * Move

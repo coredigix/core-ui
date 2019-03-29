@@ -13,7 +13,7 @@ EVENT_QUEUE_STEP= 5
 	originalListener
 # ]
 ###
-_nativeListener= (event, eventName, eventQueue, eventWrapper)->
+_nativeListener= (event, eventQueue, eventWrapper)->
 	# go through elements
 	element= event.target
 	wrappedEvent= event
@@ -22,15 +22,13 @@ _nativeListener= (event, eventName, eventQueue, eventWrapper)->
 		i=1 # the first element is the native listener, so escape it
 		len= eventQueue.length
 		while i<len
-			# break unless has target event and matches a css selector
-			break unless eventQueue[i] is eventName and element.matches eventQueue[i+2]
-			# execute listener
-			try
-				wrappedEvent= new eventWrapper event, eventName, element
-				eventQueue[i+3] wrappedEvent
-				break unless wrappedEvent.bubblesImmediate
-			catch err
-				Reactor.fatalError 'uncaught error', err
+			if element.matches eventQueue[i+2]
+				try
+					wrappedEvent= new eventWrapper event, eventQueue[i], element
+					eventQueue[i+3].call element, wrappedEvent
+					break unless wrappedEvent.bubblesImmediate
+				catch err
+					Reactor.fatalError 'uncaught error', err
 			# next
 			i+= EVENT_QUEUE_STEP
 		# break if stopPropagation is called
@@ -38,8 +36,8 @@ _nativeListener= (event, eventName, eventQueue, eventWrapper)->
 		# next
 		element= element.parentNode
 	return
-_createNativeEventListener= (eventName, eventQueue, eventWrapper)->
-	(event)-> _nativeListener event, eventName, eventQueue, eventWrapper
+_createNativeEventListener= (eventQueue, eventWrapper)->
+	(event)-> _nativeListener event, eventQueue, eventWrapper
 
 ###*
  * Watch reactor API
@@ -59,8 +57,8 @@ Reactor::watch= (selector, events)->
 		throw "Selector expected string" unless typeof selector is 'string' # or typeof selector is 'function'
 		throw "Illegal events" unless typeof events is 'object' and events
 
-		for eventName, eventCb of events
-			throw "Expected function as listener on event: #{eventName}" unless typeof eventCb is 'function'
+		for eventName, listener of events
+			throw "Expected function as listener on event: #{eventName}" unless typeof listener is 'function'
 			eventName = eventName.toLowerCase()
 			# event groupement
 			i = eventName.indexOf '.'
@@ -80,8 +78,9 @@ Reactor::watch= (selector, events)->
 				eventWrapper= sp[2] || EventWrapper # event wrapper
 			# Create queue and native listener if not yeat created
 			unless watchQueue= @[WATCH_QUEUE][eventName]
-				sp= _createNativeEventListener originalEventName, watchQueue, eventWrapper
-				watchQueue= @[WATCH_QUEUE][eventName]= [sp]
+				watchQueue= @[WATCH_QUEUE][eventName]= []
+				sp= _createNativeEventListener watchQueue, eventWrapper
+				watchQueue.push sp
 				# create native listener
 				window.addEventListener eventName, sp,
 					capture: true

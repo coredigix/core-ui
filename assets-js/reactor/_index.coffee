@@ -43,7 +43,7 @@ window.Reactor= class Reactor
 			throw err
 
 # log
-_defineProperties Reactor
+_defineProperties Reactor,
 	fatalError: value: Core.fatalError # use core fatalError
 	error: value: Core.error # use core error
 	warn: value: Core.warn # use core warn
