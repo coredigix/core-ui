@@ -32,10 +32,16 @@ do ->
 	do ->
 		#=include reactor/_index.coffee
 		return
-	
+	# main core reactor
+	CORE_REACTOR= new Reactor()
+
 	### AJAX ###
 	do ->
 		#=include ajax/_main.coffee
+		return
+	### FORM VALIDATOR ###
+	do ->
+		#=include form-validator/_main.coffee
 		return
 	
 	# interface

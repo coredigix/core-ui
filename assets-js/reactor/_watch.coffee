@@ -82,15 +82,15 @@ Reactor::watch= (selector, events)->
 				sp= _createNativeEventListener watchQueue, eventWrapper
 				watchQueue.push sp
 				# create native listener
-				window.addEventListener eventName, sp,
+				document.addEventListener eventName, sp,
 					capture: true
 					passive: true
 			# add to queue
 			watchQueue.push originalEventName, eventGrp, selector, listener, originalEventListener
-		return
 	catch err
 		err= "Reactor::watch>> #{err}" if typeof err is 'string'
 		throw err
+	this # chain
 
 ###*
  * Unwatch
@@ -145,7 +145,7 @@ Reactor::unwatch= (selector, eventName, listener)->
 				len= 1 # force to remove this queue
 			# remove queue if no more listeners on it
 			if len is 1
-				window.removeEventListener nativEvent, q[0], true
+				document.removeEventListener nativEvent, q[0], true
 				delete qu[nativEvent]
 			return
 		# check selector
@@ -163,8 +163,8 @@ Reactor::unwatch= (selector, eventName, listener)->
 		else
 			for nativEvent of queue
 				checkQueue nativEvent, queue
-		return
 	catch err
 		err= "Reactor::unwatch>> #{err}" if typeof err is 'string'
 		throw err
+	this # chain
 
