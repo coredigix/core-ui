@@ -168,3 +168,37 @@ Reactor::unwatch= (selector, eventName, listener)->
 		throw err
 	this # chain
 
+###*
+ * Watch sync
+ * if you need to prevent event defaults
+ * @type {[type]}
+###
+_watchSyncAddListener= (selector, eventName, listener)->
+	eventName = eventName.toLowerCase()
+	evListener= (event)->
+		# check selector
+		ele= event.target
+		while ele and ele isnt document
+			if ele.matches selector
+				try
+					listener.call ele, event
+				catch err
+					Reactor.fatalError 'uncaught error', err
+			break unless event.bubbles
+			ele= ele.parentNode			
+	document.addEventListener eventName, evListener, true
+	return
+Reactor::watchSync= (selector, events)->
+	try
+		throw "Illegal arguments" unless arguments.length is 2
+		throw "Selector expected string" unless typeof selector is 'string' # or typeof selector is 'function'
+		throw "Illegal events" unless typeof events is 'object' and events
+
+		for eventName, listener of events
+			throw "Expected function as listener on event: #{eventName}" unless typeof listener is 'function'
+			_watchSyncAddListener selector, eventName, listener
+	catch err
+		err= "Reactor::watch>> #{err}" if typeof err is 'string'
+		throw err
+	this # chain
+	

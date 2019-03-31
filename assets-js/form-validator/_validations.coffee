@@ -1,5 +1,5 @@
 regexEmail= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-regexTel= /^[\d\s-]+$/
+regexTel= /^0\d+$/
 
 validateCb=
 	empty: (data)->
@@ -11,8 +11,9 @@ validateCb=
 		throw 0 unless regexEmail.test dt
 		return dt
 	tel: (data)->
+		data= data.replace /[\s-]/g, ''
 		throw 0 unless regexTel.test data
-		data.replace /[\s-]/g, ''
+		data
 	password: (data)->
 		throw 0 unless 6 <= data.length <= 100
 		return

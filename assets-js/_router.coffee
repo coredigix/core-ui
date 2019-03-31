@@ -14,6 +14,13 @@ Router = ->
 			isBack: no
 			referrer: document.referrer
 			srcElement: null
+		# add onpopstate
+		_popstateListener= (event)=>
+			state= event.state
+			if typeof state?.path is 'string'
+				_routerGoto this, state
+			return
+		window.addEventListener 'popstate', _popstateListener, off
 		return
 	return
 
@@ -24,6 +31,8 @@ _defineProperties Router.prototype,
 			throw 'Illegal arguments' unless arguments.length is 1 and typeof options is 'object' and options
 			# check path
 			if typeof options.path is 'string'
+				# fix path
+				options.path= (new URL options.path, Core.baseURL).pathname
 				options.path= do (path= options.path)-> test: (p)-> p is path
 			else unless options.path instanceof RegExp
 				throw 'Options.path expected String or RegExp'
@@ -47,7 +56,7 @@ _defineProperties Router.prototype,
 		throw new Error 'Illegal arguments' unless arguments.length is 1
 		if typeof options is 'string'
 			options= path: options
-		else if typeof options isnt 'string'
+		else unless typeof options?.path is 'string'
 			throw new Error 'Illegal options'
 		# href
 		path= options.path
@@ -56,12 +65,14 @@ _defineProperties Router.prototype,
 
 		options.referrer= @_currentPath
 		# push in history
-		#TODO
+		history.pushState? options, "", path
 		# call
 		_routerGoto this, options
 		return this
 # goto
 _routerGoto= (router, options)->
+	# set title
+	document.title= options.title if options.title
 	# quit current route
 	if router._currentPath
 		_routerSelectPath options, router._currentPath, router._q, false
