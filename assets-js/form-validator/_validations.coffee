@@ -16,7 +16,15 @@ validateCb=
 		data
 	password: (data)->
 		throw 0 unless 6 <= data.length <= 100
-		return
+		data
+	number: (data)->
+		data= +data
+		throw 0 if isNaN data
+		data
+	'>0': ()-> # strict positive number
+		data= +data
+		throw 0 if (isNaN data) or data <= 0
+		data
 
 vOperations=
 	### trim ###
