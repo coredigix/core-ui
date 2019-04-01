@@ -35,7 +35,7 @@ XHR= (options)->
 			switch vl
 				when 'application/json'
 					pFinal= p.then (resp)->
-						throw resp.error unless response.ok
+						throw resp.error unless resp.ok
 						resp.json()
 				when 'text/plain'
 					break

@@ -19,6 +19,9 @@ class requestResponse
 					if /\bhttp-equiv\s*=\s*"?refresh\b/i.test tag[0]
 						return tag[0].match(/url=([^\s"']+)"?/i)?[1]
 		return null
+	### parse JSON ###
+	json: -> JSON.parse @xhr.responseText
+
 # GETTERS
 _defineProperties requestResponse.prototype,
 	status:		get: -> @xhr.status
@@ -34,7 +37,6 @@ _defineProperties requestResponse.prototype,
 		dataType
 	headers:	get: -> @xhr.getAllResponseHeaders()
 	text:		get: -> @xhr.responseText
-	json:		get: -> JSON.parse @xhr.responseText
 	# BINARY RESPONSE
 	response:	get: -> @xhr.response
 
@@ -77,7 +79,7 @@ _sendRequest= (options, onLoad, onError)->
 	), false
 	### PREPARE DATA ###
 	options.headers ?= _create null
-	dataType= options.dataType or options.header['Content-Type']
+	dataType= options.dataType or options.headers['Content-Type']
 	if data= options.data
 		if data instanceof FormData
 			dataType= null # override type

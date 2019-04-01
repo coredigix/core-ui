@@ -1,4 +1,4 @@
-regexEmail= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+Core.EMAIL_REGEX= regexEmail= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 regexTel= /^0\d+$/
 
 validateCb=
@@ -72,7 +72,12 @@ vOperations=
 				Core.fatalError 'v-cb', err
 				isOk= no
 		# state
-		$inp.removeClass 'loading no-events has-error has-done'
-		unless isOk is null
-			$inp.addClass if isOk then 'has-done' else 'has-error'
+		$inp.removeClass 'loading no-events has-error has-done has-warn'
+		switch isOk
+			when true
+				$inp.addClass 'has-done'
+			when false, 'error'
+				$inp.addClass 'has-error'
+			when 'warn'
+				$inp.addClass 'has-warn'
 		return isOk
