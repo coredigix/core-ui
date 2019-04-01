@@ -64,10 +64,13 @@ vOperations=
 		try
 			cb= V_CUSTOM_CB[input.getAttribute 'v-cb']
 			throw "Unknown cb: #{input.getAttribute 'v-cb'}" unless cb
-			isOk= await cb input
+			isOk= await cb.call input, input
 		catch err
-			Core.fatalError 'v-cb', err
-			isOk= no
+			if err is 1 # no value
+				isOk= null
+			else
+				Core.fatalError 'v-cb', err
+				isOk= no
 		# state
 		$inp.removeClass 'loading no-events has-error has-done'
 		unless isOk is null

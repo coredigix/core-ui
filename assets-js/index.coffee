@@ -27,6 +27,7 @@ do ->
 	#=include _utils.coffee
 	#=include _classess.coffee
 	#=include _router.coffee
+	#=include jquery-plugins/_main.coffee
 	
 	### REACTOR ###
 	do ->

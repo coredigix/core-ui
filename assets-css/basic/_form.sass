@@ -240,3 +240,15 @@ input, textarea
 		width: 60px
 	*:first-child
 		margin-right: 1px
+
+
+
+// has error animation
+.has-error-anim
+	animation: hasErrBgAnim .2s ease 10 alternate 
+
+@keyframes hasErrBgAnim
+	0%
+		background: none
+	100%
+		background: #ffcdd2
