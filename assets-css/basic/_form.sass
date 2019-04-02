@@ -252,3 +252,19 @@ input, textarea
 		background: none
 	100%
 		background: #ffcdd2
+
+
+// Loading
+form.loading
+	position: relative
+	pointer-events: none
+	>*
+		opacity: .5
+	&:after
+		@extend %ico
+		content: 'sync'
+		will-change: transform
+		animation: cui-rotate $animate-slow linear reverse infinite
+		position: absolute
+		top: calc(50% - .5em)
+		left: calc(50% - .5em)
