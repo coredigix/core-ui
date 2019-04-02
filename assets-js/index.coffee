@@ -15,6 +15,7 @@ do ->
 	_assign= Object.assign
 	# general used vars
 	$body = $ document.body
+	F_FILES_LIST= Symbol 'selected files'
 	# core
 	Core= _create null,
 		# logger
@@ -44,6 +45,10 @@ do ->
 	### FORM VALIDATOR ###
 	do ->
 		#=include form-validator/_main.coffee
+		return
+	### CLICK actions ###
+	do ->
+		#=include actions/_main.coffee
 		return
 	
 	# interface

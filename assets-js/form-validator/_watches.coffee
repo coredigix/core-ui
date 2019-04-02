@@ -23,6 +23,13 @@ CORE_REACTOR
 		blur: ->
 			vOperations['v-cb'] this
 			return
+
+	### Remove state classes when form reset ###
+	.watch 'form',
+		reset: ->
+			$ '.has-done, .has-error, .has-warn, .has-info', this
+				.removeClass 'has-done .has-error has-warn has-info'
+			return
 	###*
 	 * Validate form before submit
 	 * @example
@@ -57,7 +64,6 @@ CORE_REACTOR
 						.focus()
 						.select()
 				else
-					console.log '---- no fail'
 					# check for cb
 					cb= @getAttribute 'v-submit'
 					if cb=V_CUSTOM_CB[cb]

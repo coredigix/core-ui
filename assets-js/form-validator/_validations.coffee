@@ -18,6 +18,7 @@ validateCb=
 		throw 0 unless 6 <= data.length <= 100
 		data
 	number: (data)->
+		throw 0 if data is ''
 		data= +data
 		throw 0 if isNaN data
 		data

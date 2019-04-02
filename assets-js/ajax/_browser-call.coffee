@@ -41,7 +41,15 @@ _defineProperties requestResponse.prototype,
 	response:	get: -> @xhr.response
 
 
-
+###*
+ * Replace Input files in forms
+###
+_replace_input_file_form= (input, data)->
+	nm= input.name
+	data.delete nm
+	for file in input[F_FILES_LIST]
+		data.append nm, file, file.name
+	return
 ###*
  * Browser native send request
 ###
@@ -84,7 +92,12 @@ _sendRequest= (options, onLoad, onError)->
 		if data instanceof FormData
 			dataType= null # override type
 		else if data instanceof HTMLFormElement
+			frm= data
 			data= new FormData data
+			# check for input files
+			for inp in frm.querySelectorAll 'input[type="file"]'
+				if inp[F_FILES_LIST]
+					_replace_input_file_form inp, data
 			dataType= null # override type
 		else unless typeof data is 'string'
 			data= JSON.stringify data
