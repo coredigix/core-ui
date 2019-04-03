@@ -22,10 +22,15 @@ validateCb=
 		data= +data
 		throw 0 if isNaN data
 		data
-	'>0': ()-> # strict positive number
+	'>0': (data)-> # strict positive number
 		data= +data
 		throw 0 if (isNaN data) or data <= 0
 		data
+	price: (data)-> # monai
+		data= +data
+		throw 0 if (isNaN data) or data <= 0
+		data.toFixed 2
+
 
 vOperations=
 	### trim ###

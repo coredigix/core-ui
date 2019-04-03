@@ -27,8 +27,15 @@ CORE_REACTOR
 	### Remove state classes when form reset ###
 	.watch 'form',
 		reset: ->
+			# remove state classes
 			$ '.has-done, .has-error, .has-warn, .has-info', this
 				.removeClass 'has-done .has-error has-warn has-info'
+			# empty file upload queue
+			for inp in @querySelectorAll 'input[type="file"]'
+				if queue= inp[F_FILES_LIST]
+					queue.splice 0
+			$('.files-preview', this).empty()
+			# ends
 			return
 	###*
 	 * Validate form before submit

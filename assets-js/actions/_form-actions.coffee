@@ -9,6 +9,10 @@ _fileUploadChange= (event)->
 	unless @multiple
 		$preview.empty()
 		fileLst.splice 0
+	# TODO: add max size: d-max-size="10mb"
+	# max accepted files count
+	maxCount= +@getAttribute 'd-max-count'
+	maxCount= Infinity if isNaN maxCount
 	# add file fx
 	addFile= (file)->
 		fileLst.push file
@@ -30,6 +34,9 @@ _fileUploadChange= (event)->
 		return
 	# loop
 	for file in @files
+		if fileLst.length >= maxCount
+			Core.alert i18n.fileUploadNbrExceeds nbr: maxCount
+			break
 		addFile file
 	return
 
