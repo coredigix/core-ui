@@ -30,6 +30,14 @@ _addActionDes= (k)->
 			cb.call this, event
 _addActionDes k for k of ACTIONS
 
+# utils
+_hasElement= (event, element)->
+	el= event.target
+	while el
+		return true if el is element
+		el= el.parentNode
+	return false
 
 ### BASIC ACTIONS ###
 #= include _form-actions.coffee
+#= include _dropdown.coffee

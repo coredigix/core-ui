@@ -3,6 +3,7 @@
 ###
 do ->
 	'use strict'
+	MOBILE_WIDTH= 600 # mobile size
 	# check body loaded
 	unless document.body
 		throw new Error "Please add this library in the bottom of your HTML file"

@@ -5,9 +5,8 @@ input, textarea
 	@extend %select;
 
 // form input
-.f-input
+%f-input
 	@extend %padding-tiny
-	@extend %margin-top-tiny
 	line-height: 1.125
 	font-family: "Roboto", "Helvetica", "Arial", sans-serif
 	font-weight: 400
@@ -15,10 +14,9 @@ input, textarea
 
 	display: block
 	width: 100%
-	cursor: text
-	margin-top:
 	// apearence
-	border: 1px solid $color-default-lighten2
+	border: none
+	// border: 1px solid $color-default-lighten2
 	background-color: $color-default-lighten2
 	border-radius: $form-border-radius
 	touch-action: manipulation
@@ -27,23 +25,27 @@ input, textarea
 	// height: 2.573rem
 	&:hover, &:focus
 		background-color: $color-default-lighten1
-		border-color: $color-default-lighten1
+		// border-color: $color-default-lighten1
 	&::selection
 		background-color: $white
 		color: $black
 	&:disabled
 		background-color: $color-disabled-lighten6!important
-		border-color: $color-disabled-lighten4!important
+		// border-color: $color-disabled-lighten4!important
 		color: $color-disabled!important
 		cursor: not-allowed!important
 		// pointer-events: none
 		&::placeholder
 			color: $color-disabled
 
+.f-input
+	@extend %f-input
+	cursor: text
 // form group (input with additionals icons)
 .f-group
-	@extend %margin-top-tiny
-	display: block
+	// @extend %margin-top-tiny
+	display: flex
+	flex-direction: column
 	position: relative
 	border-radius: $form-border-radius
 	overflow: hidden
@@ -69,6 +71,8 @@ input, textarea
 
 // form control
 .f-cntrl
+	@extend %margin-top-tiny
+	display: block
 	// states
 	@each $state, $cl, $lightColor, $darkColor in (has-done $color-success $color-success-lighten4 $color-success-dark4), (has-info $color-info $color-info-lighten4 $color-info-dark4), (has-warn $color-warn $color-warn-lighten4 $color-warn-dark4), (has-error $color-danger $color-danger-lighten4 $color-danger-dark4)
 		&.#{$state}
@@ -76,7 +80,7 @@ input, textarea
 			.f-input
 				color: $cl
 				background-color: $lightColor
-				border-color: $lightColor
+				// border-color: $lightColor
 				&::placeholder
 					color: $cl
 			.desc
@@ -226,9 +230,9 @@ input, textarea
 .group
 	.f-input
 		flex-grow: 1
-		margin: 0
+		// margin: 0
 	.f-group
-		margin: 0
+		// margin: 0
 		.f-input
 			border-radius: 0
 
@@ -268,3 +272,63 @@ form.loading
 		position: absolute
 		top: calc(50% - .5em)
 		left: calc(50% - .5em)
+
+// Drop down menu
+.dropdown
+	position: relative
+.dropdown-value
+	@extend %f-input
+	cursor: pointer
+	position: relative
+	.ico
+		@extend %ico
+		content: 'arrow_drop_down'
+		position: absolute
+		font-size: 2em
+		top: .1em
+		right: .5em
+	// when open
+	.dropdown-up &
+		border-top-left-radius: 0
+		border-top-right-radius: 0
+		.ico
+			transform: rotate(180deg)
+	.dropdown-down &
+		border-bottom-left-radius: 0
+		border-bottom-right-radius: 0
+.dropdown-popup
+	background-color: $color-default-lighten2
+	display: none
+	overflow: auto
+	z-index: 9999
+	// mobile info
+	position: fixed
+	top: 1em
+	left: 1em
+	right: 1em
+	bottom: 1em
+	// browser
+	@media(min-width: 600px)
+		position: absolute
+		left: 0
+		top: 100%
+		right: auto
+		bottom: auto
+		width: 100%
+	// when open
+	.dropdown-open &
+		display: flex
+		flex-direction: column
+	.dropdown-up &
+		top: auto
+		bottom: 100%
+		border-radius: $form-border-radius $form-border-radius 0 0
+	.dropdown-down &
+		border-radius: 0 0 $form-border-radius $form-border-radius
+.dropdown-hover
+	background-color: $color-default-lighten1
+.dropdown-item
+	cursor: pointer
+
+
+
