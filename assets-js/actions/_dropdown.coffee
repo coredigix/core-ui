@@ -25,7 +25,13 @@ _dropdownOut= (event)->
 	return
 # keyboard listener
 _dropdownKeyboardListener= (event)->
-	console.log 'key: ', event.witch
+	k= event.keyCode or event.which
+	if k is 27 # Escape
+		_dropdownStop event
+	else if k is 38 # Up
+		# up
+	else if k is 40 # Down
+		# down
 	return
 # Stop drop down
 _dropdownStop= (e)->
