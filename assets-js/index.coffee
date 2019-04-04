@@ -14,6 +14,7 @@ do ->
 	_defineProperties= Object.defineProperties
 	_create= Object.create
 	_assign= Object.assign
+	_setPrototypeOf= Object.setPrototypeOf
 	# general used vars
 	$body = $ document.body
 	F_FILES_LIST= Symbol 'selected files'

@@ -350,43 +350,73 @@ block body
 	//- dropdown
 	.container
 		h1 Dropdown
+
+		h2 Simple dropdown
 		.dropdown
-			.dropdown-value
-				|lorem ispum
+			.dropdown-box
+				.dropdown-value default value
 				i.ico arrow_drop_down
 			.dropdown-popup
-				ul.list
+				ul.dropdown-items.list
 					li.dropdown-item.p-tiny first value
 					li.dropdown-item.p-tiny second value
 					li.dropdown-item.p-tiny third value
-					li.dropdown-item.p-tiny quad value
-					li.dropdown-item.p-tiny fift value
+		
+		h2 Drop down as select (with hidden input)
+		.dropdown
+			.dropdown-box
+				input(type="hidden" value="default value")
+				.dropdown-value default value
+				i.ico arrow_drop_down
+			.dropdown-popup
+				ul.dropdown-items.list
 					li.dropdown-item.p-tiny first value
 					li.dropdown-item.p-tiny second value
 					li.dropdown-item.p-tiny third value
-					li.dropdown-item.p-tiny quad value
-					li.dropdown-item.p-tiny fift value
-					li.dropdown-item.p-tiny first value
-					li.dropdown-item.p-tiny second value
-					li.dropdown-item.p-tiny third value
-					li.dropdown-item.p-tiny quad value
-					li.dropdown-item.p-tiny fift value
-					li.dropdown-item.p-tiny first value
-					li.dropdown-item.p-tiny second value
-					li.dropdown-item.p-tiny third value
-					li.dropdown-item.p-tiny quad value
-					li.dropdown-item.p-tiny fift value
-					li.dropdown-item.p-tiny first value
-					li.dropdown-item.p-tiny second value
-					li.dropdown-item.p-tiny third value
-					li.dropdown-item.p-tiny quad value
-					li.dropdown-item.p-tiny fift value
-					li.dropdown-item.p-tiny first value
-					li.dropdown-item.p-tiny second value
-					li.dropdown-item.p-tiny third value
-					li.dropdown-item.p-tiny quad value
-					li.dropdown-item.p-tiny fift value
+		
+	//- Autocomplete
+	.container
+		h1 Autocomplete
 
+		h2 Old
+		.dropdown
+			.dropdown-box
+				input.dropdown-value(type="text" value="default value")
+			.dropdown-popup
+				ul.dropdown-items.list
+					li.dropdown-item.p-tiny first value
+					li.dropdown-item.p-tiny second value
+					li.dropdown-item.p-tiny third value
+
+		h2 Moderne
+		.dropdown
+			.dropdown-box
+				input(type="hidden" value="default value")
+				.dropdown-value default value
+				i.ico arrow_drop_down
+			.dropdown-popup
+				.f-cntrl
+					input.f-input(type="text" value="default value")
+				ul.dropdown-items.list
+					li.dropdown-item.p-tiny first value
+					li.dropdown-item.p-tiny second value
+					li.dropdown-item.p-tiny third value
+
+	//- Autocomplete
+	.container
+		h1 Select multi
+
+		h1 Fix
+		.dropdown(d-dropdown="myMultiDropdown")
+			.dropdown-box
+				input(type='hidden')
+				.dropdown-value(d-placeholder="Select a value")
+				i.ico arrow_drop_down
+			.dropdown-popup
+				ul.dropdown-items.list
+					li.dropdown-item.p-tiny first value
+					li.dropdown-item.p-tiny second value
+					li.dropdown-item.p-tiny third value
 	br
 	br
 	br
@@ -444,3 +474,8 @@ block body
 	br
 	br
 
+append footerScripts
+	script.
+		Core.addDropdown('myMultiDropdown', {
+			multiple: true
+		});

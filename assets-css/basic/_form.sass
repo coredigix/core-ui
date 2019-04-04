@@ -276,23 +276,25 @@ form.loading
 // Drop down menu
 .dropdown
 	position: relative
-.dropdown-value
-	@extend %f-input
-	cursor: pointer
+.dropdown-box
 	position: relative
-	.ico
+	>.ico
 		@extend %ico
 		content: 'arrow_drop_down'
 		position: absolute
 		font-size: 2em
 		top: .1em
 		right: .5em
+	.dropdown-up &
+		>.ico
+			transform: rotate(180deg)
+.dropdown-value
+	@extend %f-input
+	cursor: pointer
 	// when open
 	.dropdown-up &
 		border-top-left-radius: 0
 		border-top-right-radius: 0
-		.ico
-			transform: rotate(180deg)
 	.dropdown-down &
 		border-bottom-left-radius: 0
 		border-bottom-right-radius: 0
@@ -325,10 +327,39 @@ form.loading
 		border-radius: $form-border-radius $form-border-radius 0 0
 	.dropdown-down &
 		border-radius: 0 0 $form-border-radius $form-border-radius
+	// autocomplete
+	>.f-cntrl
+		padding: .8em .5em
+		>.f-input
+			background: $white
+			&::selection
+				background-color: #cce2ff
 .dropdown-hover
 	background-color: $color-default-lighten1
 .dropdown-item
 	cursor: pointer
 
+// multi-choise result
+.dropdown-vl
+	padding: .6em 1.6em
+	margin: 0 .25em
+	display: inline-block
+	background: white
+	position: relative
+	border-radius: $form-border-radius
+	.close
+		cursor: pointer
+		// position: absolute
+		font-size: .9em
+		// top: .1em
+		// right: .1em
+		&:hover
+			color: #64B5F6
 
 
+
+// Placeholder
+[d-placeholder]:empty
+	&:after
+		color: #666
+		content: attr(d-placeholder)

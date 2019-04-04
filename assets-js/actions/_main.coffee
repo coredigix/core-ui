@@ -37,6 +37,14 @@ _hasElement= (event, element)->
 		return true if el is element
 		el= el.parentNode
 	return false
+# fist matched
+_firstMatch= (event, selector)->
+	el= event.target
+	while el and el isnt document
+		if el.matches selector
+			return el
+		el= el.parentNode
+	return false
 
 ### BASIC ACTIONS ###
 #= include _form-actions.coffee

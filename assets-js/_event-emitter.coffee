@@ -84,7 +84,7 @@ class EventEmitter
 	###*
 	 * Convert plain objects ito event emitters
 	###
-	apply: (plainObj)->
+	@apply: (plainObj)->
 		_defineProperty plainObj, '_e', value: _create null
 		Object.setPrototypeOf plainObj, EventEmitter.prototype
 		return
