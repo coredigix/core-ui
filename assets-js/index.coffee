@@ -27,6 +27,7 @@ do ->
 		fatalError: value: console.error.bind console
 
 	#=include _utils.coffee
+	#=include _event-emitter.coffee
 	#=include _alerts.coffee
 	#=include _classess.coffee
 	#=include _router.coffee

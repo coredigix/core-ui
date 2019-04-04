@@ -1,4 +1,12 @@
-
+# default dropdown handler
+DEFAULT_DROPDOWN_HANDLER=
+	# data: [] # contains data options
+	# data: async function(hint){} # when function: will return data to show basid on hint (autocomplete)
+	# Render item value, default to a simple text value
+	itemRender: (item)-> item
+	resultRender: (item)-> item
+# eventify objecy
+EventEmitter.apply DEFAULT_DROPDOWN_HANDLER
 # dropdown item hover
 _dropdownListenerOptions=
 	capture: true
