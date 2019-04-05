@@ -307,6 +307,10 @@ _dropdownStart= ($dropdown)->
 			else
 				$popup.css height: dpopupSize - 10
 				$dropdown.addClass 'dropdown-down'
+		descriptor= _getDropdownDescriptor dropdown
+		console.log '***',descriptor.hideValue
+		if descriptor.hideValue
+			$dropdown.addClass 'dropdown-hidevalue'
 	# open dropdown
 	$dropdown.addClass 'dropdown-open'
 	currentDropDownHover= yes
@@ -336,3 +340,8 @@ CORE_REACTOR.watch '.dropdown-box',
 		else
 			_dropdownStart $dropdown
 		return
+
+
+### DEFAULT DROP DOWNS ###
+Core.addDropdown 'menu',
+	hideValue: yes # hide value on open

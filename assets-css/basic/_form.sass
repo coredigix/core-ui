@@ -312,9 +312,9 @@ form.loading
 	// browser
 	@media(min-width: 600px)
 		position: absolute
-		left: 0
+		left: auto
+		right: 0
 		top: 100%
-		right: auto
 		bottom: auto
 		width: 100%
 	// when open
@@ -327,6 +327,13 @@ form.loading
 		border-radius: $form-border-radius $form-border-radius 0 0
 	.dropdown-down &
 		border-radius: 0 0 $form-border-radius $form-border-radius
+	.dropdown-hidevalue.dropdown-up &
+		bottom: 0
+		border-radius: $form-border-radius
+	.dropdown-hidevalue.dropdown-down &
+		top: 0
+		border-radius: $form-border-radius
+
 	// autocomplete
 	>.f-cntrl
 		padding: .8em .5em

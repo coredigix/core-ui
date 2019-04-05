@@ -7,11 +7,11 @@
 		&.hr
 			padding-top: 1em
 	&.striped
-		>li, >a
+		>li
 			&:nth-child(odd)
 				background-color: $grey-light2
 	&.hover
-		>li, >a
+		>li
 			&:hover
 				cursor: pointer
 				background-color: $grey-light
@@ -40,3 +40,12 @@ ol.list
 	>li, >a
 		text-decoration: none
 		display: inline-block
+
+// .aList
+.aList
+	> a
+		display: block
+		&:hover
+			background-color: $grey-light2
+
+
