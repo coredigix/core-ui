@@ -1,0 +1,27 @@
+/**
+ * Modal
+ */
+.modal
+	position: fixed
+	top: 0
+	right: 0
+	bottom: 0
+	left: 0
+	overflow: auto
+	display: flex
+	align-items: flex-end
+	justify-content: center
+	background: rgba(0,0,0,.1)
+	z-index: 99999
+	@media(min-width: $md)
+		align-items: flex-start
+	&.danger
+		background: rgba($color-danger ,.1)
+.modal-popup
+	background: white
+	position: relative
+	width: 500px
+	max-width: 95%
+	border-radius: $form-border-radius
+	margin: 2em auto
+
