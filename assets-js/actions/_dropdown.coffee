@@ -134,7 +134,7 @@ _dropdownSelect= (item)->
 	value= item[DROPDOWN_VALUE] or item.innerHTML
 	# render
 	$vl= $('.dropdown-value:first', currentDropDown)
-	addDOM= yes # flag
+	addDOM= !!$vl.length # flag
 	# autocomplete format
 	if $vl.is 'input'
 		$vl.val descriptor.value value
@@ -326,7 +326,7 @@ _dropdownStart= ($dropdown)->
 	_dropDownRenderItems()
 	return
 # drop down
-CORE_REACTOR.watch '.dropdown-value',
+CORE_REACTOR.watch '.dropdown-box',
 	click: (event)->
 		$this= $ this
 		return if _firstMatch event, '.dropdown-vl'
