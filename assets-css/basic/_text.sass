@@ -141,6 +141,10 @@ b, strong
 	font-size: 0.75em
 	color: rgba($color-text, 0.54)
 
+// state
+@each $k, $cl in (primary $color-primary), (success $color-success), (info $color-info), (warn $color-warn), (danger $color-danger)
+	.t-#{$k}
+		color: $cl!important
 
 // selection
 ::selection

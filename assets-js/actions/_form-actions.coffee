@@ -11,8 +11,11 @@ _fileUploadChange= (event)->
 		fileLst.splice 0
 	# TODO: add max size: d-max-size="10mb"
 	# max accepted files count
-	maxCount= +@getAttribute 'd-max-count'
-	maxCount= Infinity if isNaN maxCount
+	if @hasAttribute 'd-max-count'
+		maxCount= +@getAttribute 'd-max-count'
+		maxCount= Infinity if isNaN maxCount
+	else
+		maxCount= Infinity
 	# add file fx
 	addFile= (file)->
 		fileLst.push file
