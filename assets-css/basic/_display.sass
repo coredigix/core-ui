@@ -28,6 +28,7 @@
 	@media(max-width: $sz)
 		.hidden-#{$s}
 			display: none!important
+@each $s, $sz in (xs: $sm, sm: $md, md: $lg, lg: $xl)
 	@media(min-width: $sz)
 		.visible-#{$s}
 			display: none!important

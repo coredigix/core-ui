@@ -8,8 +8,9 @@ Router = ->
 	@_currentPath= null # current route
 	# onload
 	$ =>
+		l= document.location
 		_routerGoto this,
-			path: document.location.pathname
+			path: l.pathname + l.hash
 			isRoot: yes
 			isBack: no
 			referrer: document.referrer
@@ -32,7 +33,8 @@ _defineProperties Router.prototype,
 			# check path
 			if typeof options.path is 'string'
 				# fix path
-				options.path= (new URL options.path, Core.baseURL).pathname
+				u= new URL options.path, Core.baseURL
+				options.path= u.pathname + u.hash
 				options.path= do (path= options.path)-> test: (p)-> p is path
 			else unless options.path instanceof RegExp
 				throw 'Options.path expected String or RegExp'
@@ -67,8 +69,7 @@ _defineProperties Router.prototype,
 		# push in history
 		history.pushState? options, "", path
 		# call
-		_routerGoto this, options
-		return this
+		return _routerGoto this, options
 # goto
 _routerGoto= (router, options)->
 	# set title
@@ -78,13 +79,13 @@ _routerGoto= (router, options)->
 		_routerSelectPath options, router._currentPath, router._q, false
 	# go in new route
 	router._currentPath= options.path
-	_routerSelectPath options, options.path, router._q, true
-	return
+	return _routerSelectPath options, options.path, router._q, true
 
 _routerSelectPath= (options, path, queue, isSelect)->
 	i=0
 	len= queue.length
 	$html= $('html')
+	found= false
 	while i < len
 		# extract info
 		regex= queue[i++]
@@ -93,6 +94,7 @@ _routerSelectPath= (options, path, queue, isSelect)->
 		cbOut= queue[i++]
 		# check regex
 		if regex.test path
+			found= true
 			# toggle class
 			$html.toggleClass toggleClass, isSelect if toggleClass
 			# call cb
@@ -102,4 +104,4 @@ _routerSelectPath= (options, path, queue, isSelect)->
 					cb options
 				catch err
 					core.fatalError 'Router', 'Uncaugth error', err
-	return
+	return found
