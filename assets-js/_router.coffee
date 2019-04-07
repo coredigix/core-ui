@@ -10,7 +10,7 @@ Router = ->
 	$ =>
 		l= document.location
 		_routerGoto this,
-			path: l.pathname + l.hash
+			path: l.pathname.replace(/\/$/, '') + l.hash
 			isRoot: yes
 			isBack: no
 			referrer: document.referrer
@@ -34,8 +34,8 @@ _defineProperties Router.prototype,
 			if typeof options.path is 'string'
 				# fix path
 				u= new URL options.path, Core.baseURL
-				options.path= u.pathname + u.hash
-				options.path= do (path= options.path)-> test: (p)-> p is path
+				u= u.pathname.replace(/\/$/, '') + u.hash
+				options.path= do (path= u)-> test: (p)-> p is path
 			else unless options.path instanceof RegExp
 				throw 'Options.path expected String or RegExp'
 			# check arguments

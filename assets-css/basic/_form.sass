@@ -77,7 +77,7 @@ input, textarea
 	@each $state, $cl, $lightColor, $darkColor in (has-done $color-success $color-success-lighten4 $color-success-dark4), (has-info $color-info $color-info-lighten4 $color-info-dark4), (has-warn $color-warn $color-warn-lighten4 $color-warn-dark4), (has-error $color-danger $color-danger-lighten4 $color-danger-dark4)
 		&.#{$state}
 			color: $cl
-			.f-input
+			.f-input, .dropdown-value
 				color: $cl
 				background-color: $lightColor
 				// border-color: $lightColor

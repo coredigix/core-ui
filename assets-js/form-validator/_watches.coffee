@@ -64,7 +64,7 @@ CORE_REACTOR
 					fails = fails or jobs.some (resp)-> resp is false
 				# check if failed
 				if fails
-					$f.find('.has-error input').addClass 'has-error-anim'
+					$f.find('.has-error input, .has-error .dropdown-value').addClass 'has-error-anim'
 						.animationOnce ->
 							@removeClass 'has-error-anim'
 						.first()
