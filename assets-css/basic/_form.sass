@@ -41,6 +41,11 @@ input, textarea
 .f-input
 	@extend %f-input
 	cursor: text
+.f-text
+	@extend %f-input
+	cursor: text
+	white-space: nowrap
+	width: auto
 // form group (input with additionals icons)
 .f-group
 	// @extend %margin-top-tiny
@@ -228,7 +233,7 @@ input, textarea
 
 // groups
 .group
-	.f-input
+	.f-input, .f-group
 		flex-grow: 1
 		// margin: 0
 	.f-group
@@ -264,6 +269,8 @@ form.loading
 	pointer-events: none
 	>*
 		opacity: .5
+	>.progress
+		opacity: 1
 	&:after
 		@extend %ico
 		content: 'sync'
