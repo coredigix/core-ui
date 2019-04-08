@@ -25,7 +25,8 @@ _defineProperties Core,
 _addActionDes= (k)->
 	CORE_REACTOR.watch "[d-#{k}]",
 		[k]: (event)->
-			unless cb= ACTIONS[k][@getAttribute 'd-' + k]
+			a= @getAttribute 'd-' + k
+			unless cb= ACTIONS[k][a]
 				throw new Error "Unknown action #{k}.#{a}"
 			cb.call this, event
 _addActionDes k for k of ACTIONS
