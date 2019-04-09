@@ -55,30 +55,33 @@ CORE_REACTOR
 				for attr in ['v-trim', 'v-regex', 'v-type']
 					for inp in $f.find "[#{attr}]"
 						fails= yes if vOperations[attr](inp) is no
+				throw 0 if fails
 				# cb validations
 				jobs= []
 				for inp in $f.find '[v-cb]'
 					jobs.push vOperations['v-cb'] inp
 				if jobs.length
 					jobs= await Promise.all jobs
-					fails = fails or jobs.some (resp)-> resp is false
-				# check if failed
-				if fails
-					$f.find('.has-error input, .has-error .dropdown-value').addClass 'has-error-anim'
+					throw 0 if jobs.some (resp)-> resp isnt true
+				
+				# check for cb
+				cb= @getAttribute 'v-submit'
+				if cb=V_CUSTOM_CB[cb]
+					cb.call this, event
+				else
+					# submit form
+					@submit()
+			catch err
+				# fail
+				if err is 0
+					$f.find('.has-error .f-input, .has-error .dropdown-value,.has-warn .f-input').addClass 'has-error-anim'
 						.animationOnce ->
 							@removeClass 'has-error-anim'
 						.first()
 						.focus()
 						.select()
+				# other error
 				else
-					# check for cb
-					cb= @getAttribute 'v-submit'
-					if cb=V_CUSTOM_CB[cb]
-						cb.call this, event
-					else
-						# submit form
-						@submit()
-			catch err
-				Core.fatalError 'v-submit', err
+					Core.fatalError 'v-submit', err
 			return
 			
