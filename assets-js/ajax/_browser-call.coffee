@@ -98,6 +98,9 @@ _sendRequest= (options, onLoad, onError)->
 			for inp in frm.querySelectorAll 'input[type="file"]'
 				if inp[F_FILES_LIST]
 					_replace_input_file_form inp, data
+				# remove empty files
+				else unless inp.files.length
+					data.delete inp.name
 			dataType= null # override type
 		else unless typeof data is 'string'
 			data= JSON.stringify data
