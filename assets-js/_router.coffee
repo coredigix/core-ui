@@ -103,5 +103,5 @@ _routerSelectPath= (options, path, queue, isSelect)->
 				try
 					cb options
 				catch err
-					core.fatalError 'Router', 'Uncaugth error', err
+					Core.fatalError 'Router', 'Uncaugth error', err
 	return found
