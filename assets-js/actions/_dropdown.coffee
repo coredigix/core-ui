@@ -308,7 +308,6 @@ _dropdownStart= ($dropdown)->
 				$popup.css height: dpopupSize - 10
 				$dropdown.addClass 'dropdown-down'
 		descriptor= _getDropdownDescriptor dropdown
-		console.log '***',descriptor.hideValue
 		if descriptor.hideValue
 			$dropdown.addClass 'dropdown-hidevalue'
 	# open dropdown
