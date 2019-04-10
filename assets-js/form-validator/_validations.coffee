@@ -17,10 +17,15 @@ validateCb=
 	password: (data)->
 		throw 0 unless 6 <= data.length <= 100
 		data
-	number: (data)->
+	number: (data, input)->
 		throw 0 if data is ''
 		data= +data
 		throw 0 if isNaN data
+		# check for min
+		if input.hasAttribute 'v-min'
+			throw 0 if data < +input.getAttribute 'v-min'
+		if input.hasAttribute 'v-max'
+			throw 0 if data > +input.getAttribute 'v-max'
 		data
 	'>0': (data)-> # strict positive number
 		data= +data
@@ -44,7 +49,7 @@ vOperations=
 			k= validateCb[tp]
 			if k
 				try
-					input.value= k input.value
+					input.value= k input.value, input
 					isOk= yes
 					break
 				catch err
