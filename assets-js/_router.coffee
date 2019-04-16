@@ -35,7 +35,7 @@ _defineProperties Router.prototype,
 				# fix path
 				u= new URL options.path, Core.baseURL
 				u= u.pathname.replace(/\/$/, '') + u.hash
-				options.path= do (path= u)-> test: (p)-> p is path
+				options.path= do (path= u)-> exec: (p)-> p is path
 			else unless options.path instanceof RegExp
 				throw 'Options.path expected String or RegExp'
 			# check arguments
@@ -93,7 +93,7 @@ _routerSelectPath= (options, path, queue, isSelect)->
 		cbIn= queue[i++]
 		cbOut= queue[i++]
 		# check regex
-		if regex.test path
+		if params= regex.exec path
 			found= true
 			# toggle class
 			$html.toggleClass toggleClass, isSelect if toggleClass
@@ -101,7 +101,7 @@ _routerSelectPath= (options, path, queue, isSelect)->
 			cb= if isSelect then cbIn else cbOut
 			if typeof cb is 'function'
 				try
-					cb options
+					cb options, params
 				catch err
 					Core.fatalError 'Router', 'Uncaugth error', err
 	return found
