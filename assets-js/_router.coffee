@@ -9,12 +9,15 @@ Router = ->
 	# onload
 	$ =>
 		l= document.location
-		_routerGoto this,
+		initState=
 			path: l.pathname.replace(/\/$/, '') + l.hash
 			isRoot: yes
 			isBack: no
 			referrer: document.referrer
+			title: document.title
 			srcElement: null
+		history.replaceState? initState, "", l.href
+		_routerGoto this, initState
 		# add onpopstate
 		_popstateListener= (event)=>
 			state= event.state
