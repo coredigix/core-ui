@@ -45,13 +45,13 @@ do ->
 	do ->
 		#=include ajax/_main.coffee
 		return
-	### FORM VALIDATOR ###
-	do ->
-		#=include form-validator/_main.coffee
-		return
 	### CLICK actions ###
 	do ->
 		#=include actions/_main.coffee
+		return
+	### FORM VALIDATOR ###
+	do ->
+		#=include form-validator/_main.coffee
 		return
 	
 	# interface

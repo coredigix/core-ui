@@ -63,3 +63,4 @@ Core.addAction 'click', 'file-upload', (event)->
 		.one 'change', _fileUploadChange
 		.click()
 	return
+

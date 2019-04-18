@@ -5,6 +5,7 @@
 	>*
 		display: inline-block
 		width: 100%
+	>:not(.img-loading)
 		background: center no-repeat
 		background-size: cover
 // simple carousel
@@ -21,10 +22,11 @@
 		>*
 			margin-top: 5px
 			height: 50px
-			background: center no-repeat
-			background-size: cover
 			cursor: pointer
 			border: 1px solid white
+		>:not(.img-loading)
+			background: center no-repeat
+			background-size: cover
 		.active
 			margin-right: -5px
 			border-color: #f90
