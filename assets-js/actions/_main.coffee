@@ -1,6 +1,14 @@
 ### Save actions to be executed ###
-ACTIONS=
-	click: _create null
+ACTIONS= _create null
+	# click: _create null
+# Add watch
+_addActionDes= (k)->
+	CORE_REACTOR.watch "[d-#{k}]",
+		[k]: (event)->
+			a= @getAttribute 'd-' + k
+			unless cb= ACTIONS[k][a]
+				throw new Error "Unknown action #{k}.#{a}"
+			cb.call this, event
 # define actions
 _defineProperties Core,
 	###*
@@ -10,8 +18,9 @@ _defineProperties Core,
 	###
 	addAction: value: (eventName, name, cb)->
 		throw new Error 'Illegal arguments' unless arguments.length is 3 and typeof eventName is 'string' and typeof name is 'string' and typeof cb is 'function'
-		q= ACTIONS[eventName]
-		throw new Error "Unsupported action: #{eventName}" unless q
+		unless q= ACTIONS[eventName]
+			q= ACTIONS[eventName]= _create null
+			_addActionDes eventName
 		throw new Error "Action already set: #{eventName}.#{name}" if q[name]
 		q[name]= cb
 		this # chain
@@ -20,17 +29,6 @@ _defineProperties Core,
 		q= ACTIONS[eventName]
 		delete q[name] if q
 		this # chain
-
-# Add watch
-_addActionDes= (k)->
-	CORE_REACTOR.watch "[d-#{k}]",
-		[k]: (event)->
-			a= @getAttribute 'd-' + k
-			unless cb= ACTIONS[k][a]
-				throw new Error "Unknown action #{k}.#{a}"
-			cb.call this, event
-_addActionDes k for k of ACTIONS
-
 # utils
 _hasElement= (event, element)->
 	el= event.target
