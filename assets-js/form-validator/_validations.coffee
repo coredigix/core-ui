@@ -35,6 +35,10 @@ validateCb=
 		data= +data
 		throw 0 if (isNaN data) or data <= 0
 		data.toFixed 2
+	price0: (data)-> # monai
+		data= +data
+		throw 0 if (isNaN data) or data < 0
+		data.toFixed 2
 
 
 vOperations=

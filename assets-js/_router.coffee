@@ -10,7 +10,7 @@ Router = ->
 	$ =>
 		l= document.location
 		initState=
-			path: l.pathname.replace(/\/$/, '') + l.hash
+			path: l.pathname + l.hash
 			isRoot: yes
 			isBack: no
 			referrer: document.referrer
@@ -37,7 +37,7 @@ _defineProperties Router.prototype,
 			if typeof options.path is 'string'
 				# fix path
 				u= new URL options.path, Core.baseURL
-				u= u.pathname.replace(/\/$/, '') + u.hash
+				u= u.pathname + u.hash
 				options.path= do (path= u)-> exec: (p)-> p is path
 			else unless options.path instanceof RegExp
 				throw 'Options.path expected String or RegExp'
@@ -64,8 +64,8 @@ _defineProperties Router.prototype,
 		else unless typeof options?.path is 'string'
 			throw new Error 'Illegal options'
 		# href
-		path= options.path
-		throw new Error 'Expected string path' unless typeof path is 'string'
+		path= new URL(options.path, Core.baseURL)
+		options.path= path= path.pathname + path.hash
 		return if path is @_currentPath # do nothing if the same page
 
 		options.referrer= @_currentPath

@@ -306,16 +306,19 @@ form.loading
 		border-bottom-left-radius: 0
 		border-bottom-right-radius: 0
 .dropdown-popup
-	background-color: $color-default-lighten2
+	background-color: fade-out($color-default-lighten2, .2)
 	display: none
 	overflow: auto
-	z-index: 9999
+	z-index: 9999999
 	// mobile info
 	position: fixed
-	top: 1em
-	left: 1em
-	right: 1em
-	bottom: 1em
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	padding: 1.5em
+	>*
+		background-color: $color-default-lighten2
 	// browser
 	@media(min-width: 600px)
 		position: absolute
@@ -324,6 +327,7 @@ form.loading
 		top: 100%
 		bottom: auto
 		width: 100%
+		padding: 0
 	// when open
 	.dropdown-open &
 		display: flex

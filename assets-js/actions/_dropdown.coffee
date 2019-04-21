@@ -131,7 +131,7 @@ _dropdownWrapMulti= (vl, value, dropdown)->
 # item select
 _dropdownSelect= (item)->
 	descriptor= _getDropdownDescriptor currentDropDown
-	value= item[DROPDOWN_VALUE] or item.innerHTML
+	value= item[DROPDOWN_VALUE] or item.getAttribute('d-value') or item.innerHTML
 	# render
 	$vl= $('.dropdown-value:first', currentDropDown)
 	addDOM= !!$vl.length # flag
