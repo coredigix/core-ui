@@ -53,6 +53,7 @@ do ->
 	do ->
 		#=include form-validator/_main.coffee
 		return
+	#=include _carousel.coffee
 	
 	# interface
 	_defineProperties Core,

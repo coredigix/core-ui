@@ -2,6 +2,7 @@
 %carousel-items
 	white-space: nowrap
 	overflow: hidden
+	position: relative
 	>*
 		display: inline-block
 		width: 100%
@@ -33,5 +34,7 @@
 	.items
 		@extend %carousel-items
 		width: 100%
+		.active
+			display: inline-block !important
 		>*
 			padding-top: 80%
