@@ -37,8 +37,11 @@ _defineProperties Router.prototype,
 			if typeof options.path is 'string'
 				# fix path
 				u= new URL options.path, Core.baseURL
-				u= u.pathname + u.hash
-				options.path= do (path= u)-> exec: (p)-> p is path
+				path= u.pathname
+				unless path is '/'
+					path= path.slice 0,-1 if path.endsWith '/'
+				path=  path + u.hash
+				options.path= do (path)-> exec: (p)-> p is path
 			else unless options.path instanceof RegExp
 				throw 'Options.path expected String or RegExp'
 			# check arguments
@@ -89,6 +92,7 @@ _routerSelectPath= (options, path, queue, isSelect)->
 	len= queue.length
 	$html= $('html')
 	found= false
+	console.log '--- select path: ', path
 	while i < len
 		# extract info
 		regex= queue[i++]
