@@ -92,7 +92,6 @@ _routerSelectPath= (options, path, queue, isSelect)->
 	len= queue.length
 	$html= $('html')
 	found= false
-	console.log '--- select path: ', path
 	while i < len
 		# extract info
 		regex= queue[i++]
