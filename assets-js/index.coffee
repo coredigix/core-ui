@@ -55,6 +55,8 @@ do ->
 		return
 	#=include _carousel.coffee
 	
+	# init HTML: example: format date
+	#=include html/_index.coffee
 	# interface
 	_defineProperties Core,
 		Router: value: new Router()
