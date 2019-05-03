@@ -50,6 +50,27 @@ _replace_input_file_form= (input, data)->
 	for file in input[F_FILES_LIST]
 		data.append nm, file, file.name
 	return
+
+###*
+ * Convert formData to JSON
+###
+_convertFormDataToJSON= (formData)->
+	result= _create null
+	formData.forEach (v,k)->
+		result[k]= v if typeof v is 'string'
+		return
+	return JSON.stringify result
+
+###*
+ * Convert formData to URL encoded
+###
+_convertFormDataToUrlEncoded= (formData)->
+	params = new URLSearchParams()
+	formData.forEach (v,k)->
+		params.append k, v if typeof v is 'string'
+		return
+	return params.toString()
+
 ###*
  * Browser native send request
 ###
@@ -88,25 +109,39 @@ _sendRequest= (options, onLoad, onError)->
 	### PREPARE DATA ###
 	options.headers ?= _create null
 	dataType= options.dataType or options.headers['Content-Type']
+	# decode mimetype
+	dataType= _MIME_TYPES[dataType] or dataType
+	# encode data
 	if data= options.data
-		if data instanceof FormData
-			dataType= null # override type
-		else if data instanceof HTMLFormElement
-			frm= data
-			data= new FormData data
-			# check for input files
-			for inp in frm.querySelectorAll 'input[type="file"]'
-				if inp[F_FILES_LIST]
-					_replace_input_file_form inp, data
-				# remove empty files
-				else unless inp.files.length
-					data.delete inp.name
-			dataType= null # override type
-		else unless typeof data is 'string'
+		# string
+		if typeof data is 'string'
+			dataType ?= 'text/plain'
+		# form
+		else if data instanceof FormData or data instanceof HTMLFormElement
+			# create form data
+			unless data instanceof FormData
+				frm= data
+				data= new FormData data
+				# check for input files
+				for inp in frm.querySelectorAll 'input[type="file"]'
+					if inp[F_FILES_LIST]
+						_replace_input_file_form inp, data
+					# remove empty files
+					else unless inp.files.length
+						data.delete inp.name
+			# encode
+			if dataType is _MIME_TYPES.json
+				data= _convertFormDataToJSON data
+			else if dataType is _MIME_TYPES.urlencoded
+				data= _convertFormDataToUrlEncoded data
+			else if dataType and dataType isnt _MIME_TYPES.multipart
+				throw new Error 'Could not convert FormData to: ' + dataType
+		# Object
+		else if not dataType or dataType is _MIME_TYPES.json
 			data= JSON.stringify data
 			dataType= _MIME_TYPES.json
 		else
-			dataType= _MIME_TYPES[dataType] or dataType
+			throw new Error "Illagal data for mimetype: " + dataType
 	options.headers['Content-Type']= dataType if dataType
 	# send request
 	nativeXhr.open options.method, url.href, true

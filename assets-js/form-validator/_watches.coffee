@@ -69,6 +69,7 @@ _formSubmitCaller= (event)->
 			cb.call this, event
 		else
 			# submit form
+			$(this).addClass 'loading'
 			@submit()
 	catch err
 		# fail
