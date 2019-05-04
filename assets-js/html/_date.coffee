@@ -73,11 +73,11 @@ Core.relaxedDate= _relaxedDate= (date, currentDate, midnightDate)->
 	else if date > midnightDate
 		value= i18n.$h count: Math.round range / 3600
 	else if midnightDate - date < 24 * 3600 * 1000
-		value= Date.format date, i18n.$yesterday
+		value= Core.formatDate date, i18n.$yesterday
 	else if currentDate.getFullYear() is date.getFullYear()
-		value= Date.format date, i18n.$thisYear
+		value= Core.formatDate date, i18n.$thisYear
 	else
-		value= Date.format date, i18n.$fullDate
+		value= Core.formatDate date, i18n.$fullDate
 		end= yes
 	# return
 	end: end

@@ -57,6 +57,7 @@ do ->
 	
 	# init HTML: example: format date
 	#=include html/_index.coffee
+	#=include components/_index.coffee
 	# interface
 	_defineProperties Core,
 		Router: value: new Router()

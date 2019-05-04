@@ -1,0 +1,73 @@
+// stars input
+.input-star
+	font-size: 1.25em
+	color: #FFD700
+	display: inline-block
+	position: relative
+	cursor: pointer
+	white-space: nowrap
+	&:hover
+		.star-bullet,.star-mv
+			display: block
+.star-back
+	color: #ddd
+.star-front
+	z-index: 1
+	width: 23%
+.star-mv
+	display: none
+	color: fade-out(#FFD700, .4)
+	z-index: 2
+	width: 70%
+.star-mv, .star-front
+	position: absolute
+	overflow: hidden
+	top: 0
+	left: 0
+	bottom: 0
+.star-bullet
+	display: none
+	pointer-events: none
+	position: absolute
+	top: 150%
+	font-size: 1rem
+	text-align: center
+	width: 2.5em
+	height: 2.5em
+	border-radius: 0 50% 50% 50%
+	background: #FFED85
+	transform: rotate(45deg)
+	color: white
+	transition: top .2s ease
+	z-index: 999
+	&:after
+		content: attr(d-value)
+		text-align: center
+		display: block
+		transform: rotate(-45deg)
+		width: 2.5em
+		height: 2.5em
+		padding-top: .6em
+// default levels
+.input-star.rating
+	&[d-level="0"], &[d-level="1"]
+		color: #d50000
+	&[d-level="2"],&[d-level="3"]
+		color: #2962ff
+	&[d-level="4"]
+		color: #64dd17
+
+	.star-bullet
+		&[d-level="0"], &[d-level="1"]
+			background-color: #d50000
+		&[d-level="2"],&[d-level="3"]
+			background-color: #2962ff
+		&[d-level="4"]
+			background-color: #64dd17
+	.star-mv
+		&[d-level="0"], &[d-level="1"]
+			color: fade-out(#d50000, .4)
+		&[d-level="2"],&[d-level="3"]
+			color: fade-out(#2962ff, .4)
+		&[d-level="4"]
+			color: fade-out(#64dd17, .4)

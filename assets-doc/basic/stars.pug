@@ -1,0 +1,51 @@
+extends ../_layout
+append head
+	title Stars
+block body
+	.container
+		h1 Stars:
+
+		.input-star(d-value=70 d-step="10" d-mousemove="starRating" d-click="starRating")
+			input(type="hidden" name="star" value="0")
+			.star-back
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+			.star-front
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+			.star-mv
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+			.star-bullet
+
+	.container.m-top
+		.input-star.rating(d-value=70 d-step="10" d-levels="20" d-mousemove="starRating" d-click="starRating")
+			input(type="hidden" name="star" value="0")
+			.star-back
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+			.star-front
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+			.star-mv
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+				span.ico star
+			.star-bullet

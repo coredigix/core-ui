@@ -17,14 +17,12 @@ html
 
 	body
 		//- links
-		table(cellspacing=0 cellpadding=0 border=0 width="100%")
-			tbody
-				tr
-					td.v-top.list
-						each lnk in self.links
-							a.block(href=lnk) #{lnk}
-					td.v-top
-						block body
+		.flex
+			.p-tiny
+				each lnk in self.links
+					a.block(href=lnk) #{lnk}
+			.grow1
+				block body
 		//- js
 		script(src='../build/core-ui.js')
 		block footerScripts
