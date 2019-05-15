@@ -1,27 +1,28 @@
-::-webkit-scrollbar-track
-    background-clip: padding-box
-    background: fade($black, 80%)
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.7) 
-    border:none
-    border-radius: 5px
-::-webkit-scrollbar-thumb
-    background-color: rgba(0,0,0,.4)
-    background-clip: padding-box
-    border:none
-    min-height: 10px//28px
-    padding: 0
-    -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07)
-    box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07)
-    border-radius: 5px
-::-webkit-scrollbar-corner
-    background: transparent
-::-webkit-scrollbar-button
-    height: 0
-    width: 0
-::-webkit-scrollbar
-    height: 4px
-    overflow: visible
-    width: 4px
-body::-webkit-scrollbar
-    height: 12px
-    width: 12px
+@media(min-width: 600px)
+    ::-webkit-scrollbar-track
+        background-clip: padding-box
+        background: fade($black, 80%)
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.7) 
+        border:none
+        border-radius: 5px
+    ::-webkit-scrollbar-thumb
+        background-color: rgba(0,0,0,.4)
+        background-clip: padding-box
+        border:none
+        min-height: 10px//28px
+        padding: 0
+        -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07)
+        box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07)
+        border-radius: 5px
+    ::-webkit-scrollbar-corner
+        background: transparent
+    ::-webkit-scrollbar-button
+        height: 0
+        width: 0
+    ::-webkit-scrollbar
+        height: 4px
+        overflow: visible
+        width: 4px
+    body::-webkit-scrollbar
+        height: 12px
+        width: 12px

@@ -23,6 +23,10 @@ CORE_REACTOR
 		blur: ->
 			vOperations['v-cb'] this
 			return
+	.watch 'input[v-max], textarea[v-max]',
+		blur: ->
+			vOperations['v-max'] this
+			return
 
 	### Remove state classes when form reset ###
 	.watch 'form',
@@ -51,7 +55,7 @@ _formSubmitCaller= (event)->
 		$f= $ this
 		fails= no
 		# simple validations
-		for attr in ['v-trim', 'v-regex', 'v-type']
+		for attr in ['v-trim', 'v-regex', 'v-type', 'v-max']
 			for inp in $f.find "[#{attr}]"
 				fails= yes if vOperations[attr](inp) is no
 		throw 0 if fails

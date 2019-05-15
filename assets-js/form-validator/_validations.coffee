@@ -10,6 +10,7 @@ validateCb=
 		dt= data.trim()
 		throw 0 unless regexEmail.test dt
 		return dt
+	url: (data)-> new URL data
 	tel: (data)->
 		data= data.replace /[\s-]/g, ''
 		throw 0 unless regexTel.test data
@@ -46,6 +47,14 @@ vOperations=
 	'v-trim': (input)->
 		input.value= input.value.trim()
 		return
+	### max count ###
+	'v-max': (input)->
+		isOk= input.value.length <= +input.getAttribute 'v-max'
+		# toggle class
+		$(input).closest '.f-cntrl'
+			.toggleClass 'has-error', not isOk
+			.toggleClass 'has-done', isOk
+		return isOk
 	### type ###
 	'v-type': (input)->
 		isOk= no

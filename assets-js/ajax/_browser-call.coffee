@@ -57,7 +57,21 @@ _replace_input_file_form= (input, data)->
 _convertFormDataToJSON= (formData)->
 	result= _create null
 	formData.forEach (v,k)->
-		result[k]= v if typeof v is 'string'
+		if typeof v is 'string'
+			# if sub path
+			k= k.split '.'
+			len= k.length - 1
+			i=0
+			res= result
+			while i < len
+				res= res[k[i++]]?= _create null
+			# set value
+			k= k[len]
+			if res[k]
+				res[k]= [res[k]] unless Array.isArray res[k]
+				res[k].push v
+			else
+				res[k]= v
 		return
 	return JSON.stringify result
 

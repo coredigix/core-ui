@@ -1,0 +1,18 @@
+extends ../_layout
+append head
+	title Forms
+block body
+	//- Radio buttons
+	.container
+		h1 Radio tabs:
+		p Those are radio buttons, it appears like tabs
+
+	//- tabs
+	.container
+		h1 Tabs:
+		.tabs
+			.tab-head(d-click='openTab')
+				span.tab tab1
+				span.tab tab2
+				span.active.tab loream isum
+				span.tab-indicator

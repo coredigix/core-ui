@@ -52,8 +52,7 @@ _defineProperties Core,
 			else
 				resolve resolvedValue
 			return
-		), timeout
-		return
+		), timeout or 0
 		# add explicite resolve and reject
 		_defineProperties p,
 			resolve: value: (vl)->
