@@ -130,6 +130,7 @@ _dropdownWrapMulti= (vl, value, dropdown)->
 	return rs
 # item select
 _dropdownSelect= (item)->
+	return unless item
 	descriptor= _getDropdownDescriptor currentDropDown
 	value= item[DROPDOWN_VALUE] or item.getAttribute('d-value') or item.innerHTML
 	# render
@@ -240,7 +241,7 @@ _dropdownKeyboardListener= (event)->
 			_dropdown_next 'next'
 		when 13 # enter
 			_dropdownSelect currentDropDown.querySelector '.dropdown-hover'
-			event.preventDefault()
+			# event.preventDefault() # this will prevent form submiting
 	return
 # dropdown click
 _dropdownClick= (event)->
