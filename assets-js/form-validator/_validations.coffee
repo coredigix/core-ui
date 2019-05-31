@@ -13,6 +13,7 @@ validateCb=
 	url: (data)-> new URL data
 	tel: (data)->
 		data= data.replace /[\s-]/g, ''
+		data= '0'+data unless data.startsWith '0'
 		throw 0 unless regexTel.test data
 		data
 	password: (data)->

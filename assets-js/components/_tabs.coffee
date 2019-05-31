@@ -15,6 +15,9 @@ Core.addAction 'click', 'openTab', (event)->
 	$tabHeader.closest('.tabs').trigger 'tab-change',
 		tab: tab
 		previous: $prev[0]
+	# open target tab if found
+	if targetTab= tab.getAttribute 'd-tab'
+		$tabHeader.siblings('.tab-body').find('>*').hide().filter("[d-tab='#{targetTab}']").show()
 	return
 # adjust indicator
 _adjustTabIndicator= (container)->

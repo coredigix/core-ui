@@ -74,6 +74,15 @@ hr
 %margin, .margin
 	margin: 1.2rem
 
+body[dir=rtl]
+	.m-right
+		margin-right: 0
+		@extend %margin-left
+	.m-left
+		margin-left: 0
+		@extend %margin-right
+
+
 // padding
 %padding-large
 	padding: 7px 5px

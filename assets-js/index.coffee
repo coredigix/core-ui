@@ -31,7 +31,6 @@ do ->
 	#=include _event-emitter.coffee
 	#=include _alerts.coffee
 	#=include _classess.coffee
-	#=include _router.coffee
 	#=include jquery-plugins/_main.coffee
 	
 	### REACTOR ###
@@ -53,14 +52,18 @@ do ->
 	do ->
 		#=include form-validator/_main.coffee
 		return
+	### ROUTER ###
+	do ->
+		#=include _router.coffee
+		return
 	#=include _carousel.coffee
 	
 	# init HTML: example: format date
 	#=include html/_index.coffee
 	#=include components/_index.coffee
 	# interface
-	_defineProperties Core,
-		Router: value: new Router()
+	# _defineProperties Core,
+	# 	Router: value: new Router()
 
 	#interface
 	window.Core= Core

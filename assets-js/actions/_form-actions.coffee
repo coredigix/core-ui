@@ -18,7 +18,11 @@ _fileUploadChange= (event)->
 		maxCount= Infinity
 	# add file fx
 	addFile= (file)->
-		fileLst.push file
+		# check this file not already in the queue
+		for f in fileLst
+			return if (f.name is file.name) and (f.size is file.size) and (f.lastModified is file.lastModified)
+		# add to queue
+		fileLst.push file 
 		reader = new FileReader()
 		reader.onload= (evnt)->
 			$ele= $ (Components._ 'filePreview', src: evnt.target.result).children[0]

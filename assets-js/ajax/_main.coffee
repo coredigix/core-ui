@@ -133,3 +133,9 @@ _defineProperties Core.ajax,
 	abortAll: value: (abortMsg)->
 		XHR_QUEUE.forEach (req)-> req.abort abortMsg
 		this # chain
+	# abort with id
+	abort: value: (id, abortMsg)->
+		XHR_QUEUE.forEach (req)->
+			req.abort abortMsg if req.id is id
+			return
+		this # chain

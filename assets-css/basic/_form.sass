@@ -172,7 +172,12 @@ input, textarea
 	&.hover:hover, &.disabled
 		input+span svg
 			border-color: currentColor
-
+// rtl page
+body[dir=rtl]
+	.f-checkbox, .f-radio
+		input+span
+			margin-right: auto
+			margin-left: .2rem
 // Radio
 .f-radio
 	@extend %f-cntrl-ripple
@@ -197,6 +202,7 @@ input, textarea
 	@extend %f-radio-checkbox
 	input
 		&+span
+			overflow: hidden
 			width: 2em
 			height: 1em
 			background: $color-default-lighten2
@@ -295,6 +301,12 @@ form.loading
 	.dropdown-up &
 		>.ico
 			transform: rotate(180deg)
+// rtl pages
+body[dir=rtl]
+	.dropdown-box
+		>.ico
+			right: auto
+			left: .5em
 .dropdown-value
 	@extend %f-input
 	cursor: pointer
@@ -305,6 +317,7 @@ form.loading
 	.dropdown-down &
 		border-bottom-left-radius: 0
 		border-bottom-right-radius: 0
+
 .dropdown-popup
 	background-color: fade-out($color-default-lighten2, .2)
 	display: none
@@ -352,6 +365,12 @@ form.loading
 			background: $white
 			&::selection
 				background-color: #cce2ff
+// rtl pages
+body[dir=rtl]
+	.dropdown-popup
+		@media(min-width: 600px)
+			left:	0
+			right:	auto
 .dropdown-hover
 	background-color: $color-default-lighten1
 .dropdown-item

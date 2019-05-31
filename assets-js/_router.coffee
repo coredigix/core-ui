@@ -1,113 +1,270 @@
 ###*
- * Router
+ * ROUTER
+ * @attribute location	- equals: new URL document.location.href
+ * 
+ * @method  get
+ *          @param {String|List<String>} path - path to controller
+ *          @param {String} title - document title
+ *          @param {String} toggleClass - HTML toggle class 
+ *          @param {Boolean} scrollTop - if scroll page to top when matching this 
+ *          @param {function} in - Cb each time we call this route
+ *          @param {function} once - Cb this route once until changed
+ *          @param {function} out- Cb when quit this controller
+ *
+ * @method alias 'path1', path2	# create alias from path1 to path2
+ * @method alias 'path1', (ctx)=> "path2"	# create alias from path1 to path2
+ *
+ * @method  pushState 'path', 'title', {stateObj}	# push state without calling routing
+ * @method  pushState {searchParam1: 'value'}, 'title', {stateObj}	# push state without calling routing. Set those url search params
+ *
+ * @method goto url				# Goto this URL, if no match, this URL will be called effectively
+ *
+ *
+ * Supported paths
+ * 	- Static paths (relative or absolute): /example/of/static/path
+ * 	- Static paths (relative or absolute): /example/o:f/st:atic/::path  => /example/o:f/st:atic/:path
+ * 	- Static paths (relative or absolute): /example/o:f/st:atic/::path  => /example/o:f/st:atic/:path
+ * 	- Dynamic paths (relative or absolutes): /example/of/:varname/dynamic/:var2
 ###
-
-Router = ->
-	throw new Error 'Required new' unless new.target
-	@_q= [] # queue
-	@_currentPath= null # current route
-	# onload
-	$ =>
-		l= document.location
-		initState=
-			path: l.pathname + l.hash
-			isRoot: yes
-			isBack: no
-			referrer: document.referrer
-			title: document.title
-			srcElement: null
-		history.replaceState? initState, "", l.href
-		_routerGoto this, initState
-		# add onpopstate
+HISTORY_NO_STATE= 0	# do not insert state in history, use when calling history.back()
+HISTORY_REPLACE= 1	# do replace in history instead of adding
+Core.Router= class Router
+	constructor: ()->
+		# root path node
+		@location= location= new URL document.location.href
+		# private
+		@_root= _newPathNode()
+		@_$= _create null # params
+		@_path= null # current path
+		@_href= null # current href: used to not add new entry to history if some URL
+		@_pathArr= [] # current path nodes as [pathKey, node, ...]
+		@_node= null # current node
+		@id= 'r' + Math.random().toString(32).substr(2) # Router id
+		@_ctx=
+			isNew: yes	# if this route is called first time
+			location: location
+			referrer: null # referrer url
+			params: null
+			path: null	# current path
+			url: null	# curent url as URL object
+		# Pop state
 		_popstateListener= (event)=>
-			state= event.state
-			if typeof state?.path is 'string'
-				_routerGoto this, state
+			path= event.state?.path
+			if typeof path is 'string'
+				@goto path, HISTORY_NO_STATE
 			return
 		window.addEventListener 'popstate', _popstateListener, off
+		# start router
+		$ =>
+			@replace document.location.href
 		return
-	return
-
-_defineProperties Router.prototype,
-	# add new call
-	on: value: (options)->
+	###*
+	 * Add params
+	 * @param {String} options.name - param name
+	 * @param {Regex|function} matches - param regex
+	 * @param {function} resolver - async Resolver
+	###
+	param: (options)->
 		try
 			throw 'Illegal arguments' unless arguments.length is 1 and typeof options is 'object' and options
-			# check path
-			if typeof options.path is 'string'
-				# fix path
-				u= new URL options.path, Core.baseURL
-				path= u.pathname
-				unless path is '/'
-					path= path.slice 0,-1 if path.endsWith '/'
-				path=  path + u.hash
-				options.path= do (path)-> exec: (p)-> p is path
-			else unless options.path instanceof RegExp
-				throw 'Options.path expected String or RegExp'
-			# check arguments
-			throw 'Options.toggleClass expected string' if options.toggleClass and typeof options.toggleClass isnt 'string'
-			throw 'Options.in expected function' if options.in and typeof options.in isnt 'function'
-			throw 'Options.out expected function' if options.out and typeof options.out isnt 'function'
+			name= options.name
+			params= @_$
+			throw 'Name expected string' unless typeof name is 'string'
+			throw "Param already set: #{name}" if params[name]
+			# matches
+			matches= options.matches
+			if matches
+				if typeof matches is 'function'
+					matches= test: matches
+				else unless matches instanceof RegExp
+					throw 'options.matches expected regex or function'
 			# add
-			@_q.push options.path, options.toggleClass, options.in, options.out
+			params[name]=[name, matches, options.resolver]
 		catch err
-			if typeof err is 'string'
-				err= "Router::on>>" + err
+			err= new Error "Router.param>> " + err if typeof err is 'string'
 			throw err
-		return this
+		return this	# chain
+	###*
+	 * GET
+	###
+	get: (options)->
+		try
+			# check if alias
+			if options.alias and (options.in or options.out or options.once)
+				throw 'Could not set alias and [in, out, once] at the same time' 
+			# check arguments
+			throw 'Illegal arguments' unless arguments.length is 1 and typeof options is 'object' and options
+			# parse path
+			path= options.path
+			if typeof path is 'string'
+				_createNodeFromPath @_root, path, options
+			else if Array.isArray path
+				for p in path
+					throw 'all paths expected string' unless typeof p is 'string'
+					_createNodeFromPath @_root, p, options
+			else
+				throw 'Illegal options.path'
+		catch err
+			err= new Error "Router.GET>> " + err if typeof err is 'string'
+			throw err
+		this # chain
+	# create alias
+	# alias: (path, aliasPath)->
+	# 	@get
+	# 		path: path
+	# 		alias: aliasPath
+	###*
+	 * Goto url
+	###
+	replace: (url)-> @goto url, HISTORY_REPLACE
+	goto: (url, doState)->
+		try
+			# convert URL
+			url= (new URL url, Core.baseURL) unless url instanceof URL
+			# create context var
+			ctx= @_ctx
 
-	# remove a regex: #TODO
-	# Router.off= (regex)->
+			# push in history
+			urlHref= url.href
+			unless urlHref is @_href
+				@_href= urlHref
+				if doState is HISTORY_REPLACE
+					history?.replaceState {path:urlHref}, document.title, urlHref
+				else unless doState is HISTORY_NO_STATE
+					history?.pushState {path:urlHref}, document.title, urlHref
+			# adjust context
+			ctx.referrer= @location.href
+			ctx.url= @location= url
+			path= ctx.path= url.pathname
+			# if the same path, return
+			if path is @_path
+				ctx.isNew= no
+				await @_node.in? ctx
+			# lookup for pathname
+			else
+				ctx.isNew= yes	# this controller is called for firstTime
+				@_path= url.pathname
+				# abort active xhr calls
+				Core.ajax.abort @id
+				# previous node
+				previousNode= @_node
+				# lookup for new Node
+				ctx.params= _create null
+				node= _lookupURI @_root, @_$, path, ctx.params
+				@_node= node
+				# call out on previous node
+				if previousNode
+					await previousNode.out? ctx
+					if a= previousNode.toggleClass
+						$('html').removeClass a
+				# exec new Node
+				if node
+					# set title
+					if a= node.title
+						a= a ctx if typeof a is 'function'
+						document.title= a
+					# toggleClass
+					if a= node.toggleClass
+						$('html').addClass a
+					# go top
+					if node.scrollTop
+						scrollTo 0,0
+					# call once
+					await node.once? ctx
+					# call In
+					await node.in? ctx
+				else
+					return document.location.replace url.href
+		catch err
+			if err?
+				if err is 404 # URL not found
+					document.location.href= url.href
+				else if err.aborted
+					# do nothing, request aborted
+				else if err.status is 0 # offline
+					Core.alert i18n.noConnection, 'danger'
+				else
+					Core.fatalError 'ROUTER', err
+					await Core.alert i18n.internalError, 'danger'
+					Router.goto '' # go back to home
+			else
+				Core.fatalError 'ajaxCatcher', 'null Error!'
+				await Core.alert i18n.internalError, 'danger'
+				# document.location.href= url.href
+		this # chain
 
-	# call a route
-	goto: value: (options)->
-		throw new Error 'Illegal arguments' unless arguments.length is 1
-		if typeof options is 'string'
-			options= path: options
-		else unless typeof options?.path is 'string'
-			throw new Error 'Illegal options'
-		# href
-		path= new URL(options.path, Core.baseURL)
-		options.path= path= path.pathname + path.hash
-		return if path is @_currentPath # do nothing if the same page
 
-		options.referrer= @_currentPath
-		# push in history
-		history.pushState? options, "", path
-		# call
-		return _routerGoto this, options
-# goto
-_routerGoto= (router, options)->
-	# set title
-	document.title= options.title if options.title
-	# quit current route
-	if router._currentPath
-		_routerSelectPath options, router._currentPath, router._q, false
-	# go in new route
-	router._currentPath= options.path
-	return _routerSelectPath options, options.path, router._q, true
+_newPathNode= ->
+	_create null,
+		$: value: []	# store dynamic params as: [paramName, node, param2, node2, ...]
+# create node from path
+_createNodeFromPath= (root, path, options)->
+	# convert path to abs
+	oPath= path= (new URL path, Core.baseURL).pathname
+	# Create node
+	node= root
+	unless path is '/'
+		# remove trailing slash
+		path= path.slice 0, -1 if path.endsWith('/')
+		# split
+		path= path.split /(?=\/)/
+		# get node
+		for p in path
+			if p is '/'
+				throw 'Illegal path'
+			# Static ignored param
+			else if p.startsWith '/::'
+				p= '/'+ p.substr 2
+				unless n= node[p]
+					n= node[p]= _newPathNode()
+			# Param
+			else if p.startsWith '/:'
+				unless n= node['?'+p]
+					n= node['?'+p]= _newPathNode()
+					node.$.push p.substr(2), n
+			# static
+			else unless n= node[p]
+				n= node[p]= _newPathNode()
+			# next
+			node= n
+	# add node attributes
+	throw "Route already set: #{oPath}" if node.once or node.in or node.alias
+	_assign node, options
+	return node
 
-_routerSelectPath= (options, path, queue, isSelect)->
-	i=0
-	len= queue.length
-	$html= $('html')
-	found= false
-	while i < len
-		# extract info
-		regex= queue[i++]
-		toggleClass= queue[i++]
-		cbIn= queue[i++]
-		cbOut= queue[i++]
-		# check regex
-		if params= regex.exec path
-			found= true
-			# toggle class
-			$html.toggleClass toggleClass, isSelect if toggleClass
-			# call cb
-			cb= if isSelect then cbIn else cbOut
-			if typeof cb is 'function'
-				try
-					cb options, params
-				catch err
-					Core.fatalError 'Router', 'Uncaugth error', err
-	return found
+# lookup for URI
+_lookupURI= (root, paramMather, path, params)->
+	# split URL
+	node= root
+	unless path is '/'	# go to root
+		path= path.slice 0, -1 if path.endsWith('/')
+		path= path.split /(?=\/)/
+		# check for index where current path is modified
+		for p in path
+			# check for static
+			unless n= node[p]
+				if paramLst= node.$	# has params [param, node, ...]
+					# use params
+					prmI= 0 # use matcher
+					prmLen= paramLst.length
+					paramValue= p.substr 1 # remove slash
+					while prmI< prmLen
+						paramName= paramLst[prmI]
+						# has matcher
+						if pMatcher= paramMather[paramName]
+							# matcher
+							if fx= pMatcher[1]
+								# value doesn't match
+								unless fx.test paramValue
+									prmI += 2
+									continue
+							# resolver
+							if fx= pMatcher[2]
+								paramValue= fx paramValue
+						params[paramName]= paramValue
+						n= paramLst[prmI+1]	# get node
+						break
+				# throw not found if no node
+				throw 404 unless n
+			node= n
+	return node

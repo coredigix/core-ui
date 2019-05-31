@@ -107,6 +107,20 @@
 		&:last-child
 			border-radius: 0 0 2em 2em
 
+body[dir=rtl]
+	.group:not(.ltr)
+		>*, >.f-input, >.f-group:not(.ltr)
+			&:first-child
+				border-radius: 0 2em 2em 0
+			&:last-child
+				border-radius: 2em 0 0 2em
+	.v-group
+		>*
+			&:first-child
+				border-radius: 0 0 2em 2em
+			&:last-child
+				border-radius: 2em 2em 0 0
+		
 // loading
 .btn
 	&.loading

@@ -328,6 +328,12 @@ _dropdownStart= ($dropdown)->
 	$popup.find('>.f-cntrl>input').focus().select()
 	# init items
 	_dropDownRenderItems()
+	# fix for RTL pages
+	# if (document.body.getAttribute('dir') is 'rtl') and (popup= $popup.get 0)
+	# 	console.log '-----**', popup.getBoundingClientRect().left
+	# 	if popup.getBoundingClientRect().left < 0
+	# 		popup.style.left= '0'
+	# 		popup.style.right= 'auto'
 	return
 # drop down
 CORE_REACTOR.watch '.dropdown-box',

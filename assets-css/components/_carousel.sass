@@ -1,7 +1,6 @@
 // commons
 %carousel-items
 	white-space: nowrap
-	overflow: hidden
 	position: relative
 	>*
 		display: inline-block
@@ -13,6 +12,7 @@
 .carousel
 	.items
 		@extend %carousel-items
+		overflow: auto
 
 // vertical carousel
 .v-carousel
@@ -33,8 +33,19 @@
 			border-color: #f90
 	.items
 		@extend %carousel-items
+		overflow: hidden
 		width: 100%
 		.active
 			display: inline-block !important
 		>*
 			padding-top: 80%
+
+// rtl docs
+body[dir=rtl]
+	.v-carousel
+		.thumbs
+			margin-right: 0
+			margin-left: 10px
+			.active
+				margin-right: 0
+				margin-left: -5px

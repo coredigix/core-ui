@@ -11,11 +11,11 @@
 
 
 // grow
-.grow0
-	flex-grow: 0
-.grow1
-	flex-grow: 1
-.grow2
-	flex-grow: 2
-// .grow3
-// 	flex-grow: 0
+@for $i from 0 through 12
+	.grow#{$i}
+		flex-grow: $i
+
+@each $t,$s in (sm: $sm, md: $md, lg:$lg, xl: $xl)
+	@media(min-width: $s)
+		.flex-#{$t}
+			display: flex
