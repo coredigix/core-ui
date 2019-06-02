@@ -8,7 +8,15 @@ _addActionDes= (k)->
 			a= @getAttribute 'd-' + k
 			unless cb= ACTIONS[k][a]
 				throw new Error "Unknown action #{k}.#{a}"
-			cb.call this, event
+			try
+				cb.call this, event
+			catch err
+				if err
+					return if err.aborted	# aborted connection, do noting
+					if err.status is 0 # no internet
+						Core.alert i18n.noConnection
+						return
+				throw err
 # define actions
 _defineProperties Core,
 	###*

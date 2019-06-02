@@ -14,8 +14,7 @@
  * @method alias 'path1', path2	# create alias from path1 to path2
  * @method alias 'path1', (ctx)=> "path2"	# create alias from path1 to path2
  *
- * @method  pushState 'path', 'title', {stateObj}	# push state without calling routing
- * @method  pushState {searchParam1: 'value'}, 'title', {stateObj}	# push state without calling routing. Set those url search params
+ * @method  pushState url	# push state without calling routing
  *
  * @method goto url				# Goto this URL, if no match, this URL will be called effectively
  *
@@ -193,6 +192,16 @@ Core.Router= class Router
 				# document.location.href= url.href
 		this # chain
 
+	# push data and change location without any further action
+	pushState: (url)->
+		url= (new URL url, Core.baseURL) unless url instanceof URL
+		@location= url
+		urlHref= url.href
+		unless urlHref is @_href
+			@_href= urlHref
+			history?.pushState {path:urlHref}, null, urlHref
+		@_path= url.pathname
+		this # chain
 
 _newPathNode= ->
 	_create null,
