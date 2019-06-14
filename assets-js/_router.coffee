@@ -55,7 +55,7 @@ Core.Router= class Router
 		window.addEventListener 'popstate', _popstateListener, off
 		# start router
 		$ =>
-			@replace document.location.href
+			@replace document.location.href, false
 		return
 	###*
 	 * Add params
@@ -114,9 +114,17 @@ Core.Router= class Router
 	# 		alias: aliasPath
 	###*
 	 * Goto url
+	 * @param {String|URL} url - target URL
+	 * @optional @param {Boolean} doForword - unless false, forword to url if not mapped @default true
 	###
-	replace: (url)-> @goto url, HISTORY_REPLACE
-	goto: (url, doState)->
+	replace: (url, doForword)-> @goto url, HISTORY_REPLACE, doForword
+	###*
+	 * Goto url
+	 * @param {String|URL} url - target URL
+	 * @optional @param {Number} doState - internal use
+	 * @optional @param {Boolean} doForword - unless false, forword to url if not mapped @default true
+	###
+	goto: (url, doState, doForword)->
 		try
 			# convert URL
 			url= (new URL url, Core.baseURL) unless url instanceof URL
@@ -172,12 +180,13 @@ Core.Router= class Router
 					await node.once? ctx
 					# call In
 					await node.in? ctx
-				else
+				else unless doForword is false
 					return document.location.replace url.href
 		catch err
 			if err?
 				if err is 404 # URL not found
-					document.location.href= url.href
+					unless doForword is false
+						document.location.href= url.href
 				else if err.aborted
 					# do nothing, request aborted
 				else if err.status is 0 # offline
@@ -276,4 +285,7 @@ _lookupURI= (root, paramMather, path, params)->
 				# throw not found if no node
 				throw 404 unless n
 			node= n
+	# check node found
+	if node
+		node= null unless node.once or node.in or node.out or node.toggleClass
 	return node

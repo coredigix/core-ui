@@ -15,9 +15,6 @@ do ->
 	_create= Object.create
 	_assign= Object.assign
 	_setPrototypeOf= Object.setPrototypeOf
-	# general used vars
-	$body = $ document.body
-	F_FILES_LIST= Symbol 'selected files'
 	# core
 	Core= _create null,
 		# logger
@@ -26,6 +23,9 @@ do ->
 		warn: value: console.warn.bind console
 		error: value: console.error.bind console
 		fatalError: value: console.error.bind console
+	# general used vars
+	$body = $ document.body
+	Core.F_FILES_LIST= F_FILES_LIST= Symbol 'selected files'
 
 	#=include _utils.coffee
 	#=include _event-emitter.coffee
