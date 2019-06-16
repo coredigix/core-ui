@@ -2,18 +2,38 @@
 %carousel-items
 	white-space: nowrap
 	position: relative
+	scroll-behavior: smooth
+	scroll-snap-type: x mandatory
 	>*
 		display: inline-block
 		width: 100%
+		min-width: 100%
+		scroll-snap-align: start
 	>:not(.img-loading)
 		background: center no-repeat
 		background-size: cover
 // simple carousel
 .carousel
+	position: relative
 	.items
 		@extend %carousel-items
 		overflow: auto
-
+	.thumbs
+		position: absolute
+		bottom: 5px
+		right: 5px
+		>*
+			height: 40px
+			width: 40px
+			border-radius: 50%
+			margin: 1px
+			background-size: cover
+			box-shadow: 0 0 3px white
+			// background: 0 0px 3px rgba(0, 0, 0, 0.12)
+			// transition: all .2s ease
+		.active
+			box-shadow: 0 3px 3px white
+			transform: translate(0, -5px)
 // vertical carousel
 .v-carousel
 	display: flex
