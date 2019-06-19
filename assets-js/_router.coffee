@@ -201,6 +201,8 @@ Core.Router= class Router
 				# document.location.href= url.href
 		this # chain
 
+	# reload current location
+	reload: -> @goto @location
 	# push data and change location without any further action
 	pushState: (url)->
 		url= (new URL url, Core.baseURL) unless url instanceof URL

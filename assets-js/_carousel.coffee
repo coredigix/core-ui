@@ -25,12 +25,12 @@ _carouselSwipThumbEffect= (event)->
 	a= Math.floor i
 	prcent= 1- i+a
 	eleA= thumbDiv.children[a]
-	_carouselSwipThumbEffectApply eleA, prcent
+	_carouselSwipThumbEffectApply eleA, prcent if eleA
 	# second element
 	a= Math.ceil i
 	prcent= 1-a+i
 	eleB= thumbDiv.children[a]
-	_carouselSwipThumbEffectApply eleB, prcent
+	_carouselSwipThumbEffectApply eleB, prcent if eleB
 	# active class
 	return
 Core.enableCarousel= (container)->
