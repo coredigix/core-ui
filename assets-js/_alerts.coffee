@@ -22,12 +22,13 @@ _alertMsg= (modal)->
 		msg= msg.children[0]
 		document.body.append msg
 		# listen to click on ok
-		result= await new Promise (res, rej)->
-			$ '[d-action="ok"]', msg
-				.click -> res true
-			$ '[d-action="cancel"]', msg
-				.click -> res false
-			return
+		if $('[d-action]', msg).length
+			result= await new Promise (res, rej)->
+				$ '[d-action="ok"]', msg
+					.click -> res true
+				$ '[d-action="cancel"]', msg
+					.click -> res false
+				return
 		# remove modal
 		$(msg).remove()
 		return result
@@ -42,4 +43,30 @@ _defineProperties Core,
 	alert: value: _alertMsg 'alert'
 	# confirms
 	confirm: value: _alertMsg 'confirm'
-		
+	
+	# open modal
+	modal: value: (modalName, options)->
+		msg= Components._ modalName, options
+		msg= msg.children[0]
+		document.body.append msg
+		# listen to click on ok
+		modal= new Promise (res, rej)->
+			btns= $ '[d-action]', msg
+			if btns.length
+				btns.click -> res @getAttribute 'd-action'
+			else
+				res null
+			return
+		# when modal finish
+		modal.then -> $(msg).remove()
+		# add info
+		modal.modal= msg
+		return modal
+
+# # heartbeat animation
+# Core.addAction 'click', 'modal-heart', (event)->
+# 	if event.target is this
+# 		$(this).css 'transform', 'scale(1.02)'
+# 			transitionOnce ->
+# 				this.style.transform= null
+# 	return

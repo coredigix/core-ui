@@ -22,6 +22,14 @@ DEFAULT_DROPDOWN_HANDLER=
 	# events
 	# onSelect: (ele)->
 	# onChange: (ele)->
+	# METHODS
+	# Clear all data
+	clear: ->
+		console.log '--- clear'
+		return
+	# add value
+	add: (value)->
+		return
 DEFAULT_MULTI_CHOICE_DROPDOWN_HANDLER=
 	multiple: true
 	renderResult: (item)-> item
@@ -106,10 +114,10 @@ _rmDropDownValue= (dropdown, value)->
 				arr.splice i, 1
 				break
 	# remove in DOM
-	for el in $ '.dropdown-value:first>*', dropdown
-		if el[DROPDOWN_VALUE] is value
-			$(el).remove()
-			break
+	# for el in $ '.dropdown-value:first>*', dropdown
+	# 	if el[DROPDOWN_VALUE] is value
+	# 		$(el).remove()
+	# 		break
 	return
 # wrap multiple result (when multiple dropdown)
 _dropdownWrapMulti= (vl, value, dropdown)->
@@ -121,50 +129,57 @@ _dropdownWrapMulti= (vl, value, dropdown)->
 		rs.innerHTML= vl
 	else 
 		rs.appendChild vl
+	# add input hidden
+	if inputName= dropdown.getAttribute 'd-name'
+		inp= document.createElement 'input'
+		inp.type= 'hidden'
+		inp.name= inputName
+		inp.value= value
+		rs.appendChild inp
 	# add close
 	close= document.createElement 'i'
 	close.className= 'ico close'
 	close.innerHTML= 'close'
 	rs.appendChild close
-	close.addEventListener 'click', (event)-> _rmDropDownValue dropdown, value
 	return rs
 # item select
 _dropdownSelect= (item)->
 	return unless item
 	descriptor= _getDropdownDescriptor currentDropDown
 	value= item[DROPDOWN_VALUE] or item.getAttribute('d-value') or item.innerHTML
+	val= descriptor.value value
 	# render
 	$vl= $('.dropdown-value:first', currentDropDown)
 	addDOM= !!$vl.length # flag
 	# autocomplete format
 	if $vl.is 'input'
-		$vl.val descriptor.value value
+		$vl.val val
 	# multiple choice
 	else
 		isMultiple= descriptor.multiple
 		isResultSet= descriptor.resultSet
 		if isMultiple
 			arr= currentDropDown[DROPDOWN_VALUE] ?= []
-			if isResultSet and value in arr
+			if isResultSet and val in arr
 				addDOM= no
 			else
-				arr.push value
+				arr.push val
 		# select format
 		else
 			$vl.empty()
-			currentDropDown[DROPDOWN_VALUE]= value
+			currentDropDown[DROPDOWN_VALUE]= val
 			
 		# render value
 		if addDOM
 			vl= descriptor.renderResult value, currentDropDown
 			if isMultiple
-				$vl.append _dropdownWrapMulti vl, value, currentDropDown
+				$vl.append _dropdownWrapMulti vl, val, currentDropDown
 			else if vl is 'string'
 				$vl.html vl
 			else
 				$vl.append vl
 			# fill nested input
-			$('.dropdown-box input:first', currentDropDown).val descriptor.value value
+			# $('.dropdown-box input:first', currentDropDown).val descriptor.value value
 	# do close
 	_dropdownStop() if descriptor.closeOnSelect
 	return
@@ -179,9 +194,10 @@ _dropDownRenderItems= ->
 			# loading
 			$dropdown.addClass 'loading'
 			# load items
-			hint= $dropdown.find('>.dropdown-box input, >.dropdown-popup>.f-cntrl input').val()
+			# hint= $dropdown.find('>.dropdown-popup>.f-cntrl input, >.dropdown-box input').val()
+			hint= $dropdown.find('input.f-input').val()
 			data= data hint
-			if ld instanceof Promise
+			if data instanceof Promise
 				dropdown[DROPDOWN_XHR]?.abort?() # abort previous call
 				dropdown[DROPDOWN_XHR]= data # save new call
 				data= await data
@@ -196,10 +212,10 @@ _dropDownRenderItems= ->
 					li= descriptor.renderItem item, dropdown
 					# wrap
 					if li and li.tagName is 'LI'
-						li.classList.append '.dropdown-item'
+						li.classList.append 'dropdown-item'
 					else
 						wli= document.createElement 'li'
-						wli.className= '.dropdown-item.p-tiny'
+						wli.className= 'dropdown-item p-tiny'
 						if typeof li is 'string'
 							wli.innerHTML= li
 						else
@@ -213,7 +229,7 @@ _dropDownRenderItems= ->
 			$dropdown.find '.dropdown-items'
 				.empty()
 				.append frag
-				.find '>.dropdown-item: first'
+				.find '>.dropdown-item:first'
 				.addClass 'dropdown-hover' # select first element
 		catch err
 			err= new Error 'dropdown-renderItems>>' + err if typeof err is 'string'
@@ -285,7 +301,7 @@ _dropdownStart= ($dropdown)->
 	clientWidth= window.innerWidth
 	clientHeight= window.innerHeight
 	# clientWidth= document.body.clientWidth
-	$popup= $dropdown.find('.dropdown-popup:first').css(height:'')
+	$popup= $dropdown.find('.dropdown-popup:first').css('max-height': '')
 	if clientWidth <= MOBILE_WIDTH
 		# mobile
 	else
@@ -296,18 +312,16 @@ _dropdownStart= ($dropdown)->
 		$dropdown.removeClass 'dropdown-open'
 		# open drop down
 		bounds= dropdown.getBoundingClientRect()
+		dpopupSize= clientHeight - bounds.top - bounds.height
 		if popupSize + bounds.top <= clientHeight
 			$dropdown.addClass 'dropdown-down'
 		else
-			dpopupSize= clientHeight - bounds.top - bounds.height
 			if bounds.top > dpopupSize
-				dpopupSize= bounds.top - 10
-				if popupSize > dpopupSize
-					$popup.css height: dpopupSize
+				dpopupSize= bounds.top
 				$dropdown.addClass 'dropdown-up'
 			else
-				$popup.css height: dpopupSize - 10
 				$dropdown.addClass 'dropdown-down'
+		$popup.css 'max-height', dpopupSize - 10
 		descriptor= _getDropdownDescriptor dropdown
 		if descriptor.hideValue
 			$dropdown.addClass 'dropdown-hidevalue'
@@ -325,9 +339,11 @@ _dropdownStart= ($dropdown)->
 	window.addEventListener 'resize', _dropdownStop, _dropdownListenerOptions
 	window.addEventListener 'keydown', _dropdownKeyboardListener, false
 	# if autocomplete, select first input
-	$popup.find('>.f-cntrl>input').focus().select()
+	$popup.find('.f-input:first').focus().select()
 	# init items
 	_dropDownRenderItems()
+	# if aucomplete, add change event listener
+	$dropdown.find('input.f-input').off('keyup').keyup _dropDownRenderItems
 	# fix for RTL pages
 	# if (document.body.getAttribute('dir') is 'rtl') and (popup= $popup.get 0)
 	# 	console.log '-----**', popup.getBoundingClientRect().left
@@ -339,9 +355,15 @@ _dropdownStart= ($dropdown)->
 CORE_REACTOR.watch '.dropdown-box',
 	click: (event)->
 		$this= $ this
-		return if _firstMatch event, '.dropdown-vl'
 		$dropdown= $this.closest '.dropdown'
-		if $dropdown.hasClass 'dropdown-open'
+		if _firstMatch event, '.dropdown-vl'
+			item= event.target
+			# remove if close
+			if item.classList.contains 'close'
+				elem= item.closest '.dropdown-vl'
+				_rmDropDownValue $dropdown[0], elem[DROPDOWN_VALUE]
+				$(elem).remove()
+		else if $dropdown.hasClass 'dropdown-open'
 			_dropdownStop()
 		else
 			_dropdownStart $dropdown

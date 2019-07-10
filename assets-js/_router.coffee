@@ -27,36 +27,54 @@
 ###
 HISTORY_NO_STATE= 0	# do not insert state in history, use when calling history.back()
 HISTORY_REPLACE= 1	# do replace in history instead of adding
+HISTORY_BACK= 2	# prevent history push when back
 Core.Router= class Router
 	constructor: ()->
 		# root path node
-		@location= location= new URL document.location.href
+		@location= location= new URL document.referrer or document.location.href
 		# private
 		@_root= _newPathNode()
 		@_$= _create null # params
 		@_path= null # current path
 		@_href= null # current href: used to not add new entry to history if some URL
 		@_pathArr= [] # current path nodes as [pathKey, node, ...]
+		@_back= [] # prevent back and do an other action like closing popups
 		@_node= null # current node
 		@id= 'r' + Math.random().toString(32).substr(2) # Router id
-		@_ctx=
-			isNew: yes	# if this route is called first time
-			location: location
-			referrer: null # referrer url
-			params: null
-			path: null	# current path
-			url: null	# curent url as URL object
+		@_ctx= null
+		@_use= [] # queue cb; @see this.use
+		@_post= [] # post call callbacks
 		# Pop state
 		_popstateListener= (event)=>
-			path= event.state?.path
-			if typeof path is 'string'
-				@goto path, HISTORY_NO_STATE
+			# call callbacks
+			preventBack= no
+			for cb in @_back
+				try
+					break if preventBack= cb event
+				catch err
+					Core.fatalError 'Router', err
+			if preventBack
+				history.pushState event.state, '', @location.href
+			else
+				path= event.state?.path
+				if typeof path is 'string'
+					@goto path, HISTORY_BACK
 			return
 		window.addEventListener 'popstate', _popstateListener, off
 		# start router
 		$ =>
 			@replace document.location.href, false
 		return
+	###*
+	 * call those functions whenever route changed
+	###
+	use: (cb)->
+		@_use.push cb
+		this # chain
+	# post call
+	postCall: (cb)->
+		@_post.push cb
+		this # chain
 	###*
 	 * Add params
 	 * @param {String} options.name - param name
@@ -129,47 +147,47 @@ Core.Router= class Router
 			# convert URL
 			url= (new URL url, Core.baseURL) unless url instanceof URL
 			# create context var
-			ctx= @_ctx
-
-			# push in history
-			urlHref= url.href
-			unless urlHref is @_href
-				@_href= urlHref
-				if doState is HISTORY_REPLACE
-					history?.replaceState {path:urlHref}, document.title, urlHref
-				else unless doState is HISTORY_NO_STATE
-					history?.pushState {path:urlHref}, document.title, urlHref
-			# adjust context
-			ctx.referrer= @location.href
-			ctx.url= @location= url
-			path= ctx.path= url.pathname
+			referrer=	@location.href
+			path=		url.pathname
+			@location=	url
+			ctx=
+				referrer:		referrer
+				url:			url
+				path:			path
+				isHistoryBack:	doState is HISTORY_BACK # if this is fired by history.back
+				isNew:			yes
+				params:			_create null
+				history:		path: url.href
+			@_ctx= ctx	
 			# if the same path, return
 			if path is @_path
+				node= @_node
 				ctx.isNew= no
-				await @_node.in? ctx
+				await @_node.in? ctx, node
 			# lookup for pathname
 			else
-				ctx.isNew= yes	# this controller is called for firstTime
 				@_path= url.pathname
 				# abort active xhr calls
 				Core.ajax.abort @id
 				# previous node
 				previousNode= @_node
 				# lookup for new Node
-				ctx.params= _create null
 				node= _lookupURI @_root, @_$, path, ctx.params
 				@_node= node
 				# call out on previous node
 				if previousNode
-					await previousNode.out? ctx
+					await previousNode.out? ctx, previousNode, node
 					if a= previousNode.toggleClass
 						$('html').removeClass a
+				# call use function
+				for cb in @_use
+					await cb ctx, node, previousNode
 				# exec new Node
 				if node
 					# set title
 					if a= node.title
 						a= a ctx if typeof a is 'function'
-						document.title= a
+						document.title= 'kechExpress - ' + a
 					# toggleClass
 					if a= node.toggleClass
 						$('html').addClass a
@@ -177,16 +195,33 @@ Core.Router= class Router
 					if node.scrollTop
 						scrollTo 0,0
 					# call once
-					await node.once? ctx
+					await node.once? ctx, node, previousNode
 					# call In
-					await node.in? ctx
+					await node.in? ctx, node, previousNode
 				else unless doForword is false
 					return document.location.replace url.href
+			# push in history
+			urlHref= url.href
+			unless (doState is HISTORY_BACK) or (urlHref is @_href) # do not push if it's history back
+				docTitle= node?.title or ''
+				if doState is HISTORY_REPLACE
+					history?.replaceState ctx.history, docTitle, urlHref
+				else unless doState is HISTORY_NO_STATE
+					history?.pushState ctx.history, docTitle, urlHref
+			unless urlHref is @_href
+				@_href= urlHref
+			# post calls
+			for cb in @_post
+				cb ctx, node
 		catch err
 			if err?
 				if err is 404 # URL not found
 					unless doForword is false
 						document.location.href= url.href
+				else if err is 403 # access denied
+					Core.fatalError 'ROUTER', 'Access denied to: ' + urlHref
+					await Core.alert i18n.err403, 'danger'
+					@goto '' # go back to home
 				else if err.aborted
 					# do nothing, request aborted
 				else if err.status is 0 # offline
@@ -194,7 +229,7 @@ Core.Router= class Router
 				else
 					Core.fatalError 'ROUTER', err
 					await Core.alert i18n.internalError, 'danger'
-					Router.goto '' # go back to home
+					@goto '' # go back to home
 			else
 				Core.fatalError 'ajaxCatcher', 'null Error!'
 				await Core.alert i18n.internalError, 'danger'
@@ -202,18 +237,34 @@ Core.Router= class Router
 		this # chain
 
 	# reload current location
-	reload: -> @goto @location
+	reload: (forced)->
+		if forced
+			document.location.replace @location
+		else
+			@goto @location
 	# push data and change location without any further action
-	pushState: (url)->
+	pushState: (url, force)->
 		url= (new URL url, Core.baseURL) unless url instanceof URL
 		@location= url
 		urlHref= url.href
-		unless urlHref is @_href
+		if force or urlHref isnt @_href
 			@_href= urlHref
 			history?.pushState {path:urlHref}, null, urlHref
 		@_path= url.pathname
 		this # chain
 
+	# add cb when history back to prevent back and do an other action like closing pupups
+	back: (cb)->
+		if typeof cb is 'function'
+			@_back.push cb
+		else
+			url= @_ctx.referrer
+			if url isnt @location.href and url.startsWith Core.baseURL
+				# @goto url, HISTORY_BACK
+				history.back()
+			else
+				@goto ''
+		this # chain
 _newPathNode= ->
 	_create null,
 		$: value: []	# store dynamic params as: [paramName, node, param2, node2, ...]

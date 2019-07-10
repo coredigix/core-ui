@@ -120,7 +120,13 @@ body[dir=rtl]
 				border-radius: 0 0 2em 2em
 			&:last-child
 				border-radius: 2em 2em 0 0
-		
+.group.rtl
+	>*
+		&:first-child
+			border-radius: 0 2em 2em 0
+		&:last-child
+			border-radius: 2em 0 0 2em
+
 // loading
 .btn
 	&.loading
