@@ -1,7 +1,8 @@
 // stars input
 .input-star
 	font-size: 1.25em
-	color: #FFD700
+	// color: #FFD700
+	color: #ffbf00
 	display: inline-block
 	position: relative
 	cursor: pointer
@@ -19,7 +20,7 @@
 	width: 23%
 .star-mv
 	display: none
-	color: fade-out(#FFD700, .4)
+	color: fade-out(#ffbf00, .4)
 	z-index: 2
 	width: 70%
 .star-mv, .star-front
@@ -54,23 +55,23 @@
 // default levels
 .input-star.rating
 	&[d-level="0"], &[d-level="1"]
-		color: #d50000
+		color: #D32F2F
 	&[d-level="2"],&[d-level="3"]
-		color: #2962ff
+		color: #0277BD
 	&[d-level="4"]
-		color: #64dd17
+		color: #558B2F
 
 	.star-bullet
 		&[d-level="0"], &[d-level="1"]
-			background-color: #d50000
+			background-color: #D32F2F
 		&[d-level="2"],&[d-level="3"]
-			background-color: #2962ff
+			background-color: #0277BD
 		&[d-level="4"]
-			background-color: #64dd17
+			background-color: #558B2F
 	.star-mv
 		&[d-level="0"], &[d-level="1"]
-			color: fade-out(#d50000, .4)
+			color: fade-out(#D32F2F, .4)
 		&[d-level="2"],&[d-level="3"]
-			color: fade-out(#2962ff, .4)
+			color: fade-out(#0277BD, .4)
 		&[d-level="4"]
-			color: fade-out(#64dd17, .4)
+			color: fade-out(#558B2F, .4)
