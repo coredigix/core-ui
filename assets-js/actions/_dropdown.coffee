@@ -1,6 +1,7 @@
 # Symbols
 DROPDOWN_VALUE= Symbol 'dropdown-value'
 DROPDOWN_XHR= Symbol 'dropdown-xhr' # when loading data from server (must have an "abort" method)
+dropDownEnbaleScrollStopTimeout= null
 # default dropdown handler
 DEFAULT_DROPDOWN_HANDLER=
 	# data: async function(hint){} # function: will return data to show based on hint (autocomplete)
@@ -288,7 +289,10 @@ _dropdownStop= (e)->
 	# document listeners
 	document.removeEventListener 'mouseover', _dropdownOut, true
 	document.removeEventListener 'click', _dropdownClick, true
+	# scroll event
 	document.removeEventListener 'scroll', _dropdownStop, true
+	clearTimeout dropDownEnbaleScrollStopTimeout if dropDownEnbaleScrollStopTimeout
+	dropDownEnbaleScrollStopTimeout= null
 	# window listeners
 	window.removeEventListener 'resize', _dropdownStop, true
 	window.removeEventListener 'keydown', _dropdownKeyboardListener, false
@@ -334,7 +338,9 @@ _dropdownStart= ($dropdown)->
 	# document listeners
 	document.addEventListener 'mouseover', _dropdownOut, _dropdownListenerOptions
 	document.addEventListener 'click', _dropdownClick, _dropdownListenerOptions
-	document.addEventListener 'scroll', _dropdownStop, _dropdownListenerOptions
+	# hide when scroll, add timeout to prevent mobile scroll when show keyboard
+	dropDownEnbaleScrollStopTimeout= setTimeout (-> document.addEventListener 'scroll', _dropdownStop, _dropdownListenerOptions), 800
+	
 	# add keyboard listener
 	window.addEventListener 'resize', _dropdownStop, _dropdownListenerOptions
 	window.addEventListener 'keydown', _dropdownKeyboardListener, false

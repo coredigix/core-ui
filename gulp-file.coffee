@@ -11,6 +11,7 @@ sass			= require 'gulp-sass'
 PKG				= require './package.json'
 
 uglify			= require('gulp-uglify-es').default
+Babel			= require 'gulp-babel'
 
 # settings
 isProd= <%= isProd %>
@@ -30,7 +31,20 @@ compileCoffee = ->
 		
 		.pipe coffeescript(bare: true).on 'error', GfwCompiler.logError
 		.pipe rename "#{PKG.name}.js"
-		<%= isProd ? '.pipe uglify {compress: {toplevel: no, keep_infinity: on, warnings: on} }' : '' %>
+		<% if(isProd){ %>
+		.pipe Babel
+			presets: ['babel-preset-env']
+			plugins: [
+				['transform-runtime',{
+					helpers: no
+					polyfill: no
+					regenerator: no
+				}]
+				'transform-async-to-generator'
+			]
+			# plugins: ['@babel/transform-runtime']
+		.pipe uglify {compress: {toplevel: no, keep_infinity: on, warnings: on} }
+		<% } %>
 		.pipe gulp.dest "build"
 		.on 'error', GfwCompiler.logError
 

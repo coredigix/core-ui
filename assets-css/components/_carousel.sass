@@ -3,7 +3,10 @@
 	white-space: nowrap
 	position: relative
 	scroll-behavior: smooth
+	scroll-snap-type: mandatory		// compatibility with firefox
 	scroll-snap-type: x mandatory
+	scroll-snap-points-x: repeat(100%)	// comptibility firefox
+	scroll-snap-destination: 0 0		// comptibility firefox
 	direction: ltr
 	>*
 		display: inline-block

@@ -44,6 +44,9 @@ Core.Router= class Router
 		@_ctx= null
 		@_use= [] # queue cb; @see this.use
 		@_post= [] # post call callbacks
+		# cb when href not matched
+		@out= (href)-> document.location.replace href
+
 		# Pop state
 		_popstateListener= (event)=>
 			# call callbacks
@@ -63,7 +66,7 @@ Core.Router= class Router
 		window.addEventListener 'popstate', _popstateListener, off
 		# start router
 		$ =>
-			@replace document.location.href, false
+			@replace document.location.href, false, true
 		return
 	###*
 	 * call those functions whenever route changed
@@ -135,14 +138,14 @@ Core.Router= class Router
 	 * @param {String|URL} url - target URL
 	 * @optional @param {Boolean} doForword - unless false, forword to url if not mapped @default true
 	###
-	replace: (url, doForword)-> @goto url, HISTORY_REPLACE, doForword
+	replace: (url, doForword, _isRoot)-> @goto url, HISTORY_REPLACE, doForword, _isRoot
 	###*
 	 * Goto url
 	 * @param {String|URL} url - target URL
 	 * @optional @param {Number} doState - internal use
 	 * @optional @param {Boolean} doForword - unless false, forword to url if not mapped @default true
 	###
-	goto: (url, doState, doForword)->
+	goto: (url, doState, doForword, _isRoot)->
 		try
 			# convert URL
 			url= (new URL url, Core.baseURL) unless url instanceof URL
@@ -151,6 +154,7 @@ Core.Router= class Router
 			path=		url.pathname
 			@location=	url
 			ctx=
+				isRoot:			_isRoot	# is root page (first to be loaded)
 				referrer:		referrer
 				url:			url
 				path:			path
@@ -159,9 +163,13 @@ Core.Router= class Router
 				params:			_create null
 				history:		path: url.href
 			@_ctx= ctx	
+			# previous node
+			previousNode= @_node
+			# lookup for new Node
+			node= _lookupURI @_root, @_$, path, ctx.params
 			# if the same path, return
 			if path is @_path
-				node= @_node
+				# node= @_node
 				ctx.isNew= no
 				await @_node.in? ctx, node
 			# lookup for pathname
@@ -169,10 +177,6 @@ Core.Router= class Router
 				@_path= url.pathname
 				# abort active xhr calls
 				Core.ajax.abort @id
-				# previous node
-				previousNode= @_node
-				# lookup for new Node
-				node= _lookupURI @_root, @_$, path, ctx.params
 				@_node= node
 				# call out on previous node
 				if previousNode
@@ -195,11 +199,15 @@ Core.Router= class Router
 					if node.scrollTop
 						scrollTo 0,0
 					# call once
-					await node.once? ctx, node, previousNode
+					resp= await node.once? ctx, node, previousNode
+					if resp is this	# return route to other place
+						return this
 					# call In
-					await node.in? ctx, node, previousNode
+					resp= await node.in? ctx, node, previousNode
+					if resp is this	# return route to other place
+						return this
 				else unless doForword is false
-					return document.location.replace url.href
+					return @out url.href
 			# push in history
 			urlHref= url.href
 			unless (doState is HISTORY_BACK) or (urlHref is @_href) # do not push if it's history back
@@ -214,32 +222,41 @@ Core.Router= class Router
 			for cb in @_post
 				cb ctx, node
 		catch err
-			if err?
-				if err is 404 # URL not found
-					unless doForword is false
-						document.location.href= url.href
-				else if err is 403 # access denied
-					Core.fatalError 'ROUTER', 'Access denied to: ' + urlHref
-					await Core.alert i18n.err403, 'danger'
-					@goto '' # go back to home
-				else if err.aborted
-					# do nothing, request aborted
-				else if err.status is 0 # offline
-					Core.alert i18n.noConnection, 'danger'
-				else
-					Core.fatalError 'ROUTER', err
-					await Core.alert i18n.internalError, 'danger'
-					@goto '' # go back to home
+			if typeof @catch is 'function'
+				@catch err, url, doForword
 			else
-				Core.fatalError 'ajaxCatcher', 'null Error!'
-				await Core.alert i18n.internalError, 'danger'
-				# document.location.href= url.href
+				if err is 0
+					@goto '' # go back to home
+				else if err?
+					if err is 404 # URL not found
+						unless doForword is false
+							@out url.href
+							# document.location.href= url.href
+					else if err is 403 # access denied
+						Core.fatalError 'ROUTER', 'Access denied to: ' + urlHref
+						await Core.alert i18n.err403, 'danger'
+						@goto '' # go back to home
+					else if err.aborted
+						# do nothing, request aborted
+					else if err.status is 0 # offline
+						Core.alert i18n.noConnection, 'danger'
+					else
+						Core.fatalError 'ROUTER', err
+						await Core.alert i18n.internalError, 'danger'
+						@goto '' # go back to home
+				else
+					Core.fatalError 'ajaxCatcher', 'null Error!'
+					await Core.alert i18n.internalError, 'danger'
+					# document.location.href= url.href
 		this # chain
 
 	# reload current location
 	reload: (forced)->
 		if forced
-			document.location.replace @location
+			if typeof @out is 'function'
+				@out @location, true
+			else
+				document.location.replace @location
 		else
 			@goto @location
 	# push data and change location without any further action

@@ -22,22 +22,30 @@ _fileUploadChange= (event)->
 		for f in fileLst
 			return if (f.name is file.name) and (f.size is file.size) and (f.lastModified is file.lastModified)
 		# add to queue
-		fileLst.push file 
-		reader = new FileReader()
-		reader.onload= (evnt)->
-			$ele= $ (Components._ 'filePreview', src: evnt.target.result).children[0]
-			# remove on click on close
-			$ele.find('.close').click (event)->
-				$ele.remove()
-				for f, i in fileLst
-					if f is file
-						fileLst.splice i, 1
-						break
+		fileLst.push file
+		# preview
+		ele= (Components._ 'filePreview', name: file.name).children[0]
+		ele[F_FILES_LIST]= fileLst
+		$preview.append ele
+		# render if image
+		if file.type?.startsWith 'image/'
+			reader = new FileReader()
+			reader.onload= (evnt)->
+				el2= (Components._ 'filePreview', src: evnt.target.result).children[0]
+				el2[F_FILES_LIST]= fileLst
+				$el2= $ el2
+				# remove on click on close
+				$el2.find('.close').click (event)->
+					$el2.remove()
+					for f, i in fileLst
+						if f is file
+							fileLst.splice i, 1
+							break
+					return
+				# append
+				$(ele).replaceWith el2
 				return
-			# append
-			$preview.append $ele
-			return
-		reader.readAsDataURL file
+			reader.readAsDataURL file
 		return
 	# loop
 	for file in @files

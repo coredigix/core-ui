@@ -8,11 +8,11 @@
 	user-select: none
 %select, .select
 	-webkit-touch-callout: initial
-	-webkit-user-select: initial
+	-webkit-user-select: text
 	-khtml-user-select: initial
-	-moz-user-select: element
-	-ms-user-select: initial
-	user-select: initial
+	-moz-user-select: all
+	-ms-user-select: element
+	user-select: all
 
 // align
 .t
@@ -77,6 +77,8 @@ body[dir=rtl]
 // wrap
 .nowrap
 	white-space: nowrap
+.wrap
+	white-space: normal
 // truncate text and show ellipsis
 .truncate
 	white-space: nowrap
@@ -121,8 +123,8 @@ a, .link
 // close
 .close
 	position: absolute
-	top: .5em
-	right: .5em
+	top: .25em
+	right: .25em
 	&.link
 		color: inherit
 

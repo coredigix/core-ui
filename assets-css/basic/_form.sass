@@ -188,9 +188,17 @@ body[dir=rtl]
 			border-radius: 50%
 
 		&:checked+span
-			background: currentColor
-			border: none
-			padding: 2px
+			// background: currentColor
+			border-color: currentColor
+			// padding: 2px
+			&:after
+				content: ''
+				display: block
+				width: 1em
+				height: 1em
+				background: currentColor
+				border: 2px solid white
+				border-radius: 50%
 	&.hover:hover
 		input+span
 			border-color: currentColor
@@ -249,8 +257,11 @@ body[dir=rtl]
 
 // input number
 .input-number
-	input[type=number]::-webkit-inner-spin-button
-		-webkit-appearance: none
+	input[type=number]
+		-moz-appearance: textfield
+		-webkit-appearance: textfield
+		&::-webkit-inner-spin-button, &::-webkit-outer-spin-button
+			-webkit-appearance: none
 	.f-input
 		width: 60px
 	*:first-child

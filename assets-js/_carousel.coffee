@@ -7,6 +7,7 @@ Core.addAction 'click', 'carousel-tumb', ->
 	$target= $items.children()[$item.index()]
 	if $target
 		$items[0].scrollTo $target.offsetLeft, 0
+		# $target.scrollIntoView()
 	return
 
 # enbale carousel
