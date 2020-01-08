@@ -1,0 +1,56 @@
+a, .link
+	cursor: pointer
+	color: $link-color
+	text-decoration: none
+	transition: color .3s ease
+	outline: none
+	&:hover
+		color: $link-hover
+		text-decoration: underline
+	&:active
+		color: $link-active
+		text-decoration: underline
+
+	&:not(.hover)
+		&.default
+			color: $text-color
+		&.primary
+			color: $primary
+		&.success
+			color: $success
+		&.info
+			color: $info
+		&.warn
+			color: $warning
+		&.danger
+			color: $danger
+	&.hover
+		&.primary:hover
+			color: $primary
+		&.success:hover
+			color: $success
+		&.info:hover
+			color: $info
+		&.warn:hover
+			color: $warning
+		&.danger:hover
+			color: $danger
+
+// close
+.close
+	cursor: pointer
+	display: inline-block
+	line-height: 1.5em
+	width: 1.3em
+	text-align: center
+	border-radius: 50%
+	&:hover
+		color: $text-color
+		background: white
+	&:before
+		margin: 0
+	&:active, &.active
+		background-color: $default-active
+		box-shadow: inset 0 3px 5px rgba(0,0,0,.125)
+
+

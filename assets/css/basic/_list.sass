@@ -1,0 +1,29 @@
+// table list
+.table-list
+	list-style: none
+	// border: 1px solid $border-color
+	border-radius: $border-radius
+	display: flex
+	flex-wrap: wrap
+	>li
+		@extend %padding
+		border: $default-border
+		border-radius: $border-radius
+		flex-grow: 1
+
+// typical list
+.list
+	list-style: none
+	li
+		text-indent: -25px
+
+// list with custom bullet: check
+ul.checklist
+	list-style: none
+	li
+		&:before
+			@extend %ico
+			@extend .ico-check
+
+
+

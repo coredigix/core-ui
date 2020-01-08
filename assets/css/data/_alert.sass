@@ -1,0 +1,31 @@
+.alert
+	padding: .6em
+	border-radius: 6px
+	background: $default linear-gradient(60deg, $default, darken($default, 4%))
+	&.primary
+		background: $primary linear-gradient(60deg, $primary, darken($primary, 4%))
+		color: white
+		box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(0,188,212,.4)
+	&.success
+		background: #66bb6a linear-gradient(60deg, #66bb6a, darken(#66bb6a, 4))
+		color: white
+		box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(76,175,80,.4)
+	&.info
+		background: #26c6da linear-gradient(60deg, #26c6da, darken(#26c6da, 4%))
+		color: white
+		box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(0,188,212,.4)
+	&.warn
+		background: #ffa726 linear-gradient(60deg, #ffa726, darken(#ffa726, 4%))
+		color: white
+		box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(255,152,0,.4)
+	&.danger
+		background: #ef5350 linear-gradient(60deg, #ef5350, darken(#ef5350, 4%))
+		color: white
+		box-shadow: 0 4px 20px 0 rgba(0,0,0,0.14), 0 7px 10px -5px rgba(244,67,54,0.4)
+	// buttons
+	.btn.default
+		background: white
+		&.flat
+			color: white
+		&:hover
+			color: $text-color

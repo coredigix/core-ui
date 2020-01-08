@@ -1,0 +1,15 @@
+/****************
+ * Rotation
+ */
+.rotate, %rotate
+	display: inline-block
+	will-change: transform
+	animation: cui-rotate 1s linear infinite
+.anti-rotate
+	will-change: transform
+	animation: cui-rotate $animate-slow linear reverse infinite
+
+// keyframes
+@keyframes cui-rotate
+	to
+		transform: rotate(360deg)

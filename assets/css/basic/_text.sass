@@ -1,0 +1,214 @@
+// SELECT
+%noselect, .noselect
+	-webkit-touch-callout: none
+	-webkit-user-select: none
+	-khtml-user-select: none
+	-moz-user-select: none
+	-ms-user-select: none
+	user-select: none
+%select, .select
+	-webkit-touch-callout: initial
+	-webkit-user-select: text
+	-khtml-user-select: initial
+	-moz-user-select: all
+	-ms-user-select: element
+	user-select: text
+%auto-select, .auto-select
+	-webkit-touch-callout: initial
+	-webkit-user-select: all
+	-khtml-user-select: initial
+	-moz-user-select: all
+	-ms-user-select: element
+	user-select: all
+
+
+// align
+.t
+	&-left
+		text-align: left
+	&-right
+		text-align: right
+	&-center
+		text-align: center
+	&-justify
+		text-align: justify
+	&-start
+		text-align: start
+	&-end
+		text-align: end
+
+
+// vertical align
+.v
+	&-top
+		vertical-align: top
+	&-sub
+		vertical-align: sub
+	&-super
+		vertical-align: super
+	&-baseline
+		vertical-align: baseline
+	&-middle
+		vertical-align: middle
+	&-bottom
+		vertical-align: bottom
+	&-text-top
+		vertical-align: text-top
+	&-text-bottom
+		vertical-align: text-bottom
+
+// weight
+.bold
+	font-weight: bold
+.bolder
+	font-weight: 800
+.italic
+	font-style: italic
+.oblique
+	font-style: oblique
+
+// transform
+.capitalize
+	text-transform: capitalize
+.lowercase
+	text-transform: lowercase
+.uppercase
+	text-transform: uppercase
+
+.small-caps
+	font-variant: small-caps
+.all-small-caps
+	font-variant: all-small-caps
+.unicase
+	font-variant: unicase
+
+// familly
+.cursive
+	font-family: cursive
+.fantasy
+	font-family: fantasy
+.monospace
+	font-family: monospace
+
+
+// decoration
+.overline
+	text-decoration: overline
+.overline-wavy
+	text-decoration: overline wavy
+.overline-dashed
+	text-decoration: overline dashed
+.overline-dotted
+	text-decoration: overline dotted
+.overline-double
+	text-decoration: overline double
+
+.underline
+	text-decoration: underline
+.underline-wavy
+	text-decoration: underline wavy
+.underline-dashed
+	text-decoration: underline dashed
+.underline-dotted
+	text-decoration: underline dotted
+.underline-double
+	text-decoration: underline double
+
+.line-through
+	text-decoration: line-through
+.line-through-wavy
+	text-decoration: line-through wavy
+.line-through-dashed
+	text-decoration: line-through dashed
+.line-through-dotted
+	text-decoration: line-through dotted
+.line-through-double
+	text-decoration: line-through double
+
+
+// wrap
+.nowrap
+	white-space: nowrap
+.wrap
+	white-space: normal
+// truncate text and show ellipsis
+.truncate
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+.pre
+	white-space: pre
+.pre-line
+	white-space: pre-line
+.pre-wrap
+	white-space: pre-wrap
+
+
+// overflow
+.scroll
+	overflow: auto
+.scroll-x
+	overflow: auto
+	overflow-y: hidden
+.scroll-y
+	overflow: auto
+	overflow-x: hidden
+.overflow-hidden
+	overflow: hidden
+
+// Headers
+h1, h2, h3, h4, h5, h6
+	color: $header-color
+	font-weight: 400
+h1
+	margin: 20px 0
+	font-size: 28px
+h2
+	margin: 55px 0 20px
+	font-size: 22px
+
+// SIZE
+// .t
+// 	&-xs
+// 		font-size: smaller
+// 	&-sm
+// 		font-size: small
+// 	&-lg
+// 		font-size: 1.2em
+// 	&-xl
+// 		font-size: 2em
+// 	&-xxl
+// 		font-size: 6em
+
+.small, .t-sm
+	font-size: small
+.smaller
+	font-size: smaller
+.x-small, .t-xs
+	font-size: x-small
+.xx-small
+	font-size: xx-small
+.large, .t-lg
+	font-size: large
+.larger
+	font-size: larger
+.x-large, .t-xl
+	font-size: x-large
+.xx-large, .t-xxl
+	font-size: xx-large
+
+// colors
+.t
+	&-white
+		color: white
+	&-primary
+		color: $primary
+	&-success
+		color: $success
+	&-info
+		color: $info
+	&-warn
+		color: $warning
+	&-danger
+		color: $danger

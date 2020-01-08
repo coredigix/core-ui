@@ -1,0 +1,35 @@
+/**
+ * Tables
+ */
+.inline-table
+	display: inline-table
+.table-cell
+	display: table-cell
+.table-row
+	display: table-row
+
+
+.table
+	display: table
+	width: 100%
+	th
+		font-size: .9em
+	td, th
+		text-align: start
+		border-bottom: 1px solid $border-color
+		padding: 12px 10px
+
+
+	&.striped
+		tr:nth-child(even)
+			background: $default-light
+	&.hover
+		tbody
+			tr
+				cursor: pointer
+				&:hover
+					background: $default
+	&.border
+		border-collapse: collapse
+		td, th
+			border: 1px solid $border-color

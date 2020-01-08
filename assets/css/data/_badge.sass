@@ -1,0 +1,40 @@
+.badge
+	display: inline-block
+	padding: 0 6px
+	font-size: 12px
+	line-height: 18px
+	white-space: nowrap
+	border-radius: 10px
+	color: white
+	background-color: $text-color
+	pointer-events: none
+	&:empty
+		padding: 6px
+	&.primary
+		background-color: $primary
+	&.success
+		background-color: $success
+	&.info
+		background-color: $info
+	&.warn
+		background-color: $warning
+	&.danger
+		background-color: $danger
+	&.disabled
+		background-color: $bg-disabled
+
+	// absolute
+	&.abs
+		top: 0
+		right: 0
+		-webkit-transform: translate(50%, -50%)
+		transform: translate(50%, -50%)
+
+
+
+
+
+
+
+
+
