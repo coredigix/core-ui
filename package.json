@@ -1,8 +1,8 @@
 {
   "name": "core-ui",
-  "version": "1.0.0",
-  "description": "web front framework",
-  "main": "build/index.js",
+  "version": "2.0.0",
+  "description": "web CSS/JS framework",
+  "main": "doc/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,8 +29,10 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "coffeescript": "^2.4.1",
     "eco": "^1.1.0-rc-3",
-    "gridfw-compiler": "^1.1.0",
+    "gridfw": "^1.1.6",
+    "gridfw-compiler": "^1.2.3",
     "gulp": "^4.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-chug": "^0.5.1",
@@ -43,9 +45,14 @@
     "gulp-template": "^5.0.0",
     "gulp-uglify-es": "^1.0.4",
     "gulp-util": "^3.0.8",
+    "sass": "^1.22.10",
     "through2": "^3.0.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0"
+    "babel-runtime": "^6.26.0",
+    "gridfw-downloader": "^1.1.0",
+    "gridfw-i18n": "^1.2.0",
+    "gridfw-uploader": "^1.1.0",
+    "gridfw-view-render": "^1.1.0"
   }
 }
