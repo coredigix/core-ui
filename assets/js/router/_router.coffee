@@ -10,6 +10,7 @@ ROUTER_ROOT_PATH= -1	# Is document root path (Document real path)
 HISTORY_NO_STATE= 0	# do not insert state in history, use when calling history.back()
 HISTORY_REPLACE= 1	# do replace in history instead of adding
 HISTORY_BACK= 2	# prevent history push when back
+ROUTER_RELOAD= 3	# Reload path
 ROUTER_OPTIONS= Symbol 'Router options'
 class Router
 	constructor: (options)->
@@ -98,7 +99,7 @@ class Router
 			else
 				document.location.replace @location
 		else
-			@goto @location
+			@goto @location, ROUTER_RELOAD
 		this # chain
 	###*
 	 * Goto
@@ -120,7 +121,7 @@ class Router
 				url:			url
 				path:			path
 				isHistoryBack:	doState is HISTORY_BACK # if this is fired by history.back
-				isNew:			(doState is ROUTER_ROOT_PATH) or (path isnt previousPath)
+				isNew:			(doState is ROUTER_ROOT_PATH) or (doState is ROUTER_RELOAD) or (path isnt previousPath)
 				params:			_create null	# Path params
 				query:			_create null	# Query params
 				history:		path: url.href
