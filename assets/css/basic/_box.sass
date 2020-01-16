@@ -26,12 +26,14 @@ $padding10px: 10px
 // relative margins
 .m-after
 	margin-right: $margin
-	body[dir="rtl"] &
+	// body[dir="rtl"] &
+	&:dir(rtl)
 		margin-left: $margin
 		margin-right: auto
 .m-before
 	margin-left: $margin
-	body[dir="rtl"] &
+	// body[dir="rtl"] &
+	&:dir(rtl)
 		margin-left: auto
 		margin-right: $margin
 
@@ -71,12 +73,14 @@ $padding10px: 10px
 // relative paddings
 .p-after
 	padding-right: $padding
-	body[dir="rtl"] &
+	// body[dir="rtl"] &
+	&:dir(rtl)
 		padding-left: $padding
 		padding-right: auto
 .p-before
 	padding-left: $padding
-	body[dir="rtl"] &
+	// body[dir="rtl"] &
+	&:dir(rtl)
 		padding-left: auto
 		padding-right: $padding
 
