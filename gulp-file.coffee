@@ -126,6 +126,11 @@ compileDocJS= ->
 		.pipe gulp.dest "doc"
 		.on 'error', GfwCompiler.logError
 
+# copy fonts
+copyFonts= ->
+	gulp.src 'assets/fonts/*'
+		.pipe gulp.dest "build/fonts"
+		.on 'error', GfwCompiler.logError
 
 # compile i18n
 compileDocViews= ->
@@ -168,11 +173,12 @@ watch = (cb)->
 		gulp.watch ['assets/doc/i18n/views/**/*.coffee', 'assets/doc/views/**/*.pug'], compileDocViews
 		gulp.watch 'assets/doc/i18n/server/**/*.coffee', compileDocI18n
 		gulp.watch ['assets/doc/public/**/*', 'build/*'], doccCpyPublic
+		gulp.watch ['assets/fonts/*'], copyFonts
 	cb()
 	return
 
 # create default task
-gulp.task 'default', gulp.series ( gulp.parallel compileCoffee, compileSass, compileDocJS, compileDocViews, compileDocI18n, doccCpyPublic), watch
+gulp.task 'default', gulp.series ( gulp.parallel compileCoffee, compileSass, compileDocJS, compileDocViews, compileDocI18n, doccCpyPublic, copyFonts), watch
 
 
 # check for avialable views

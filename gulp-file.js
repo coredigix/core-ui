@@ -1,4 +1,4 @@
-var Babel, CoffeescriptNode, CsOptions, GfwCompiler, HTML_REPLACE, PKG, Path, SassNode, baseURL, coffeescript, compileCoffee, compileDocI18n, compileDocJS, compileDocViews, compileSass, doccCpyPublic, gulp, include, isProd, path, port, pug, rename, sass, settings, through, uglify, viewSettings, watch;
+var Babel, CoffeescriptNode, CsOptions, GfwCompiler, HTML_REPLACE, PKG, Path, SassNode, baseURL, coffeescript, compileCoffee, compileDocI18n, compileDocJS, compileDocViews, compileSass, copyFonts, doccCpyPublic, gulp, include, isProd, path, port, pug, rename, sass, settings, through, uglify, viewSettings, watch;
 
 gulp = require('gulp');
 
@@ -124,6 +124,11 @@ compileDocJS = function() {
   }).on('error', GfwCompiler.logError)).pipe(gulp.dest("doc")).on('error', GfwCompiler.logError);
 };
 
+// copy fonts
+copyFonts = function() {
+  return gulp.src('assets/fonts/*').pipe(gulp.dest("build/fonts")).on('error', GfwCompiler.logError);
+};
+
 // compile i18n
 compileDocViews = function() {
   return gulp.src(['assets/doc/i18n/views/**/*.coffee'], {
@@ -164,11 +169,12 @@ watch = function(cb) {
     gulp.watch(['assets/doc/i18n/views/**/*.coffee', 'assets/doc/views/**/*.pug'], compileDocViews);
     gulp.watch('assets/doc/i18n/server/**/*.coffee', compileDocI18n);
     gulp.watch(['assets/doc/public/**/*', 'build/*'], doccCpyPublic);
+    gulp.watch(['assets/fonts/*'], copyFonts);
   }
   cb();
 };
 
 // create default task
-gulp.task('default', gulp.series(gulp.parallel(compileCoffee, compileSass, compileDocJS, compileDocViews, compileDocI18n, doccCpyPublic), watch));
+gulp.task('default', gulp.series(gulp.parallel(compileCoffee, compileSass, compileDocJS, compileDocViews, compileDocI18n, doccCpyPublic, copyFonts), watch));
 
 // check for avialable views
