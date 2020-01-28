@@ -251,11 +251,12 @@ form.loading
 		filter: none
 	&:before
 		@extend %ico
-		content: '\e890'
+		@extend .ico-sync
+		@extend .rotate
 		font-size: 3em
 		margin: 0
-		will-change: transform
-		animation: cui-rotate $animate-slow linear reverse infinite
+		// will-change: transform
+		// animation: cui-rotate $animate-slow linear reverse infinite
 		position: absolute
 		// position: sticky
 		top: calc(50% - .5em)

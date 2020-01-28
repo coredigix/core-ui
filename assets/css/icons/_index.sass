@@ -1,11 +1,11 @@
 @font-face
-	font-family: 'fontello';
-	src: url('fonts/fontello.eot')
-	src: url('fonts/fontello.eot') format('embedded-opentype'), url('fonts/fontello.woff2') format('woff2'),url('fonts/fontello.woff') format('woff'),url('fonts/fontello.ttf') format('truetype'),url('fonts/fontello.svg') format('svg')
+	font-family: 'core-fn';
+	src: url('fonts/fn.ttf')
+	src: url('fonts/fn.eot') format('embedded-opentype'), url('fonts/fn.woff2') format('woff2'),url('fonts/fn.woff') format('woff'),url('fonts/fn.ttf') format('truetype'),url('fonts/fn.svg') format('svg')
 	font-weight: normal
 	font-style: normal
 [class^="ico-"]:before, [class*=" ico-"]:before, %ico
-	font-family: "fontello"
+	font-family: "core-fn"
 	font-style: normal
 	font-weight: normal
 	speak: none
@@ -29,8 +29,8 @@
 	margin-left: .2em
 
 	/* you can be more comfortable with increased icons size */
-	font-size: 1.2em
-	vertical-align: middle
+	// font-size: 1.2em
+	// vertical-align: middle
 
 	/* Font smoothing. That was taken from TWBS */
 	-webkit-font-smoothing: antialiased
@@ -38,7 +38,7 @@
 
 	/* Uncomment for 3D effect */
 	/* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
-	transform: translateY(-.2em)
+	// transform: translateY(-.2em)
 
 .ico
 	&-home:before
@@ -79,7 +79,7 @@
 		content: '\e811'
 	&-dice:before
 		content: '\e812'
-	&-heart:before
+	&-key:before
 		content: '\e813'
 	&-star:before
 		content: '\e814'
@@ -127,7 +127,7 @@
 		content: '\e829'
 	&-user:before
 		content: '\e82a'
-	&-user-1:before
+	&-users:before
 		content: '\e82b'
 	&-tshirt:before
 		content: '\e82c'
@@ -143,7 +143,7 @@
 		content: '\e831'
 	&-pin:before
 		content: '\e832'
-	&-glyph-113:before
+	&-map-pin:before
 		content: '\e833'
 	&-map:before
 		content: '\e834'
@@ -215,9 +215,9 @@
 		content: '\e855'
 	&-neutral:before
 		content: '\e856'
-	&-check-1:before
+	&-check:before
 		content: '\e857'
-	&-bell-1:before
+	&-motorcycle:before
 		content: '\e858'
 	&-bullhorn:before
 		content: '\e859'
@@ -263,9 +263,9 @@
 		content: '\e86d'
 	&-bad:before
 		content: '\e86e'
-	&-search:before
+	&-info:before
 		content: '\e86f'
-	&-close:before
+	&-close-1:before
 		content: '\e870'
 	&-menu:before
 		content: '\e871'
@@ -291,7 +291,7 @@
 		content: '\e87b'
 	&-warn:before
 		content: '\e87c'
-		transform: translateY(-.3em)
+		// transform: translateY(-.3em)
 	&-question:before
 		content: '\e87d'
 	&-circle-bars:before
@@ -308,7 +308,7 @@
 		content: '\e883'
 	&-target:before
 		content: '\e884'
-		transform: none
+		// transform: none
 	&-arrow-left-circle:before
 		content: '\e885'
 	&-arrow-right-circle:before
@@ -317,9 +317,9 @@
 		content: '\e887'
 	&-twitter:before
 		content: '\e888'
-	&-chevron-left-1:before
+	&-circle-chevron-left:before
 		content: '\e889'
-	&-chevron-right-1:before
+	&-circle-chevron-right:before
 		content: '\e88a'
 	&-crop:before
 		content: '\e88b'
@@ -329,17 +329,17 @@
 		content: '\e88d'
 	&-layers:before
 		content: '\e88e'
-	&-list-1:before
+	&-percent:before
 		content: '\e88f'
-	&-text-format:before
+	&-close:before
 		content: '\e890'
-	&-text-format-remove:before
+	&-plus:before
 		content: '\e891'
-	&-text-size:before
+	&-italic:before
 		content: '\e892'
-	&-bold-2:before
+	&-bold:before
 		content: '\e893'
-	&-check:before
+	&-text-size:before
 		content: '\e894'
 	&-underline:before
 		content: '\e895'
@@ -369,9 +369,9 @@
 		content: '\e8a1'
 	&-page-break:before
 		content: '\e8a2'
-	&-sort:before
+	&-text-sort:before
 		content: '\e8a3'
-	&-sort-2:before
+	&-sort:before
 		content: '\e8a4'
 	&-hand:before
 		content: '\e8a5'
@@ -383,9 +383,9 @@
 		content: '\e8a8'
 	&-pointer-left:before
 		content: '\e8a9'
-	&-number-list:before
+	&-help-agent:before
 		content: '\e8aa'
-	&-video-camera-1:before
+	&-video-camera:before
 		content: '\e8ab'
 	&-google:before
 		content: '\e8ac'
@@ -395,13 +395,13 @@
 		content: '\e8ae'
 	&-engine-start:before
 		content: '\e8af'
-	&-filter-1:before
+	&-burger:before
 		content: '\e8b0'
 	&-flam:before
 		content: '\e8b1'
 	&-move-1:before
 		content: '\e8b2'
-	&-heart-1:before
+	&-heart:before
 		content: '\e8b3'
 	&-heart-fill:before
 		content: '\e8b4'
@@ -431,11 +431,11 @@
 		content: '\e8c0'
 	&-windshield-clean:before
 		content: '\e8c1'
-	&-warn-1:before
+	&-balance:before
 		content: '\e8c2'
 	&-trunk-open:before
 		content: '\e8c3'
-	&-video-camera:before
+	&-dashboard:before
 		content: '\e8c4'
 	&-headlight-cold:before
 		content: '\e8c5'
@@ -479,14 +479,14 @@
 		content: '\e8d8'
 	&-zoom-out:before
 		content: '\e8d9'
-	&-search-1:before
+	&-search:before
 		content: '\e8da'
 	&-bell-off:before
 		content: '\e8db'
-		transform: none
+		// transform: none
 	&-bell:before
 		content: '\e8dc'
-		transform: none
+		// transform: none
 	&-offline:before
 		content: '\e8dd'
 	&-glyph-1:before
@@ -495,9 +495,9 @@
 		content: '\e8df'
 	&-filter:before
 		content: '\e8e0'
-	&-glyph-4:before
+	&-resize:before
 		content: '\e8e1'
-	&-glyph-5:before
+	&-settings:before
 		content: '\e8e2'
 	&-diapo:before
 		content: '\e8e3'
@@ -543,3 +543,65 @@
 		content: '\e917'
 	&-hood-open:before
 		content: '\e918'
+	&-sum:before
+		content: '\e913'
+	&-dash:before
+		content: '\e916'
+	&-backslash:before
+		content: '\e919'
+	&-quote:before
+		content: '\e920'
+	&-list-ordered:before
+		content: '\e921'
+	&-edit-box:before
+		content: '\e922'
+	&-gps-on:before
+		content: '\e923'
+	&-gps:before
+		content: '\e924'
+	&-history:before
+		content: '\e925'
+	&-check-box:before
+		content: '\e926'
+	&-save:before
+		content: '\e927'
+	&-ext:before
+		content: '\e928'
+	&-copy:before
+		content: '\e929'
+	&-error-2:before
+		content: '\e92a'
+	&-graph:before
+		content: '\e92b'
+	&-play:before
+		content: '\e92c'
+	&-pause:before
+		content: '\e92d'
+	&-swap:before
+		content: '\e92e'
+	&-delivery:before
+		content: '\e92f'
+	&-delivery-man:before
+		content: '\e930'
+	&-deposit:before
+		content: '\e931'
+	&-truck:before
+		content: '\e932'
+	&-warn-far:before
+		content: '\e933'
+	&-road-work:before
+		content: '\e934'
+	&-road-hole:before
+		content: '\e935'
+	&-road-forbidden:before
+		content: '\e936'
+	&-speed-bump:before
+		content: '\e937'
+	&-flood:before
+		content: '\e938'
+	&-police-man:before
+		content: '\e939'
+	&-bike-fall:before
+		content: '\e93a'
+	&-bike-disabled:before
+		content: '\e93b'
