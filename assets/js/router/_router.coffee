@@ -31,6 +31,7 @@ class Router
 		@_back= []
 		# Pop state
 		_popstateListener= (event)=>
+			console.log 'POP STATE'
 			# call callbacks
 			preventBack= no
 			for cb in @_back
@@ -41,7 +42,7 @@ class Router
 			if preventBack
 				history.pushState event.state, '', @location.href
 			else
-				path= event.state?.path
+				path= event.state?.path or document.location.href
 				if typeof path is 'string'
 					@goto path, HISTORY_BACK
 			return
@@ -156,11 +157,15 @@ class Router
 			await tree.resolveParams ctx.query
 			# call previous node out
 			if previousNode
-				await previousNode.out? ctx
-				await previousNode.outOnce? ctx if ctx.isNew
+				previousNodeOptions= previousNode[ROUTER_OPTIONS]
+				await previousNodeOptions.out? ctx
+				await previousNodeOptions.outOnce? ctx if ctx.isNew
 			# push in history
 			urlHref= url.href
-			unless (doState in [HISTORY_BACK, ROUTER_ROOT_PATH]) or (previousLocation and urlHref is previousLocation.href) # do not push if it's history back or same URL
+			if doState is ROUTER_ROOT_PATH
+				if urlReferrer= document.referrer
+					history?.pushState (path:urlReferrer), '', urlHref
+			else unless (doState is HISTORY_BACK) or (previousLocation and urlHref is previousLocation.href) # do not push if it's history back or same URL
 				historyState= path: urlHref
 				if doState is HISTORY_REPLACE
 					history?.replaceState historyState, '', urlHref
