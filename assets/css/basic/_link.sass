@@ -4,6 +4,12 @@ a, .link
 	text-decoration: none
 	transition: color .3s ease
 	outline: none
+	&.flat
+		color: inherit
+		@media(max-width: 600px)
+			&:hover
+				color: inherit
+				text-decoration: inherit
 	&:hover
 		color: $link-hover
 		text-decoration: underline
