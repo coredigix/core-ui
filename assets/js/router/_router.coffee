@@ -31,7 +31,6 @@ class Router
 		@_back= []
 		# Pop state
 		_popstateListener= (event)=>
-			console.log 'POP STATE'
 			# call callbacks
 			preventBack= no
 			for cb in @_back
