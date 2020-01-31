@@ -1,0 +1,76 @@
+extends ../_layout
+append head
+	title Inputs
+block body
+	form.container
+		h1 Inputs
+
+		label.f-cntrl.m-top
+			input.f-input(type="text" placeholder="Input text")
+		label.f-cntrl.m-top
+			input.f-input(type="password" placeholder="Input password")
+		label.f-cntrl.m-top
+			input.f-input(type="text" placeholder="Disabled input" disabled)
+		label.f-cntrl.m-top
+			textarea.f-input Text area content	
+
+		h2 States
+		label.f-cntrl.m-top
+			.label Default
+			input.f-input(type="text" placeholder="Input text")
+		label.f-cntrl.has-primary.m-top
+			.label has-primary
+			input.f-input(type="text" placeholder="Input text")
+			div.t-right.when-primary has primary mark
+		label.f-cntrl.has-done.m-top
+			.label has-done
+			input.f-input(type="text" placeholder="Input text")
+			div.t-right.when-done has done mark
+		label.f-cntrl.has-info.m-top
+			.label has-info
+			input.f-input(type="text" placeholder="Input text")
+			div.t-right.when-info has info mark
+		label.f-cntrl.has-warn.m-top
+			.label has-warn
+			input.f-input(type="text" placeholder="Input text")
+			div.t-right.when-warn has warning mark
+		label.f-cntrl.has-error.m-top
+			.label has-error
+			input.f-input(type="text" placeholder="Input text")
+			div.t-right.when-error has error mark
+
+		//- ICONS
+		label.f-cntrl.f-input
+			span.ico-warning-outline
+			input.f-input(type="text")
+	
+		label.f-cntrl.f-input
+			input.f-input(type="text")
+			span.ico-warning-outline
+
+		//- Group
+		h2 Groups
+		.f-cntrl.group
+			.btn Go
+			input.f-input(type="text")
+		.f-cntrl.group
+			input.f-input(type="text")
+			.btn.ico-refresh-left
+		label.f-cntrl.group
+			span.f-text name
+			input.f-input(type="text")
+
+		.f-cntrl.m-top
+			.group
+				label.f-input
+					i.ico-grape
+					input.f-input(type="text")
+				.btn btn
+		.f-cntrl.m-top.has-error
+			.group
+				label.f-input
+					i.ico-grape
+					input.f-input(type="text")
+				.btn btn
+
+

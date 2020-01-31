@@ -1,0 +1,101 @@
+extends ./_layout
+append head
+	title Event-emitter
+block content
+	.container
+		h1 Event-emitter
+
+		p Event emitter implementation
+		pre.select
+			code.coffeescript
+				:text
+					# Extends EventEmitter
+					class MyClass extends Core.EventEmitter
+
+					# Add event methods to an existing object
+					Core.EventEmitter.apply(myObj)
+		
+		h2 Predefined Events
+		pre.select
+			code.coffeescript
+				:text
+					# When a new listener is added
+					EventEmitter::on 'newListener', ({eventName: String, group: String, listener: Function, isOnce: Boolean})->
+
+					# When remove a listener
+					EventEmitter::on 'removeListener', ({eventName: String, group: String, listener: Function, isOnce: Boolean})->
+
+					# When error
+					EventEmitter::on 'error', (err)->
+
+		h2 Add event listener
+		pre.select
+			code.coffeescript
+				:text
+					###*
+					 * Add permanent listener
+					###
+					EventEmitter::on(String eventName, Function listener(event){})
+					EventEmitter::on([eventName], Function listener(event){})
+					EventEmitter::on(eventName, [listener])
+
+					###*
+					 * Add listener to be called once and to be removed
+					###
+					EventEmitter::once(String eventName, Function listener(event){})
+					EventEmitter::once([eventName], Function listener(event){})
+
+					# EXAMPLES
+					myObj.on 'click', (event)->
+					myObj.on 'click.myGroup', (event)->
+
+		h2 Remove event listener
+		pre.select
+			code.coffeescript
+				:text
+					EventEmitter::off(String eventName, Function listener)
+
+					# EXAMPLES
+
+					# Remove this listener from "click" event
+					myObj.off 'click', myListener	
+					myObj.off 'click.group', myListener	# Remove if under group: "click.group"
+					myObj.off '.group', myListener		# Remove from all events under group: ".group"
+
+					myObj.off 'click'			# Remove all 'click' listeners
+					myObj.off 'click.group'			# Remove all 'click.group' listeners
+					myObj.off '.group'			# Remove from all events under group '.group'
+
+					myObj.off myListener			# Remove this listener from all events
+
+					myObj.off()				# Remove all listeners
+
+		h2 Emit an event
+		pre.select
+			code.coffeescript
+				:text
+					EventEmitter::emit(String eventName, ...eventData)
+
+					//- EXAMPLES
+					myObj.emit 'click', {data:''}
+					myObj.emit 'wrap', 1, 2, 3
+
+		h2 Get all available events
+		pre.select
+			code.coffeescript
+				:text
+					<List[String]> EventEmitter::eventNames()
+
+		h2 Get all registred listeners
+		pre.select
+			code.coffeescript
+				:text
+					<List[Function]> EventEmitter::listeners(String eventName)
+					<List[Function]> EventEmitter::listeners([eventName])
+
+					//- EXAMPLES
+					myObj.listeners('click')	# Get all listeners of 'click' event
+					myObj.listeners(['click', 'over'])	# Get all listeners of 'click' and 'over' events
+					myObj.listeners('click.group')	# Get all listeners of 'click' event under '.group'
+					myObj.listeners('.group')	# Get all listeners of all events under '.group'
+					myObj.listeners()		# Get all listeners of all events

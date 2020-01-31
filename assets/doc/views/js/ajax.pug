@@ -1,0 +1,72 @@
+extends ./_layout
+append head
+	title Ajax
+block content
+	.container
+		h1 Ajax
+
+		p Do async calls to server using XMLHTTPREQUEST
+
+		h2 Basic methods
+		pre.select
+			code.coffeescript
+				:text
+					# Do GET
+					<Promise(response)> Core.get 'URL'
+					<Promise(response)> Core.get new URL('URL')
+					<Promise(response)> Core.get {options}
+
+					<Promise(parsedJSON)> Core.getJSON options
+
+					# Do POST
+					<Promise(response)> Core.post {options}
+		h2 Using cache
+		p Call server only once and keep result for future use
+		pre.select
+			code.coffeescript
+				:text
+					<Promise(response)> Core.getOnce {options}
+					<Promise(parsedJSON)> Core.getJSONOnce options
+
+		h2 Options
+		pre.select
+			code.coffeescript
+				:text
+					options= {
+						# REQUEST
+						method:	'GET' | 'POST' | ...HTTP_METHODS
+						url:	'URL' | new URL('URL')
+						timeout:	Number	# request timeout
+						headers:	{headers}	# additional HTTP headers to be sent
+						cache:	Boolean		# when false, prevent using browser cache
+
+						# POST
+						data:	Object | FormData | HTMLFormElement | String	# data to be sent
+						dataType: "json"	# serialize data as JSON
+
+						# RESPONSE PARSING
+						reponseType: "json"	# parse response data as JSON
+
+						# CACHE
+						once:	Boolean	# call this URL once and keep result for future use
+						onceTimeout: Number	# remove from cache timeout
+
+						# CALL
+						delay:	Number	# waiting delay before sending request
+
+						# GROUP
+						id:		String	# group id, enable us to get all requests of a group
+
+						# PROGRESS AND CALLBACKS
+						upload:		({loaded, total, lengthComputable()})->
+						download:	({loaded, total, lengthComputable()})->
+						headersReceived: (event, xhr)->	# called when headers received, can abort if not of desired type as example
+					}
+
+		h2 Commons
+		pre.select
+			code.coffeescript
+				:text
+					Core.ajax.all	# A set off current ajax calls
+					Core.ajax.abortAll('abort message')	# Abort all current ajax requests
+					Core.ajax.abort('id', 'abort message')	# Abort all requests with this id

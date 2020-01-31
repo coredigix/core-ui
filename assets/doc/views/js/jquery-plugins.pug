@@ -1,0 +1,12 @@
+extends ./_layout
+append head
+	title jQuery plugins
+block content
+	.container
+		h1 jQuery plugins
+
+		pre.select
+			code.coffeescript
+				:text
+					jQuery::transitionOnce(cb)	# call "cb" once when CSS transition ends
+					jQuery::animationOnce(cb)	# call "cb" once when CSS animation ends

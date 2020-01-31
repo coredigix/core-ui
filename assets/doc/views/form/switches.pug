@@ -1,0 +1,42 @@
+extends ../_layout
+append head
+	title Switches
+block body
+	form.container
+		h1 Switches
+
+		h2 As checkboxes
+		label.f-switch.block #[input(type="checkbox")]#[span] #[span.label Switch label]
+		label.f-switch.block.primary #[input(type="checkbox")]#[span] #[span.label Primary Switch label]
+		label.f-switch.block.success #[input(type="checkbox")]#[span] #[span.label Success Switch label]
+		label.f-switch.block.info #[input(type="checkbox")]#[span] #[span.label Info Switch label]
+		label.f-switch.block.warn #[input(type="checkbox")]#[span] #[span.label Warn Switch label]
+		label.f-switch.block.danger #[input(type="checkbox")]#[span] #[span.label Danger Switch label]
+		label.f-switch.block.disabled #[input(type="checkbox")]#[span] #[span.label Disabled Switch]
+
+		h3 With hover
+		label.f-switch.block.hover #[input(type="checkbox")]#[span] #[span.label Switch label]
+		label.f-switch.block.hover.primary #[input(type="checkbox")]#[span] #[span.label Primary Switch label]
+		label.f-switch.block.hover.success #[input(type="checkbox")]#[span] #[span.label Success Switch label]
+		label.f-switch.block.hover.info #[input(type="checkbox")]#[span] #[span.label Info Switch label]
+		label.f-switch.block.hover.warn #[input(type="checkbox")]#[span] #[span.label Warn Switch label]
+		label.f-switch.block.hover.danger #[input(type="checkbox")]#[span] #[span.label Danger Switch label]
+		label.f-switch.block.hover.disabled #[input(type="checkbox")]#[span] #[span.label Disabled Switch]
+
+		h2 As Radio
+		label.f-switch.block #[input(type="radio" name="r1")]#[span] #[span.label Switch label]
+		label.f-switch.block.primary #[input(type="radio" name="r1")]#[span] #[span.label Primary Switch label]
+		label.f-switch.block.success #[input(type="radio" name="r1")]#[span] #[span.label Success Switch label]
+		label.f-switch.block.info #[input(type="radio" name="r1")]#[span] #[span.label Info Switch label]
+		label.f-switch.block.warn #[input(type="radio" name="r1")]#[span] #[span.label Warn Switch label]
+		label.f-switch.block.danger #[input(type="radio" name="r1")]#[span] #[span.label Danger Switch label]
+		label.f-switch.block.disabled #[input(type="radio" name="r1")]#[span] #[span.label Disabled Switch]
+
+		h3 With hover
+		label.f-switch.block.hover #[input(type="radio" name="r2")]#[span] #[span.label Switch label]
+		label.f-switch.block.hover.primary #[input(type="radio" name="r2")]#[span] #[span.label Primary Switch label]
+		label.f-switch.block.hover.success #[input(type="radio" name="r2")]#[span] #[span.label Success Switch label]
+		label.f-switch.block.hover.info #[input(type="radio" name="r2")]#[span] #[span.label Info Switch label]
+		label.f-switch.block.hover.warn #[input(type="radio" name="r2")]#[span] #[span.label Warn Switch label]
+		label.f-switch.block.hover.danger #[input(type="radio" name="r2")]#[span] #[span.label Danger Switch label]
+		label.f-switch.block.hover.disabled #[input(type="radio" name="r2")]#[span] #[span.label Disabled Switch]

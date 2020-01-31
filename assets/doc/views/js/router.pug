@@ -1,0 +1,110 @@
+extends ./_layout
+append head
+	title Router
+block content
+	.container
+		h1 Router
+		p Use a local router
+
+		pre.select
+			code.coffeescript
+				:text
+					# Create my router
+					myRouter= new Core.Router()
+					myRouter= new Core.Router({options})
+
+					#- All options are optional
+					options= {
+						caseSensitive:		Boolean # @default false, if paths and path params are case sensitive
+						ignoreTrailingSlash:	Boolean	# @default true
+						cacheMax: 100		# max entries in path cache @default 100
+
+						out: (url, isForced)-> # called when quitting page
+						catch: (err, ctx)-> # Catch GOTO errors, example: {code: 404}
+					}
+
+					###*****
+					 * Add controller to a route
+					###
+					myRouter.get '/route', (ctx)->
+					myRouter.get ['/route'], (ctx)->
+						console.log('Path>> ', ctx.path)
+						return
+
+					###*****
+					 * More
+					###
+					myRouter.get '/route',
+						toggleClass: 'class1 class2'	# add/remove those CSS classes from <HTML> (add if route matched)
+						scrollTop:	Boolean	# when true, scroll to top
+						# Controllers
+						once:	async (ctx)-> # called only if not a refresh (referrer isnt matched by this route)
+						in:	async (ctx)-> # called when route matched
+						out:	async (ctx)-> # called when quite this route or refresh
+						outOnce: async (ctx)-> # called when going to other route
+						# Add your custom options here too and access theme via "ctx.options"
+
+
+					###*****
+					 * Wrap route
+					###
+					myRouter.wrap '/route', (ctx, next)->
+						#- pre-process
+						await next()
+						#- post process
+						return
+
+
+					###*****
+					 * Route parameters
+					 * Enable us to use params like: /users/:user/cards
+					 * Wildcards:	/books/*	(store the rest in ctx.params['*'])
+					 * Wildcards:	/books/*p	(store rest in ctx.params.p)
+					###
+					myRouter.param
+						name: 'paramName'
+						matches: /regex/ | function(paramValue){return true}
+						resolver: async function resolver(paramValue){return paramValue}
+
+					###*****
+					 * Goto
+					 * Call a path (without changing the page)
+					###
+					myRouter.goto '/path'
+					myRouter.replace '/path'	# change current path in history
+					myRouter.reload()	# reload current path
+					myRouter.reload(true)	# reload current path from the server
+
+
+					###*****
+					 * Go back
+					###
+					myRouter.back()	# Go to previous path
+					myRouter.onBack(cb)	# when calling back, prevent going back if only close popup as example (returns false)
+
+					myRouter.referrer	# URL of previous page
+
+		h2 CTX param
+		pre.select
+			code.coffeescript
+				:text
+					ctx= {
+						url:	URL('')	# Called url
+						path:	'/path'	# Called path
+						
+						route:	String	# Matched route
+						options: {}		# Options passed to Router::get(), useful to access your custom options
+
+
+						params: {}	# Path params
+						query: {}	# URL query params
+
+						#- flags
+						isNew:	Boolean	# CurrentPath isnt previousPath
+						isRoot: Boolean	# If this path is the real path of the page (loaded from server)
+						isHistoryBack: Boolean # Do this is a history back
+
+						#- referrer
+						referrer: URL('')	# Previous page URL
+						referrerOptions: {}	# Previous page options - passed to Router::get()
+					}

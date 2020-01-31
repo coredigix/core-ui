@@ -1,0 +1,24 @@
+extends ../_layout
+append head
+	title Badges
+block body
+	form.container
+		h1 Badges
+
+		div
+			span.badge 1
+			span.badge 12
+			span.badge 99+
+			span.badge new
+			span.badge.primary new
+			span.badge.success new
+			span.badge.info new
+			span.badge.warn new
+			span.badge.danger new
+
+		h2 Width buttons
+		.btn test #[span.badge 99+]
+		.m-top
+			.btn.r test #[span.badge.danger.abs 99+]
+		.m-top
+			.btn.r test #[span.badge.warn.abs]

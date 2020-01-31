@@ -1,0 +1,158 @@
+extends ../_layout
+append head
+	title Progress
+block body
+	form.container
+		h1 Progress
+
+		h2 Bars
+
+		div
+			.label Loading 25%
+			.progress #[.track(style="width:25%")]
+		.m-top
+			.label Loading 60%
+			.progress.t-primary #[.track(style="width:60%")]
+		.m-top
+			.label Loading 45%
+			.progress.t-success #[.track(style="width:45%")]
+		.m-top
+			.label Loading 79%
+			.progress.t-info #[.track(style="width:79%")]
+		.m-top
+			.label Loading 18%
+			.progress.t-warn #[.track(style="width:18%")]
+		.m-top
+			.label Loading 99%
+			.progress.t-danger #[.track(style="width:99%")]
+		.m-top
+			.label Loading 37%
+			.progress.disabled #[.track(style="width:37%")]
+
+		.m-top
+			.progress.t-primary #[.track(style="width:33%") #[small.t-white 33%]]
+		.m-top
+			.progress.t-primary #[.track.t-center(style="width:54%") #[small.t-white 54%]]
+		.m-top
+			.progress.t-primary #[.track.t-end(style="width:60%") #[small.t-white 60%]]
+
+		.m-top.flex.flex-middle
+			.grow1.progress.m-right #[.track(style="width:42%")]
+			small 42%
+
+		h2 Loading
+		div
+			.label Loading ...
+			.progress.loading #[.track(style="width:42%")]
+
+		h2 Circular progress bar
+		div
+			svg.progress(viewBox="25 25 50 50")
+				circle.track(stroke-dasharray= "90, 125")
+			svg.progress.t-primary(viewBox="25 25 50 50")
+				circle.track(stroke-dasharray= "20, 125")
+			svg.progress.t-success(viewBox="25 25 50 50")
+				circle.track(stroke-dasharray= "65, 125")
+			svg.progress.t-info(viewBox="25 25 50 50")
+				circle.track(stroke-dasharray= "73, 125")
+			svg.progress.t-warn(viewBox="25 25 50 50")
+				circle.track(stroke-dasharray= "98, 125")
+			svg.progress.t-danger(viewBox="25 25 50 50")
+				circle.track(stroke-dasharray= "110, 125")
+		div
+			svg.progress(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "90, 125")
+			svg.progress.t-primary(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "20, 125")
+			svg.progress.t-success(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "65, 125")
+			svg.progress.t-info(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "73, 125")
+			svg.progress.t-warn(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "98, 125")
+			svg.progress.t-danger(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "110, 125")
+		div
+			svg.progress.v-middle(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "90, 125")
+			svg.progress.v-middle.sm.t-primary(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "20, 125")
+			svg.progress.v-middle.xs.t-success(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "65, 125")
+		h2 Circular Loading
+		div
+			svg.progress.loading(viewBox="25 25 50 50")
+				circle.track(stroke-dasharray= "90, 125")
+			svg.progress.loading(viewBox="25 25 50 50")
+				circle
+				circle.track(stroke-dasharray= "90, 125")
+
+		h2 Radial progress bar
+		//- XS
+		div
+			svg.progress.radial.v-bottom(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.sm.v-bottom(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.xs.v-bottom(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "55 125")
+
+			svg.progress.radial.v-bottom(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.sm.v-bottom(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.xs.v-bottom(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+		.m-top
+			svg.progress.radial(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "62.5 125")
+			svg.progress.radial.t-primary(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "62.5 125")
+			svg.progress.radial.t-success(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "62.5 125")
+			svg.progress.radial.t-info(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "62.5 125")
+			svg.progress.radial.t-warn(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "62.5 125")
+			svg.progress.radial.t-danger(viewBox="35 29 30 22")
+				circle.track(stroke-dasharray= "62.5 125")
+		.m-top
+			svg.progress.radial(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.t-primary(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.t-success(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.t-info(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.t-warn(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+			svg.progress.radial.t-danger(viewBox="35 29 30 22")
+				circle
+				circle.track(stroke-dasharray= "55 125")
+
+		h2 Radial loading
+		svg.progress.radial.loading(viewBox="35 29 30 22")
+			circle.track(stroke-dasharray= "55 125")
+		svg.progress.radial.loading(viewBox="35 29 30 22")
+			circle
+			circle.track(stroke-dasharray= "55 125")
+
+

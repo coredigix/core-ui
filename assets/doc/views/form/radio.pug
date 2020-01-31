@@ -1,0 +1,24 @@
+extends ../_layout
+append head
+	title Radio
+block body
+	form.container
+		h1 Radio
+
+		label.f-cntrl.block.f-radio #[input(type="radio" name="r1")]#[span] #[span.label Radio button]
+		label.f-cntrl.block.f-radio.primary #[input(type="radio" name="r1")]#[span] #[span.label Primary Radio button]
+		label.f-cntrl.block.f-radio.success #[input(type="radio" name="r1")]#[span] #[span.label Success Radio button]
+		label.f-cntrl.block.f-radio.info #[input(type="radio" name="r1")]#[span] #[span.label Info Radio button]
+		label.f-cntrl.block.f-radio.warn #[input(type="radio" name="r1")]#[span] #[span.label Warn Radio button]
+		label.f-cntrl.block.f-radio.danger #[input(type="radio" name="r1")]#[span] #[span.label Danger Radio button]
+		label.f-cntrl.block.f-radio.danger.disabled #[input(type="radio" name="r1")]#[span] #[span.label Disabled]
+
+		h2 With hover
+		label.f-cntrl.f-radio.block.hover #[input(type="radio" name="r2")]#[span] #[span.label Radio button]
+		label.f-cntrl.f-radio.block.hover.primary #[input(type="radio" name="r2")]#[span] #[span.label Primary Radio button]
+		label.f-cntrl.f-radio.block.hover.success #[input(type="radio" name="r2")]#[span] #[span.label Success Radio button]
+		label.f-cntrl.f-radio.block.hover.info #[input(type="radio" name="r2")]#[span] #[span.label Info Radio button]
+		label.f-cntrl.f-radio.block.hover.warn #[input(type="radio" name="r2")]#[span] #[span.label Warn Radio button]
+		label.f-cntrl.f-radio.block.hover.danger #[input(type="radio" name="r2")]#[span] #[span.label Danger Radio button]
+		label.f-cntrl.f-radio.block.hover.disabled #[input(type="radio" name="r2")]#[span] #[span.label Disabled]
+		

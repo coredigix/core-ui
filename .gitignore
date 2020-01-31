@@ -64,4 +64,4 @@ test/*
 build/*
 config/build/*
 gulp-file.tmp.*
-doc/
+doc/*

@@ -1,0 +1,139 @@
+extends ../_layout
+append head
+	title Buttons
+block body
+	.container
+		h1 Buttons
+		div
+			b.w150 Flat buttons
+			span.btn.flat Default
+			span.btn.flat.primary Primary
+			span.btn.flat.success Success
+			span.btn.flat.info Info
+			span.btn.flat.warn Warning
+			span.btn.flat.danger Error
+		div
+			b.w150 Active Flat
+			span.btn.flat.active Default
+			span.btn.flat.active.primary Primary
+			span.btn.flat.active.success Success
+			span.btn.flat.active.info Info
+			span.btn.flat.active.warn Warning
+			span.btn.flat.active.danger Error
+		.m-top
+			b.w150 Outline buttons
+			span.btn.outline Default
+			span.btn.outline.primary Primary
+			span.btn.outline.success Success
+			span.btn.outline.info Info
+			span.btn.outline.warn Warning
+			span.btn.outline.danger Error
+		.m-top
+			b.w150 Active Outline
+			span.btn.outline.active Default
+			span.btn.outline.active.primary Primary
+			span.btn.outline.active.success Success
+			span.btn.outline.active.info Info
+			span.btn.outline.active.warn Warning
+			span.btn.outline.active.danger Error
+		.m-top
+			b.w150 Default buttons
+			span.btn Default
+			span.btn.primary Primary
+			span.btn.success Success
+			span.btn.info Info
+			span.btn.warn Warning
+			span.btn.danger Error
+		.m-top
+			b.w150 Active Default
+			span.btn.active Default
+			span.btn.active.primary Primary
+			span.btn.active.success Success
+			span.btn.active.info Info
+			span.btn.active.warn Warning
+			span.btn.active.danger Error
+		.m-top
+			b.w150 Disabled buttons
+			span.btn.flat.disabled Disabled
+			span.btn.outline.disabled Disabled
+			span.btn.disabled Disabled
+		.m-top
+			b.w150 With icon
+			span.btn.flat #[i.ico-hot-water] Default
+			span.btn.outline #[i.ico-hot-water] Default
+			span.btn Default #[i.ico-hot-water]
+			span.btn.flat.disabled #[i.ico-hot-water] Disabled
+			span.btn.outline.disabled #[i.ico-hot-water] Disabled
+			span.btn.disabled #[i.ico-hot-water] Disabled
+		.m-top
+			b.w150 Loading
+			span.btn.flat.loading Loading
+			span.btn.outline.loading Loading
+			span.btn.loading Loading
+		.m-top
+			b.w150 Size
+			span.btn.lg Large
+			span.btn Normal
+			span.btn.sm Small
+			span.btn.xs XSmall
+		.m-top
+			span.btn.circle.ico-search
+			span.btn.circle.primary.ico-zoom-out
+			span.btn.circle.success.ico-zoom-in
+			span.btn.circle.info.ico-heavy-rain
+			span.btn.circle.warn.ico-lightning
+			span.btn.circle.danger.ico-light-rain
+
+		//- GROUP
+		h2 Group
+		div
+		.group
+			span.btn Button 1
+			span.btn Button 2
+		.group
+			span.btn left
+			span.btn center
+			span.btn right
+		.group
+			span.btn.ico-align-left
+			span.btn.ico-align-center
+			span.btn.ico-align-right
+			span.btn.ico-align-justify
+
+		h2 Vertical group
+		.v-group
+			span.btn Button 1
+			span.btn Button 2
+			span.btn Button 3
+
+
+		h2 Social media
+		//- -var socialMedias= ['facebook', 'paypal', 'pinterest', 'google', 'appstore', 'googleplay', 'viadeo', 'linkedin', 'rss', 'twitter', 'youtube', 'vimeo', 'amazon', 'tumblr', 'soundcloud', 'gmail', 'itunes', 'dropbox', 'stackoverflow', 'github', 'instagram'];
+		-var socialMedias= ['facebook', 'google', 'linkedin', 'twitter', 'youtube', 'gmail', 'instagram', 'github-circled', 'apple-1', 'android-1', 'whatsapp', 'snapchat-ghost'];
+		.m-top
+			for el in socialMedias
+				span.btn(class='ico-'+el) #{el}
+		.m-top
+			for el in socialMedias
+				span.btn.circle(class='ico-'+el)
+		.m-top
+			for el in socialMedias
+				span.btn.circle.hover(class='ico-'+el)
+
+
+		h2 Navigation
+		.group
+			span.btn.ico-arrow-left
+			span.btn 1
+			span.btn 2
+			span.btn ...
+			span.btn 7
+			span.btn 8
+			span.btn.ico-arrow-right
+		br
+		br
+		br
+		br
+		br
+		br
+		br

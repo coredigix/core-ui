@@ -1,0 +1,44 @@
+extends ../_layout
+append head
+	title Alerts
+block body
+	form.container
+		h1 Alerts
+
+		.alert Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+		.alert.primary.m-top Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+		.alert.success.m-top Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+		.alert.info.m-top Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+		.alert.warn.m-top Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+		.alert.danger.m-top Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+
+		h2 With icons
+		.alert.primary #[i.ico-fork-spoon] Lorem ipsum dolor sit amet, consectetur adipisicing elit
+		.alert.flex.primary.m-top
+			.ico-info.t-xl
+			.grow1 Lorem ipsum dolor sit amet, consectetur adipisicing elit#[br]sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+		.alert.flex.primary.m-top
+			.ico-fork-spoon
+			.grow1 Lorem ipsum dolor sit amet, consectetur adipisicing elit
+
+		h2 With close button
+		.alert.flex.m-top
+			.ico-fork-spoon
+			.grow1 Lorem ipsum dolor sit amet, consectetur adipisicing elit
+			span.close.ico-close
+		.alert.success.flex.m-top
+			.ico-fork-spoon
+			.grow1 Lorem ipsum dolor sit amet, consectetur adipisicing elit
+			span.close.ico-close
+
+		h2 Width buttons
+		.alert Lorem ipsum dolor sit amet, consectetur adipisicing elit
+			.t-end
+				span.btn.flat Cancel
+				span.btn.outline Cancel
+				span.btn Send
+				span.btn.danger Send
+		.alert.m-top.primary Lorem ipsum dolor sit amet, consectetur adipisicing elit
+			.t-end
+				span.btn.default.flat Cancel
+				span.btn.default Send

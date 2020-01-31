@@ -1,0 +1,407 @@
+extends ./_layout
+append head
+	title Event watcher
+block content
+	.container
+		h1 Event watcher
+		p Execute a handler when an event comes. This helps to separate event handlers from HTML elements and adding elements logic.
+
+		h2 Watcher:
+		p Watch an event on an element by its CSS selector
+		pre.select
+			code.coffeescript
+				:text
+					Core.watch 'CSS-SELECTOR', 'eventName', (event)-> # handler
+
+					#- Group event (Groups are case sensitive)
+					Core.watch 'CSS-SELECTOR', 'eventName.groupName', (event)->
+
+					# watchSync enable us to use "event.originalEvent.stopPropagation()" and "event.originalEvent.preventDefault()"
+					# but it may reduce performance
+					Core.watchSync 'CSS-SELECTOR', 'eventName', (event)-> # handler
+
+					#- UNWATCH EVENTS
+					core.unwatch 'CSS-SELECTOR', 'eventName', listener	# remove this listener
+					core.unwatch 'CSS-SELECTOR', 'eventName'	# remove all listeners of this selector
+					core.unwatch 'CSS-SELECTOR'	# remove all listeners from all events of this selector
+					core.unwatch null, 'eventName'	# remove all listeners of this event
+					core.unwatch null, '.groupName'	# remove all listeners from all events of this group
+
+					core.unwatchSync		# same as core.unwatch, but reverse of core.watchSync
+
+		h2 Add actions:
+		b 1- Add event handler
+		pre.select
+			code.coffeescript
+				:text
+					# Async action
+					Core.addAction 'eventName', 'handlerName', (event)-> # handler
+
+					# Sync action: may reduce performance, but enable to use "originalEvent.stopPropagation()" and "originalEvent.preventDefault()"
+					Core.addActionSync 'eventName', 'handlerName', (event)->
+
+					Core.removeAction 'eventName', handlerName
+					Core.removeActionSync 'eventName', handlerName
+
+		b 2- Append handler to HTML element
+		pre.select
+			code.html
+				:text
+					<html-element d-{eventName}="handlerName"> ... </html-element>
+		
+		b Examples:
+		pre.select
+			code.coffeescript
+				:text
+					Core.addAction 'click', 'dropdown', (event)-> alert('Dropdown clicked')
+					Core.addAction 'mouseover', 'dropdown', (event)-> alert('Dropdown mouseover')
+		pre.select
+			code.html
+				:text
+					<div class="dropdown" d-click="dropdown"> Click me </div>
+					<div class="dropdown" d-mouseover="dropdown"> Hover me </div>
+
+		//- private watcher
+		h2 Private watcher
+		p Case of a library, this prevents users from damaging your code
+		pre.select
+			code.coffeescript
+				:text
+					watcher= new Core.Watcher({
+						# @Optional
+						# Set custom action attribute to prevent overlap
+						addActionAttr: (eventName)-> 'd-'+eventName
+						addActionSyncAttr: (eventName)-> 'd-'+eventName
+					})
+
+					#- watch
+					watcher.watch 'CSS-SELECTOR', 'eventName', (event)-> # handler
+					watcher.watchSync 'CSS-SELECTOR', 'eventName', (event)-> # handler
+					watcher.unwatch 'CSS-SELECTOR', 'eventName', (event)-> # handler
+					watcher.unwatchSync 'CSS-SELECTOR', 'eventName', (event)-> # handler
+
+					# Add actions
+					watcher.addAction 'eventName', 'handlerName', (event)-> # handler
+					watcher.addActionSync 'eventName', 'handlerName', (event)-> # handler
+					watcher.removeAction 'eventName', 'handlerName'
+					watcher.removeActionSync 'eventName', 'handlerName'
+		h2 Event
+		pre.select
+			code.coffeescript
+				:text
+					event= {
+						target:	# event target
+						currentTarget:	# Element that has "d-{eventName}" attribute
+						path:	# path to target from document
+
+						type: String # event type
+
+						originalEvent:	# Original event
+
+						stopPropagation()	# will stop event propagation to parent element handlers managed by this API. It will not affect native handlers
+								# use event.originalEvent.stopPropagation() to use native one (will work with core.watchSync and core.addActionSync only)
+
+						stopImmediatePropagation()	# Stop calling next listeners on the same element and listeners on parent elements
+
+						#- flags
+						altKey	: Boolean # if alt key is pressed
+						ctrlKey	: Boolean # if cntrl key is pressed
+						shiftKey : Boolean # if shift key is pressed
+						timeStamp : Number # Timestamp when event happened
+						which	: Number # Pressed button code
+						x	: Number # pointer position left
+						y	: Number # pointer position top
+					}
+		//- Supported events
+		h2 Supported events:
+
+		h3 All browser native events are supported
+		ol(style="column-width: 150px")
+			li copy
+			li cut
+			li paste
+			li abort
+			li blur
+			li cancel
+			li canplay
+			li canplaythrough
+			li change
+			li click
+			li close
+			li contextmenu
+			li cuechange
+			li dblclick
+			li drag
+			li dragend
+			li dragenter
+			li dragleave
+			li dragover
+			li dragstart
+			li drop
+			li durationchange
+			li emptied
+			li ended
+			li error
+			li focus
+			li input
+			li invalid
+			li keydown
+			li keypress
+			li keyup
+			li load
+			li loadeddata
+			li loadedmetadata
+			li loadstart
+			li mousedown
+			li mouseenter
+			li mouseleave
+			li mousemove
+			li mouseout
+			li mouseover
+			li mouseup
+			li mousewheel
+			li pause
+			li play
+			li playing
+			li progress
+			li ratechange
+			li reset
+			li resize
+			li scroll
+			li seeked
+			li seeking
+			li select
+			li stalled
+			li submit
+			li suspend
+			li timeupdate
+			li toggle
+			li volumechange
+			li waiting
+			li wheel
+			li auxclick
+			li gotpointercapture
+			li lostpointercapture
+			li pointerdown
+			li pointermove
+			li pointerup
+			li pointercancel
+			li pointerover
+			li pointerout
+			li pointerenter
+			li pointerleave
+			li selectstart
+			li selectionchange
+			li beforecopy
+			li beforecut
+			li beforepaste
+			li search
+			li fullscreenchange
+			li fullscreenerror
+			li webkitfullscreenchange
+			li webkitfullscreenerror
+		
+		h3 Custom events
+		ol
+			li
+				b hover
+				div.
+					Best alternative to "mouseover"
+					#[br]"mouseover" is called each time the pointer enters a subelement
+					#[br]This event is called once the pointer enters the element
+			li
+				b hout
+				div Best alternative to "mouseout"
+				div "mouseout" is fired each time the pointer leaves a subelement
+				div This event is fired once the pointer is no more on the element.
+
+			li
+				b move
+				div Called when an element is moved on the page
+			li
+				b movestart
+				div Called when move starts
+			li
+				b moveend
+				div Called when move ends
+		//- add custom events
+		h3 Add your custom events
+		p Custom events are based on browser native events
+		p If your event is element undependent (like our 'move' event), you can just create it an fire it using browser native interface.
+		pre.select
+			code.coffeescript
+				:text
+					###*
+					 * First, extend the eventWrapper if you need to add special attributes to event
+					###
+					class MyEvent extends core.EventWrapper
+						constructor: (originalEvent, eventName, selector, currentTarget)->
+							super originalEvent, eventName, selector, currentTarget
+							#- Your logic
+							return
+
+					###*
+					 * Add your event logic
+					 * if you use a private watcher, use "yourWatcher.addEvent" instead of "Core.addEvent"
+					###
+					Core.addEvent 'eventName', 'nativeEventName', (listener, selector)->
+						return (event)->
+							# this cb is fired each time the native event happened
+							# here, you add your logic. execute listener if true, otherwise, ignore it
+							if someFilteringlogic()
+								listener.call this, event
+								#- or your custom event
+								# listener new MyEvent(event, 'eventName', selector, this)
+		b Example: "hover" event
+		pre.select
+			code.coffeescript
+				:text
+					Core.addEvent 'hover', 'mouseover', (listener, selector)->
+						hoverFlag= Symbol 'hover flag'
+						(event)->
+							unless @[hoverFlag] # if not already entred
+								@[hoverFlag]= true
+								listener.call this, event
+								# set flag to flase when quiting the element
+								outListener= (evnt)=>
+									unless core.isParentOf this, evnt.target
+										@[hoverFlag]= false
+										window.removeEventListener 'mouseover', outListener, {capture: true, passive: true}
+									return
+								window.addEventListener 'mouseover', outListener, {capture: true, passive: true}
+							return
+		b Example: "hout" event
+		pre.select
+			code.coffeescript
+				:text
+					Core.addEvent 'hout', 'mouseover', (listener, selector)->
+						houtFlag= Symbol 'hover flag'
+						->
+							unless @[houtFlag] # if not already entred
+								@[houtFlag]= true
+								# set flag to flase when quiting the element
+								outListener= (evnt)=>
+									unless core.isParentOf this, evnt.target
+										@[houtFlag]= false
+										window.removeEventListener 'mouseover', outListener, {capture: true, passive: true}
+										#- "evnt" is a native event, need to wrap it with sub class of type Core.EventWrapper
+										listener.call this, new Core.EventWrapper evnt, 'hout', selector, this
+									return
+								window.addEventListener 'mouseover', outListener, {capture: true, passive: true}
+							return
+		//- Examples
+		h2 Tests:
+		pre.select
+			code.coffeescript
+				:text
+					#- Listeners
+					Core.watch '#divClick', 'click', (event)-> console.log 'Div clicked'
+					Core.watch '#divMover', 'mouseover', (event)-> console.log 'Mouse over'
+
+					Core.watch '#divH', 'hover', (event)-> console.log 'Pointer in'
+					Core.watch '#divH', 'hout', (event)-> console.log 'Pointer out'
+
+					# MOVE
+					Core.watch '#divMov', 'moveStart', -> console.log '*** Move starts'
+					Core.watch '#divMov', 'moveEnd', -> console.log '*** Move ends'
+					Core.watch '#divMov', 'move', (e)->
+						console.log "Move>> original: [#{e.originalX}, #{e.originalY}], position: [#{e.x}, #{e.y}], moving: [#{e.dx}, #{e.dy}]"
+						return
+		pre.select
+			code.coffeescript
+				:text
+					<div id="divClick" class="alert danger" > Click me </div>
+					<div id="divMover" class="m-top alert success"> mouseover on me </div>
+					
+					<div id="divH" class="m-top alert info">
+						Hover me
+						<div style="width:100px; height: 100px; background: green"></div>
+					</div>
+					
+					<div class="m-top alert info">
+						<div id="divMov" style="width:100px; height: 100px; background: green">Move me</div>
+					</div>
+		.m-top
+			#divClick.alert.danger Click me
+			#divMover.alert.success.m-top Hover me
+
+			#divH.m-top.alert.info Hover me
+				div(style="width:100px; height: 100px; background: green")
+
+			.m-top.alert.info
+				#divMov(style="width:100px; height: 100px; background: green") move me
+
+		script
+			:coffeescript
+				#- Listeners
+				Core.watch '#divClick', 'click', (event)-> console.log 'Div clicked'
+				Core.watch '#divMover', 'mouseover', (event)-> console.log 'Mouse over'
+
+				Core.watch '#divH', 'hover', (event)-> console.log '--- Pointer in'
+				Core.watch '#divH', 'hout', (event)-> console.log '---- Pointer out'
+				Core.watch '#divH', 'mouseover', (event)-> console.log '>> mouseover'
+				Core.watch '#divH', 'mouseout', (event)-> console.log '>> mouseout'
+
+				Core.watch '#divMov', 'moveStart', -> console.log '*** Move starts'
+				Core.watch '#divMov', 'moveEnd', -> console.log '*** Move ends'
+				Core.watch '#divMov', 'move', (e)->
+					console.log "Move>> original: [#{e.originalX}, #{e.originalY}], position: [#{e.x}, #{e.y}], moving: [#{e.dx}, #{e.dy}]"
+					return
+
+		h2 Addaction tests:
+		pre.select
+			code.coffeescript
+				:text
+					#- Listeners
+					Core.addAction 'click', 'dvTest', (event)-> console.log 'Action>> clicked'
+
+					Core.addAction 'mouseover', 'dvTest', (event)-> console.log 'Action>> mouseover'
+					Core.addAction 'mouseout', 'dvTest', (event)-> console.log 'Action>> mouseout'
+
+					Core.addAction 'hover', 'dvTest', (event)-> console.log 'Action>>--- Pointer in'
+					Core.addAction 'hout', 'dvTest', (event)-> console.log 'Action>>---- Pointer out'
+
+					Core.addAction 'moveStart', 'dvTest', -> console.log 'Action>>*** Move starts'
+					Core.addAction 'moveEnd', 'dvTest', -> console.log 'Action>>*** Move ends'
+					Core.addAction 'move', 'dvTest', (e)->
+						console.log "Action - Move>> original: [#{e.originalX}, #{e.originalY}], position: [#{e.x}, #{e.y}], moving: [#{e.dx}, #{e.dy}]"
+						return
+		pre.select
+			code.coffeescript
+				:text
+					<div d-click="dvTest" class="alert danger" > Click me </div>
+					<div d-mouseover="dvTest" class="m-top alert success"> mouseover on me </div>
+					
+					<div d-hover="dvTest" d-hout="dvTest" d-mouseover="dvTest" d-mouseout="dvTest" class="m-top alert info">
+						Hover me
+						<div style="width:100px; height: 100px; background: green"></div>
+					</div>
+					
+					<div class="m-top alert info">
+						<div d-move="dvTest" d-movestart="dvTest" d-moveend="dvTest" style="width:100px; height: 100px; background: green">Move me</div>
+					</div>
+		script
+			:coffeescript
+				#- Listeners
+				Core.addAction 'click', 'dvTest', (event)-> console.log 'Action>> clicked'
+
+				Core.addAction 'mouseover', 'dvTest', (event)-> console.log 'Action>> mouseover'
+				Core.addAction 'mouseout', 'dvTest', (event)-> console.log 'Action>> mouseout'
+
+				Core.addAction 'hover', 'dvTest', (event)-> console.log 'Action>>--- Pointer in'
+				Core.addAction 'hout', 'dvTest', (event)-> console.log 'Action>>---- Pointer out'
+
+				Core.addAction 'moveStart', 'dvTest', -> console.log 'Action>>*** Move starts'
+				Core.addAction 'moveEnd', 'dvTest', -> console.log 'Action>>*** Move ends'
+				Core.addAction 'move', 'dvTest', (e)->
+					console.log "Action - Move>> original: [#{e.originalX}, #{e.originalY}], position: [#{e.x}, #{e.y}], moving: [#{e.dx}, #{e.dy}]"
+					return
+		.m-top
+			.alert.danger(d-click="dvTest") Click me
+			.alert.success.m-top(d-mouseover="dvTest") Hover me
+
+			.m-top.alert.info(d-hover="dvTest" d-hout="dvTest" d-mouseover="dvTest" d-mouseout="dvTest") Hover me
+				div(style="width:100px; height: 100px; background: green")
+
+			.m-top.alert.info
+				div(d-move="dvTest" d-movestart="dvTest" d-moveend="dvTest" style="width:100px; height: 100px; background: green") move me
