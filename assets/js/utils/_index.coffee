@@ -3,3 +3,4 @@
 #=include _text.coffee
 #=include _event-emitter.coffee
 #=include _image-process.coffee
+#=include _date.coffee

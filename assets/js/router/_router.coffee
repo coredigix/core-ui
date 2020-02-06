@@ -155,15 +155,15 @@ class Router
 			await tree.resolveParams ctx.params
 			await tree.resolveParams ctx.query
 			# call previous node out
-			if previousNode
-				previousNodeOptions= previousNode[ROUTER_OPTIONS]
+			if previousNode and (previousNodeOptions= previousNode[ROUTER_OPTIONS])
 				await previousNodeOptions.out? ctx
 				await previousNodeOptions.outOnce? ctx if ctx.isNew
 			# push in history
 			urlHref= url.href
 			if doState is ROUTER_ROOT_PATH
-				if urlReferrer= document.referrer
-					history?.pushState (path:urlReferrer), '', urlHref
+				# if urlReferrer= document.referrer
+				# 	history?.pushState (path:urlReferrer), '', urlHref
+				history?.pushState (path:urlHref), '', urlHref
 			else unless (doState is HISTORY_BACK) or (previousLocation and urlHref is previousLocation.href) # do not push if it's history back or same URL
 				historyState= path: urlHref
 				if doState is HISTORY_REPLACE
