@@ -31,7 +31,7 @@ uglify = require('gulp-uglify-es').default;
 Babel = require('gulp-babel');
 
 // settings
-isProd = true;
+isProd = false;
 
 port = 3001;
 
@@ -79,7 +79,7 @@ viewSettings = {
         data: txt,
         indentedSyntax: true,
         indentType: 'tab',
-        outputStyle: 'compressed'
+        outputStyle: 'compact'
       });
     }
   }
@@ -97,27 +97,7 @@ compileCoffee = function() {
     hardFail: true
   })).pipe(GfwCompiler.template(settings).on('error', GfwCompiler.logError)).pipe(coffeescript({
     bare: true
-  }).on('error', GfwCompiler.logError)).pipe(rename(`${PKG.name}.js`)).pipe(Babel({
-    presets: ['babel-preset-env'],
-    plugins: [
-      [
-        'transform-runtime',
-        {
-          helpers: false,
-          polyfill: false,
-          regenerator: false
-        }
-      ],
-      'transform-async-to-generator'
-    ]
-  // plugins: ['@babel/transform-runtime']
-  })).pipe(uglify({
-    compress: {
-      toplevel: false,
-      keep_infinity: true,
-      warnings: true
-    }
-  })).pipe(gulp.dest("build")).on('error', GfwCompiler.logError);
+  }).on('error', GfwCompiler.logError)).pipe(rename(`${PKG.name}.js`)).pipe(gulp.dest("build")).on('error', GfwCompiler.logError);
 };
 
 compileSass = function() {
@@ -131,7 +111,7 @@ compileSass = function() {
   // .pipe gulp.dest "build"
   return gulp.src("assets/css/index.sass").pipe(rename(`${  // .pipe rename "#{PKG.name}.#{PKG.version}.sass"
 PKG.name}.sass`)).pipe(sass({
-    outputStyle: 'compressed'
+    outputStyle: 'compact'
   }).on('error', GfwCompiler.logError)).pipe(gulp.dest("build")).on('error', GfwCompiler.logError);
 };
 
@@ -141,27 +121,7 @@ compileDocJS = function() {
     hardFail: true
   })).pipe(GfwCompiler.template(settings).on('error', GfwCompiler.logError)).pipe(coffeescript({
     bare: true
-  }).on('error', GfwCompiler.logError)).pipe(Babel({
-    presets: ['babel-preset-env'],
-    plugins: [
-      [
-        'transform-runtime',
-        {
-          helpers: false,
-          polyfill: false,
-          regenerator: false
-        }
-      ],
-      'transform-async-to-generator'
-    ]
-  // plugins: ['@babel/transform-runtime']
-  })).pipe(uglify({
-    compress: {
-      toplevel: false,
-      keep_infinity: true,
-      warnings: true
-    }
-  })).pipe(gulp.dest("doc")).on('error', GfwCompiler.logError);
+  }).on('error', GfwCompiler.logError)).pipe(gulp.dest("doc")).on('error', GfwCompiler.logError);
 };
 
 // copy fonts
@@ -182,15 +142,7 @@ compileDocViews = function() {
     views: 'assets/doc/views/**/*.pug', // compile to those views
     data: settings
   // save to tmp
-  })).pipe(gulp.dest('tmp/views/')).pipe(GfwCompiler.waitForAll()).pipe(GfwCompiler.views(viewSettings)).pipe(uglify({
-    module: true,
-    compress: {
-      toplevel: true,
-      module: true,
-      keep_infinity: true,
-      warnings: true
-    }
-  })).pipe(gulp.dest('doc/views/')).on('error', GfwCompiler.logError);
+  })).pipe(gulp.dest('tmp/views/')).pipe(GfwCompiler.waitForAll()).pipe(GfwCompiler.views(viewSettings)).pipe(gulp.dest('doc/views/')).on('error', GfwCompiler.logError);
 };
 
 // compile i18n server side
@@ -199,15 +151,7 @@ compileDocI18n = function() {
     nodir: true
   }).pipe(coffeescript({
     bare: true
-  })).pipe(GfwCompiler.i18n()).pipe(uglify({
-    module: true,
-    compress: {
-      toplevel: true,
-      module: true,
-      keep_infinity: true,
-      warnings: true
-    }
-  })).pipe(gulp.dest('doc/i18n/')).on('error', GfwCompiler.logError);
+  })).pipe(GfwCompiler.i18n()).pipe(gulp.dest('doc/i18n/')).on('error', GfwCompiler.logError);
 };
 
 doccCpyPublic = function() {

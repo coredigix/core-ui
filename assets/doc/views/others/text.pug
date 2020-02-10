@@ -11,61 +11,6 @@ block body
 	.container
 		h1 Text
 
-		//- select
-		h2 Select
-		.row
-			.col.md4.noselect.
-				#[b .noselect (default)]
-				#[br]Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			.col.md4.select.
-				#[b .select]
-				#[br]Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			.col.md4.auto-select.
-				#[b .auto-select]
-				#[br]Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-		
-		//- align
-		h2 Align
-		.row
-			.col.md6
-				.bg.t-start .t-start
-				.bg.t-left .t-left
-				.bg.t-center .t-center
-				.bg.t-right .t-right
-				.bg.t-justify .t-justify
-				.bg.t-end .t-end
-			.col.md6.padding-h
-				|-
-				.inline-block.bg.t-top .t-top
-				|-
-				.inline-block.bg.v-sub .v-sub
-				|-
-				.inline-block.bg.v-super .v-super
-				|-
-				.inline-block.bg.v-baseline .v-baseline
-				|-
-				.inline-block.bg.v-middle .v-middle
-				|-
-				.inline-block.bg.v-bottom .v-bottom
-				|-
-				.inline-block.bg.v-text-top .v-text-top
-				|-
-				.inline-block.bg.v-text-bottom .v-text-bottom
 
 		//- format
 		h2 Format
@@ -118,16 +63,27 @@ block body
 		//- Size
 		h2 Size
 		.inline-block.padding-h.v-top
+			div Normal text
 			small small
 			.small .small, t-sm
-			.smaller .smaller
-			.x-small .x-small, t-xs
-			.xx-small .xx-small
+			.t-xs .t-xs
 		.inline-block.padding-h.v-top
 			.large .large, .t-lg
-			.larger .larger
-			.x-large .x-large, .t-xl
-			.xx-large .xx-large, .t-xxl
+			.t-xl .t-xl
+			.t-xxl .t-xxl
+		.inline-block.padding-h.v-top
+			.t-2em .t-2em
+			.t-3em .t-3em
+			.t-4em .t-4em
+			.t-5em .t-5em
+			.t-6em .t-6em
+		.inline-block.padding-h.v-top
+			.t-16px .t-16px
+			.t-24px .t-24px
+			.t-32px .t-32px
+			.t-48px .t-48px
+			.t-64px .t-64px
+			.t-128px .t-128px
 
 		//- colors
 		h2 Colors
@@ -138,3 +94,59 @@ block body
 		.bg.t-warn .t-warn
 		.bg.t-danger .t-danger
 		.bg.disabled .disabled
+
+		//- select
+		h2 Select
+		.row
+			.col.md4.noselect.
+				#[b .noselect (default)]
+				#[br]Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			.col.md4.select.
+				#[b .select]
+				#[br]Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			.col.md4.auto-select.
+				#[b .auto-select]
+				#[br]Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		
+		//- align
+		h2 Align
+		.row
+			.col.md6
+				.bg.t-start .t-start (left when document is LTR, right when document is RTL)
+				.bg.t-left .t-left
+				.bg.t-center .t-center
+				.bg.t-right .t-right
+				.bg.t-justify .t-justify
+				.bg.t-end .t-end (right when document is LTR, left when document is RTL)
+			.col.md6.padding-h
+				|-
+				.inline-block.bg.t-top .t-top
+				|-
+				.inline-block.bg.v-sub .v-sub
+				|-
+				.inline-block.bg.v-super .v-super
+				|-
+				.inline-block.bg.v-baseline .v-baseline
+				|-
+				.inline-block.bg.v-middle .v-middle
+				|-
+				.inline-block.bg.v-bottom .v-bottom
+				|-
+				.inline-block.bg.v-text-top .v-text-top
+				|-
+				.inline-block.bg.v-text-bottom .v-text-bottom

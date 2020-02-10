@@ -45,18 +45,11 @@ a, .link
 // close
 .close
 	cursor: pointer
-	display: inline-block
-	line-height: 1.5em
-	width: 1.3em
-	text-align: center
-	border-radius: 50%
+	transition: color .3s ease
 	&:hover
-		color: $text-color
-		background: white
-	&:before
-		margin: 0
-	&:active, &.active
-		background-color: $default-active
-		box-shadow: inset 0 3px 5px rgba(0,0,0,.125)
+		color: $danger
+	@media(max-width: 600px)
+		&:hover
+			color: inherit
 
 
