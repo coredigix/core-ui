@@ -1,0 +1,115 @@
+.progress:not(svg)
+	display: block
+	border-radius: 100px
+	background-color: $default-light
+	overflow: hidden
+	.track
+		background-color: currentColor
+		border-radius: inherit
+		padding: 4px
+		transition: width .6s ease
+		overflow: hidden
+
+	// loading
+	&.loading
+		.track
+			width: 20%!important
+			max-width: 20%!important
+			animation: cui-progress-loading 1s cubic-bezier(0.24, 0.41, 0.57, 0.9) infinite, cui-ltr-progress-loading 1s cubic-bezier(.445,.05,.55,.95) infinite
+
+	// Animations
+	&.stripes
+		position: relative
+		&:after
+			content: ''
+			position: absolute
+			top: 0
+			right: 0
+			bottom: 0
+			left: 0
+			background-image: linear-gradient(-45deg, rgba(255,255,255,0.125) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.125) 50%, rgba(255,255,255,0.125) 75%, transparent 75%, transparent)
+			background-size: 50px 50px
+			// background-image: repeating-linear-gradient(-45deg, #ffffff32, transparent 20px, #ffffff32 20px, #ffffff32 20px)
+			// background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, transparent), to(transparent))
+			// background-size: 50px 50px
+			animation: cui-progress-stripes 2s linear infinite
+
+@keyframes cui-progress-loading
+	0%
+		width: 0
+		max-width: 0
+	50%
+		width: 50%
+		max-width: 50%
+	100%
+		width: 0
+		max-width: 0
+@keyframes cui-ltr-progress-loading
+	from
+		margin-left: 0
+	to
+		margin-left: 100%
+
+@keyframes cui-progress-stripes
+	from
+		background-position: 0 0
+	to
+		background-position: 50px 50px
+
+
+// CIRCULAR
+svg.progress
+	width: 128px
+	height: 128px
+	&.xs
+		width: 36px
+		height: 36px
+	&.sm
+		width: 64px
+		height: 64px
+
+	circle
+		stroke: $default
+		stroke-width: 2px
+		stroke-miterlimit: 20px
+		stroke-linecap: round
+		transform: rotate(-90deg)
+		transform-origin: 50px 50px
+		fill: none
+		r: 20px
+		cx: 50px
+		cy: 50px
+		&.track
+			stroke: currentColor
+	// loading
+	&.loading
+		circle.track
+			animation: cui-progress-crcl-dash 1.5s ease-in-out infinite
+	// radial
+	&.radial
+		height: 64px
+		&.xs
+			height: 16px
+		&.sm
+			height: 32px
+		circle
+			transform: rotate(180deg)
+
+@keyframes cui-progress-crcl-dash
+	0%
+		stroke-dasharray: 1,200
+		stroke-dashoffset: 0
+	50%
+		stroke-dasharray: 89,200
+		stroke-dashoffset: -35
+	100%
+		stroke-dasharray: 89,200
+		stroke-dashoffset: -124
+
+
+
+
+
+
+
+

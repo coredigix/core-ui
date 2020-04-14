@@ -1,0 +1,47 @@
+/**
+ * Flex-box
+ */
+.flex
+	display: flex
+	&-md
+		@media(min-width: $md)
+			display: flex
+	&-row
+		display: flex
+		flex-direction: row
+	&-middle
+		display: flex
+		justify-content: center
+		align-items: center
+
+.col-flex
+	display: flex
+	flex-direction: column
+.inline-flex
+	display: inline-flex
+
+
+/********
+ * Align
+ */
+// .flex
+// 	&-middle
+// 		align-items: center
+// 	&-start
+// 		align-items: flex-start
+// 	&-end
+// 		align-items: flex-end
+
+.space-between
+	justify-content: space-between
+.j-center
+	justify-content: center
+.j-evenly
+	justify-content: space-evenly
+/********
+ * Grow
+ */
+.grow1
+	flex-grow: 1
+.grow2
+	flex-grow: 2

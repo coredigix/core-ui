@@ -1,0 +1,12 @@
+.collapse
+	&-head
+		@extend %tiny-padding
+		font-weight: bold
+		display: flex
+		cursor: pointer
+		&.active
+			color: $link-active
+			.caret
+				transform: rotate(90deg)
+		// .caret
+		// 	transition: transform $animate-fast ease-in-out

@@ -1,0 +1,298 @@
+input, textarea, select, button
+	font-size: $text-size
+
+input, textarea
+	@extend %select;
+
+// form input
+%f-input
+	@extend %tiny-padding
+	// line-height: 1.125
+	// font-family: "Roboto", "Helvetica", "Arial", sans-serif
+	font-family: $font-familly
+	font-weight: 400
+	// font-size: .9em
+
+	display: block
+	width: 100%
+	// apearence
+	border: $default-border
+	background-color: $border-color
+	border-radius: $btn-radius
+	touch-action: manipulation
+	-webkit-appearance: none
+	outline: none
+	// height: 2.573rem
+	&:hover
+		background-color: $default-light
+	&:focus
+		background-color: $default-dark
+	// &::selection
+	// 	background-color: $white
+	// 	color: $black
+	&:disabled
+		@extend %disabled
+		background-color: $bg-disabled
+		border-color: $disabled
+		// pointer-events: none
+		&::placeholder
+			color: $disabled
+
+	&.xs
+		line-height: .5
+		padding: 0 10px
+	&.sm
+		line-height: 1
+		padding: 2px 10px
+	&.lg
+		padding: 8px 16px
+	&.xl
+		padding: 16px 32px
+	&.xxl
+		padding: 24px 48px
+
+
+.f-input
+	@extend %f-input
+	cursor: text
+.f-text
+	@extend %f-input
+	cursor: text
+	white-space: nowrap
+	width: auto
+
+.f-cntrl
+	display: inline-block
+	&.block
+		display: block
+	&.has-primary
+		color: $primary
+		&:hover
+			color: $primary-light
+		&:active, &.active
+			color: $primary-dark
+	&.has-done
+		color: $success
+		&:hover
+			color: $success-light
+		&:active, &.active
+			color: $success-dark
+	&.has-info
+		color: $info
+		&:hover
+			color: $info-light
+		&:active, &.active
+			color: $info-dark
+	&.has-warn
+		color: $warning
+		&:hover
+			color: $warn-light
+		&:active, &.active
+			color: $warn-dark
+	&.has-error
+		color: $danger
+		&:hover
+			color: $danger-light
+		&:active, &.active
+			color: $danger-dark
+	// state
+	&[class^="has-"], &[class*=" has-"]
+		f-input:not(:disabled)
+			color: inherit
+			border-color: currentColor
+			background-color: $white
+			&::placeholder
+				color: inherit
+	// 	border-color: currentColor
+
+// States
+[class^="when-"], [class*=" when-"]
+	display: none
+@each $el in primary, success, info, warn, error
+	.has-#{$el} .when-#{$el}
+		display: block!important
+.loading .when-loading
+	display: block!important
+
+// input with icons
+label.f-input
+	display: inline-flex
+	align-items: center
+	width: auto
+	padding: 6px
+	font-size: 1em
+	&.block
+		display: flex
+	.f-input
+		padding: 0
+		border: none
+		background: transparent
+		margin: 0
+		border-radius: 0
+	// [class^="ico-"], [class*=" ico-"]
+
+
+/***********
+ * RADIO
+ */
+%f-radio
+	cursor: pointer
+	input
+		display: none
+		&+span
+			box-sizing: border-box
+			display: inline-block
+			vertical-align: middle
+			// color: border-color
+			border: 1px solid currentColor
+			background: transparent
+			// background-clip: content-box
+			transition: padding .2s ease
+	@each $el, $clr in (primary, $primary), (success, $success), (info, $info), (warn, $warning), (danger, $danger)
+		&.#{$el}:not(.disabled)
+			input
+				&:checked~*
+					color: $clr
+			// hover
+			&.hover:hover
+				svg
+					border-color: currentColor
+				color: $clr
+				// span
+				// 	color: $clr
+.f-radio
+	@extend %f-radio
+	input
+		&+span
+			width: 1.2em
+			height: 1.2em
+			border-radius: 50%
+			padding: 5px
+			// color: border-color
+			// border: 1px solid currentColor
+			// background: transparent
+			background-clip: content-box
+			transition: padding .2s ease
+		&:checked+span
+			background-color: currentColor
+			padding: 3px
+
+/***********
+ * Checkbox
+ */
+.f-checkbox
+	@extend %f-radio
+	input
+		&+span
+			border: none
+			svg
+				width: 1.2em
+				height: 1.2em
+				cursor: pointer
+				border-radius: 2px
+				border: 1px solid $default
+				padding: 2px
+				pointer-events: none
+
+				fill: none
+				stroke: $white
+				stroke-width: 2
+				stroke-linecap: round
+				stroke-linejoin: round
+				stroke-dasharray: 16px
+				stroke-dashoffset: 16px
+				transition: stroke-dashoffset .3s .1s ease
+		&:checked+span
+			svg
+				stroke-dashoffset: 0
+				background: currentColor
+				border-color: currentColor
+/***********
+ * SWITCH
+ */
+.f-switch
+	@extend %f-radio
+	.when-on, .when-off
+		color: white
+		font-size: .8em
+		padding: .2em
+	.when-off
+		display: block
+	input
+		&+span
+			line-height: 1
+			box-sizing: content-box
+			overflow: hidden
+			min-width: 1em
+			padding: 0 0 0 1.2em
+			height: 1em
+			// padding: 2px
+			border-radius: 2em
+			// color: $default
+			background: currentColor
+			border-color: currentColor
+			position: relative
+			&:after
+				content: ''
+				width: 1em
+				height: 1em
+				border-radius: 2em
+				background: $white
+				display: inline-block
+				transition: all $animate-fast ease
+				position: absolute
+				left: 0
+				top: 0
+			// ripple effect
+			&:before
+				right: 0
+		&:checked+span
+			padding: 0 1.2em 0 0
+			// background-color: currentColor
+			&:after
+				margin-left: 100%
+				transform: translateX(-100%)
+			.when-on
+				display: block
+			.when-off
+				display: none
+	&:active
+		input+span
+			&:after
+				width: 1.25em
+
+
+// ANIMATIONS
+// has error animation
+.has-error-anim
+	animation: hasErrBgAnim .2s ease 10 alternate
+
+@keyframes hasErrBgAnim
+	0%
+		background: none
+	100%
+		background: #ffcdd2
+
+// Loading
+form.loading
+	position: relative
+	pointer-events: none
+	>*
+		opacity: .5
+		filter: blur(2px)
+	>.progress
+		opacity: 1
+		filter: none
+	&:before
+		@extend %ico
+		@extend .ico-sync
+		@extend .rotate
+		font-size: 3em
+		margin: 0
+		// will-change: transform
+		// animation: cui-rotate $animate-slow linear reverse infinite
+		position: absolute
+		// position: sticky
+		top: calc(50% - .5em)
+		// top: 1em
+		left: calc(50% - .5em)

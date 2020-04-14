@@ -1,0 +1,12 @@
+// disable all events on an element
+%no-events,.no-events
+	pointer-events: none
+
+// disabled
+%disabled
+	@extend %no-events
+	box-shadow: none
+.disabled
+	@extend %disabled
+	color: $disabled
+	

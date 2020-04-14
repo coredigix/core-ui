@@ -1,0 +1,15 @@
+.menu
+	a
+		@extend %tiny-padding
+		display: block
+		color: inherit
+		text-decoration: none
+		padding: 5px 10px
+		transition: all $animate-fast ease-in-out
+		&:hover
+			color: $link-hover
+			text-indent: 10px
+		&.active
+			background: $menu-active-bg
+			color: $link-active
+

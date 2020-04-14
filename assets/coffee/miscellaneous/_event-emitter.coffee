@@ -1,0 +1,4 @@
+###*
+ * Event emitter
+###
+EventEmitter: EventEmitter

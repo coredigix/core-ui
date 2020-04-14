@@ -1,0 +1,42 @@
+.tab
+	@extend %tiny-padding
+	display: inline-block
+	cursor: pointer
+	position: relative
+	&.active
+		&:after
+			content: ''
+			display: block
+			position: absolute
+			left: 0
+			right: 0
+			bottom: 0
+			background: $link-active
+			height: 2px
+.tabs
+	&-header
+		overflow: hidden
+		white-space: nowrap
+		border-bottom: 1px $border-color solid
+		position: relative
+		>.tab.active
+
+	&-body
+		>*
+			display: none
+		>.active
+			display: block
+	// When tabs are initiated
+	&-enabled
+		.tab.active:after
+			content: none
+	// tab bar
+	&-bar
+		position: absolute
+		bottom: 0
+		background: $link-active
+		height: 2px
+		transition: left $animate-fast ease-in-out
+
+
+

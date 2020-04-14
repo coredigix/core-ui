@@ -1,0 +1,31 @@
+
+/***********
+ * DISPLAY
+ */
+.inline
+	display: inline
+.inline-block
+	display: inline-block
+.block
+	display: block
+
+
+// hide
+.h
+	display: none
+.hidden, %hidden
+	display: none!important
+.hide
+	visibility: hidden
+
+// Hide on devices
+@each $s, $sz in (xs: $sm - 1, sm: $md - 1, md: $lg - 1, lg: $xl - 1)
+	@media(max-width: $sz)
+		.hidden-#{$s}
+			display: none!important
+
+
+@each $s, $sz in (xs: $sm, sm: $md, md: $lg, lg: $xl)
+	@media(min-width: $sz)
+		.visible-#{$s}
+			display: none!important

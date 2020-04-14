@@ -1,2 +1,0 @@
-appName:
-	en: 'Core-ui'

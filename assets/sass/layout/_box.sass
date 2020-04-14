@@ -1,0 +1,71 @@
+
+
+/***********
+ * MARGINS
+ */
+%margin, .margin
+	margin: 14px 0
+
+@each $m in top, left, right, bottom
+	.m-#{$m}
+		margin-#{$m}: 14px
+
+// .m-start
+// 	&:dir(ltr)
+// 		margin-left: 14px
+// 	&:dir(rtl)
+// 		margin-right: 14px
+// .m-end
+// 	&:dir(ltr)
+// 		margin-right: 14px
+// 	&:dir(rtl)
+// 		margin-left: 14px
+
+// .m-after
+// .m-before
+
+/***********
+ * PADDING
+ */
+%tiny-padding, .p-tiny
+	padding: 5px 10px
+%padding, .padding
+	padding: 20px 24px
+
+
+
+
+/***********
+ * BORDER
+ */
+.ellipse
+	border-radius: 50%
+.circle
+	border-radius: 50%
+
+
+
+/***********
+ * width
+ */
+.w50
+	display: inline-block
+	width: 50px!important
+.w100
+	display: inline-block
+	width: 100px!important
+.w150
+	display: inline-block
+	width: 150px!important
+
+// view port
+.vh100
+	height: 100vh
+	height: var(--vh, 100vh)
+
+.vw100
+	width: 100vw
+
+// Blank div: usefull to add padding to page bottom
+.blank
+	height: 200px
