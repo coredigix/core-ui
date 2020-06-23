@@ -1,7 +1,7 @@
 ###*
  * Add to init function
 ###
-Core.addInit (parent)->
+Core.init (parent)->
 	renderSyntax= Core.syntax
 	for element in parent.querySelectorAll 'pre.code'
 		try

@@ -1,0 +1,16 @@
+//- DATE PICKER TIME
+.date-picker-view.date-picker-time.col-flex
+	//- header
+	.t-center.link(d-click="go up") #{Core.datePatterns.date.format(currentDate)}
+	//- timer
+	.grow1.flex-middle
+		.flex-middle
+			.f-cntrl.group.f-field.block
+				input.f-input.t-center(type="number" value=currentDate.getHours() max="23" min="0" d-loop placeholder="HH" d-select tabindex="1")
+				.f-text :
+				input.f-input.t-center(type="number" value=currentDate.getMinutes() max="59" min="0" d-loop placeholder="ii" d-select tabindex="1")
+				.f-text :
+				input.f-input.t-center(type="number" value=currentDate.getSeconds() max="99" min="0" d-loop placeholder="ss" d-select tabindex="1")
+				.v-group
+					span.xs.btn.ico-chevron-up(d-click='inc')
+					span.xs.btn.ico-chevron-down(d-click='dec')

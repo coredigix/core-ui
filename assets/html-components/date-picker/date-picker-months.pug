@@ -1,0 +1,16 @@
+//- DATE PICKER MONTHS
+.date-picker-view
+	//- Head
+	.flex
+		.link.p-tiny.ico-chevron-left(d-click="go prev")
+		.link.p-tiny.grow1.t-center(d-click="go up") #{currentDate.getFullYear()}
+		.link.p-tiny.ico-chevron-right(d-click="go next")
+	//- body
+	table.date-picker-table.months(align="center")
+		tbody
+			-var i=0, j, months= i18n.months;
+			-while(i<12)
+				tr
+					- j= 0
+					-while(j++<3)
+						td(d-click="select "+i) #{months[i++]}

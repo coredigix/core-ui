@@ -91,7 +91,7 @@ _sendRequest= (options, onLoad, onError)->
 	options.headers ?= _create null
 	dataType= options.dataType or options.headers['Content-Type']
 	# decode mimetype
-	dataType= _MIME_TYPES[dataType] or dataType
+	dataType= MIME_TYPES[dataType] or dataType
 	# encode data
 	if data= options.data
 		# string
@@ -111,16 +111,16 @@ _sendRequest= (options, onLoad, onError)->
 					else unless inp.files.length
 						data.delete inp.name
 			# encode
-			if dataType is _MIME_TYPES.json
+			if dataType is MIME_TYPES.json
 				data= _convertFormDataToJSON data
-			else if dataType is _MIME_TYPES.urlencoded
+			else if dataType is MIME_TYPES.urlencoded
 				data= _convertFormDataToUrlEncoded data
-			else if dataType and dataType isnt _MIME_TYPES.multipart
+			else if dataType and dataType isnt MIME_TYPES.multipart
 				throw new Error 'Could not convert FormData to: ' + dataType
 		# Object
-		else if not dataType or dataType is _MIME_TYPES.json
+		else if not dataType or dataType is MIME_TYPES.json
 			data= JSON.stringify data
-			dataType= _MIME_TYPES.json
+			dataType= MIME_TYPES.json
 		else
 			throw new Error "Illagal data for mimetype: " + dataType
 	options.headers['Content-Type']= dataType if dataType

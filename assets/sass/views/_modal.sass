@@ -3,10 +3,47 @@
  */
 
 // Full screen modal (on mobile)
-.full-modal
+.modal-open
+	overflow: hidden
+	>:not(.modal)
+		filter: blur(2px)
+
+.modal
+	display: flex
+	align-items: flex-end
+	// padding: 20px
 	position: fixed
 	top: 0
 	right: 0
 	bottom: 0
 	left: 0
 	z-index: 999999
+	overflow: auto
+	background: fade-out(black, 0.6)
+	@media(min-width: $md)
+		align-items: flex-start
+		// padding-top: 100px
+	.close
+		top: 5px
+		right: 10px
+	>*
+		animation: modal-up $animate-fast ease
+
+	&.primary
+		background: fade-out($primary-dark, 0.6)
+	&.success
+		background: fade-out($success-dark, 0.6)
+	&.info
+		background: fade-out($info-dark, 0.6)
+	&.warn
+		background: fade-out($warn-dark, 0.6)
+	&.danger
+		background: fade-out($danger-dark, 0.6)
+
+@keyframes modal-up
+	from
+		transform: scale(0.8)
+		opacity: 0
+	to
+		transform: none
+		opacity: 1

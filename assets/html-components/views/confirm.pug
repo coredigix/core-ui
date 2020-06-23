@@ -1,0 +1,6 @@
+.modal(class= state)
+	.container-xs.card.padding.m-xtop.m-bottom.r(class= state) #{text}!{html}
+		span.close.abs ╳
+		.t-end.m-top
+			span.btn.flat(d-value="cancel") #{cancel}
+			span.btn(d-value="ok" class= state) #{ok}

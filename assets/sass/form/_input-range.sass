@@ -1,0 +1,53 @@
+/**
+ * INPUT RANGE
+ */
+.input-range
+	min-width: 100px
+	cursor: pointer
+	&:hover
+		color: $link-hover
+	.progress
+		position: relative
+	.track
+		position: relative
+		padding: 2px
+	.caret
+		background: $html-background
+		position: absolute
+		right: -5px
+		top: -5px
+		width: 14px
+		height: 14px
+		border: 1px solid
+		border-radius: 50%
+		transition: all $animate-fast ease-in-out
+		cursor: grab
+		&:hover
+			box-shadow: 0 0 5px $link-hover
+		&:active
+			cursor: grabbing
+	&:hover
+		.caret
+			transform: scale(1.2)
+	// Steps
+	.step
+		position: absolute
+		top: 0
+		z-index: 5
+		width: 4px
+		height: 4px
+		border-radius: 50%
+		background: $html-background
+		pointer-events: none
+	// Disable animation when caret drag
+	&.no-anim
+		.track
+			transition: none
+	// background-color: $default-light
+	// border-radius: 100px
+	// .track
+	// 	background-color: currentColor
+	// 	border-radius: inherit
+	// 	padding: 4px
+	// 	transition: width .6s ease
+	// 	overflow: hidden

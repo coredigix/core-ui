@@ -1,0 +1,12 @@
+//- DATE PICKER
+.date-picker(d-component="date-picker" class=locals.class)
+	.date-picker-container
+		case currentView.name
+			when 'time'
+				|!{Core.html.datePickerTime(locals)}
+			when 'days'
+				|!{Core.html.datePickerDays(locals)}
+			when 'months'
+				|!{Core.html.datePickerMonths(locals)}
+			default
+				|!{Core.html.datePickerYears(locals)}

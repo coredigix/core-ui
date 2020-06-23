@@ -1,0 +1,62 @@
+//- DATE PICKER DAYS
+-var i, j, days, startDay, cDate, lastDay, lastOfLastWeek, rows;
+.date-picker-view
+	//- Head
+	.flex
+		.link.p-tiny.ico-chevron-left(d-click="go prev")
+		.link.p-tiny.grow1.t-center(d-click="go up") #{Core.datePatterns.monthYear.format(currentDate)}
+		.link.p-tiny.ico-chevron-right(d-click="go next")
+	//- body
+	table.date-picker-table
+		thead
+			tr
+				-i= 0, days= i18n.days;
+				-while(i<7)
+					th #{days[i++]}
+		tbody
+			//- first line
+			tr
+				-cDate= new Date(currentDate);
+				-cDate.setDate(1);
+				-startDay= cDate.getDay()+1;
+				-cDate.setDate(0)
+				-i=1;
+				if startDay>1
+					-j= cDate.getDate()-startDay+2
+					-while(i<startDay)
+						td.t-gray !{j++}
+						-++i;
+				//- rest of the row
+				-j= 1
+				while i++<=7
+					td(d-click="select "+j) !{j++}
+			//- get this month last day
+			-cDate.setDate(65);
+			-cDate.setDate(0);
+			-lastDay= cDate.getDate();
+			-lastOfLastWeek= lastDay-cDate.getDay()
+			//- other rows
+			-rows= 2
+			while j<lastOfLastWeek
+				tr
+					-i= 0;
+					-++rows;
+					while i++<7
+						td(d-click="select "+j) !{j++}
+			//- last row
+			tr
+				//- last days
+				-i=0;
+				while j<= lastDay
+					td(d-click="select "+j) !{j++}
+					-++i;
+				//- days cells
+				-j=1;
+				while i++<7
+					td.t-gray !{j++}
+			//- if still need one more row
+			if rows<6
+				tr
+					-i=0
+					while i++<7
+						td.t-gray !{j++}

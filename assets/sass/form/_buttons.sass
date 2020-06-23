@@ -16,10 +16,10 @@
 	margin: 2px
 	touch-action: manipulation
 	vertical-align: middle
-	// line-height: 1.4
+	line-height: inherit
 	// size
 	&.xs
-		line-height: .5
+		line-height: .2
 	&.sm
 		line-height: 1
 	&.lg
@@ -80,20 +80,21 @@
 			background-color: $danger-dark
 
 	&.loading
-		@extend %disabled
+		// @extend %disabled
+		@extend %loading
 		background-color: $bg-disabled
-		position: relative
-		&:after
-			@extend %ico
-			content: '\e862'
-			position: absolute
-			line-height: 1
-			font-size: 1.6em
-			top: calc(50% - .45em)
-			left: calc(50% - .7em)
-			color: $text-color
-			will-change: transform
-			animation: cui-rotate 1s linear infinite
+		// position: relative
+		// &:after
+		// 	@extend %ico
+		// 	content: '\e862'
+		// 	position: absolute
+		// 	line-height: 1
+		// 	font-size: 1.6em
+		// 	top: calc(50% - .45em)
+		// 	left: calc(50% - .7em)
+		// 	color: $text-color
+		// 	will-change: transform
+		// 	animation: cui-rotate 1s linear infinite
 
 	&.outline, &.flat
 		&:not(:hover):not(:active):not(.active)

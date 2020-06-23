@@ -29,7 +29,7 @@ XHR= (options)->
 		if vl= options.reponseType
 			throw '"responseType" expected string' unless typeof vl is 'string'
 			vl= vl.toLowerCase()
-			vl= _MIME_TYPES[vl] or vl
+			vl= MIME_TYPES[vl] or vl
 			switch vl
 				when 'application/json'
 					pFinal= p.then (resp)->

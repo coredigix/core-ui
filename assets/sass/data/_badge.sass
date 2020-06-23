@@ -8,6 +8,7 @@
 	color: white
 	background-color: $text-color
 	pointer-events: none
+	z-index: 99
 	&:empty
 		padding: 6px
 	&.primary
@@ -25,8 +26,6 @@
 
 	// absolute
 	&.abs
-		top: 0
-		right: 0
 		-webkit-transform: translate(50%, -50%)
 		transform: translate(50%, -50%)
 

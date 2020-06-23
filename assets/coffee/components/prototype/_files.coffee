@@ -1,23 +1,8 @@
-###*
- * File preview
-###
-filePreview: (addedFiles, allFiles)->
-	# Find preview container
-	$preview= $(this).closest('.f-cntrl').find('.files-preview')
-	$preview.empty() unless @multiple
-	# Add previews
-	for file in addedFiles
-		filePreview= Components._ 'filePreview', file
-		filePreview[F_FILES_LIST]= file
-		$preview.append filePreview
-	return
 
-###*
- * Image resize
-###
+###* Image resize ###
 doResizeImages: do->
 	# do resize of each file
-	_doResizeImagesItem= (input, component, files, file, i, type, width, height, fit)->
+	_doResizeImagesItem= (component, input, files, file, i, type, width, height, fit)->
 		try
 			# Load image
 			img=Core.image(file)
@@ -38,14 +23,13 @@ doResizeImages: do->
 			# replace file
 			files[i]= file2 if file2.size < file.size
 		catch err
-			component.emit 'form-error',
+			component.emit 'error',
 				element: input
 				form: input.form
-				component: component
 				error: err
 		return
 	# Interface
-	return (component, input, type, WxH, fit)->
+	return (input, type, WxH, fit)->
 		jobs= []
 		if window.Blob? and (files=input[F_FILES_LIST] or input.files) # has window Blob
 			# get width and height
@@ -56,7 +40,7 @@ doResizeImages: do->
 			# Loop
 			for file, i in files
 				if file.type in ['image/jpeg', 'image/png']
-					jobs.push _doResizeImagesItem input, component, files, file, i, type, width, height, fit
+					jobs.push _doResizeImagesItem this, input, files, file, i, type, width, height, fit
 				else
-					Core.warn "Ignore mimeType: #{file.type}"
+					Core.warn 'resizeImage', "Ignore mimeType: #{file.type}"
 		return Promise.all jobs

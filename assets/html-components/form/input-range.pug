@@ -1,0 +1,14 @@
+//- INPUT RANGE
+.input-range(d-component='range' class=locals.class)
+	input(type="hidden" name=name value=value)
+	.progress(d-click="select")
+		.track(style=<%-'`width: ${track}%`' %>)
+			.caret(d-move="drag" d-movestart="drag" d-moveend="drag")
+		//- steps
+		if step
+			-var p= Math.round (max-min)/step;
+			-p= 100/p;
+			-var st= p
+			while st<100
+				i.step(style=<%-'`left: ${st}%`' %>)
+				-st+= p

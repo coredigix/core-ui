@@ -1,7 +1,10 @@
 ###*
  * Default goto
 ###
-goto: DEFAULT_GOTO_FX
+# goto: DEFAULT_GOTO_FX
+goto: (utl)->
+	document.location= url
+	this # chain
 
 ###*
  * ROUTER
@@ -12,6 +15,7 @@ goto: DEFAULT_GOTO_FX
  * @optional @param {function} options.out - called when quiting page
  * @optional @param {function} options.catch - called when error happend: Example: {code:404}
 ###
+defaultRouter: null # default router to use by the framework
 Router: do ->
 	###*
 	 * DEFAULT OPTIONS
@@ -32,6 +36,11 @@ Router: do ->
 	HISTORY_REPLACE=	1	# do replace in history instead of adding
 	HISTORY_BACK=		2	# prevent history push when back
 	ROUTER_RELOAD=		3	# Reload path
+	# Node types
+	ROUTER_STATIC_NODE= 0
+	ROUTER_PARAM_NODE= 1
+	ROUTER_WILDCARD_PARAM_NODE= 2
+	ROUTER_WILDCARD_NODE= 3
 	# ROUTES
 	ROUTE_ILLEGAL_PATH_REGEX= /[#]|[^\/]\?/
 	###* Create route node ###
@@ -50,8 +59,8 @@ Router: do ->
 	###* Resolve or create node inside array ###
 	_resolveNodeInArray= (part, paramMap, arr, upsert)->
 		paramName= part.slice 1
-		throw "Please use \"Router.param(...)\" method to define parameter: #{paramName}" unless _has paramMap, paramName
-		paramRegex= paramMap[paramName][0]
+		throw "Please use \"Router.param(...)\" method to define parameter: #{paramName}" unless paramMap.hasOwnProperty paramName
+		paramRegex= paramMap[paramName].regex
 		len= arr.length
 		i= 0
 		while i<len
@@ -99,11 +108,18 @@ Router: do ->
 			@_cache= new Core.LRU_TTL(max: @_options.cacheMax)
 			# prevent back and do an other action like closing popups
 			@_back= []
+			@_backOperations= [] # Operation to do over back
 			# Pop state
 			_popstateListener= (event)=>
 				# call callbacks
 				preventBack= no
-				for cb in @_back
+				if @_backOperations.length
+					try
+						@_backOperations.pop() event
+						preventBack= yes
+					catch err
+						Core.fatalError 'Router', err
+				else for cb in @_back
 					try
 						break if preventBack= cb event
 					catch err
@@ -118,6 +134,10 @@ Router: do ->
 			window.addEventListener 'popstate', _popstateListener, off
 			# start router
 			$ => @goto document.location.href, ROUTER_ROOT_PATH
+			# Default operations
+			unless Core.defaultRouter
+				Core.defaultRouter= this
+				Core.goto= @goto.bind this
 			return
 
 		###*
@@ -132,9 +152,9 @@ Router: do ->
 				if _isStrArray paramName
 					@param(el, regex, convert) for el in paramName
 					return this # chain
-				else
+				else unless typeof paramName is 'string'
 					throw 'Illegal param name'
-				throw "Param '#{paramName}' already set" if @$[paramName]
+				throw "Param '#{paramName}' already set" if @_params[paramName]
 				# Prepare arguments
 				if typeof regex is 'function'
 					regex= test: regex
@@ -164,16 +184,26 @@ Router: do ->
 		 * GET
 		###
 		get: (route, node)->
-			throw new Error 'Illegal arguments' unless arguments.length is 2 and typeof route is 'string' and typeof node is 'object' and node
+			throw new Error 'Illegal arguments' unless arguments.length is 2 and typeof node is 'object' and node
+			# Add
+			if _isArray route
+				for r,i in route
+					@_get r, _assign {}, node, i
+			else
+				@_get route, node, 0
+			this # chain
+		_get: (route, node, routeIndex)->
+			throw new Error "Route expected string" unless typeof route is 'string'
 			routeObj= @_loadRoute(route)
 			throw new Error "Route already set: #{route}" if routeObj.get?
 			node.route?= route
+			node.routeIndex= routeIndex
 			routeObj.get= node
-			this # chain
+			return
 		###*
 		 * Goto
 		###
-		goto: (path, doState)->
+		goto: (url, doState)->
 			try
 				# convert URL
 				url= (new URL url, Core.baseURL) unless url instanceof URL
@@ -191,6 +221,7 @@ Router: do ->
 					path:			path
 					isHistoryBack:	doState is HISTORY_BACK # if this is fired by history.back
 					isNew:			(doState is ROUTER_ROOT_PATH) or (doState is ROUTER_RELOAD) or (path isnt previousPath)
+					isReload:		doState is ROUTER_RELOAD
 					params:			{}	# Path params
 					query:			{}	# Query params
 					history:		path: url.href
@@ -198,7 +229,7 @@ Router: do ->
 					options:		null
 					# referrer
 					referrer:		@referrer
-					referrerOptions: previousNode.node
+					referrerOptions: previousNode and previousNode.node
 				# lookup for new Node
 				unless result= @_cache.get path
 					result= @_resolvePath path
@@ -210,7 +241,8 @@ Router: do ->
 				# Path params
 				params= ctx.params
 				paramMap= @_params
-				i=2
+				i=0
+				resp= result.params
 				len= resp.length
 				while i < len
 					pName= resp[i++]
@@ -227,6 +259,7 @@ Router: do ->
 					else params[k]= v
 				# call previous node out
 				if previousNode and (previousNodeOptions= previousNode.node)
+					previousNodeOptions= previousNodeOptions.get
 					await previousNodeOptions.out? ctx
 					await previousNodeOptions.outOnce? ctx if ctx.isNew
 				# push in history
@@ -249,27 +282,38 @@ Router: do ->
 							return @_gotoRun result, ctx
 					await wrapperNext()
 				else
-					await _gotoRun result, ctx
+					await @_gotoRun result, ctx
 			catch err
 				err= "ROUTER.goto>> #{err}" if typeof err is 'string'
 				@_options.catch err, ctx
 			this # chain
 		_gotoRun: (result, ctx)->
-			node= result.node
-			if ctx.isNew
-				# abort active xhr calls
-				Core.ajax.abort router.id
-				# toggle <html> classes
-				$html= $('html')
-				$html.removeClass referrerOptions.toggleClass if (referrerOptions= ctx.referrerOptions) && referrerOptions.toggleClass
-				$html.addClass node.toggleClass if node.toggleClass
-				# Goto top
-				scrollTo 0, 0 if node.scrollTop
-				# Call current node in once
-				await node.once? ctx
-			# Call in
-			await node.in? ctx
+			if nodeGet= result.node?.get
+				if ctx.isNew
+					# abort active xhr calls
+					Core.ajax.abort @id
+					# toggle <html> classes
+					$html= $('html')
+					$html.removeClass referrerOptions.toggleClass if (referrerOptions= ctx.referrerOptions) and referrerOptions.toggleClass
+					$html.addClass nodeGet.toggleClass if nodeGet.toggleClass
+					# Goto top
+					scrollTo 0, 0 if nodeGet.scrollTop
+					# Call current node in once
+					await nodeGet.once? ctx
+				# Call in
+				await nodeGet.in? ctx
 			return
+		###*
+		 * Push URL to history without executing GOTO
+		###
+		setURL: (url)->
+			url= (new URL url, Core.baseURL) unless url instanceof URL
+			# push in history
+			urlHref= url.href
+			unless urlHref is @location.href
+				@location= url
+				history?.pushState {path: urlHref}, '', urlHref
+			this # chain
 		###*
 		 * Reload
 		###
@@ -296,13 +340,28 @@ Router: do ->
 			@_back.push cb
 			this # chain
 		###*
+		 * Execute operations over going back: like closing menu
+		###
+		addBackOperation: (fx)->
+			throw new Error 'Illegal arguments' unless arguments.length is 1 and typeof fx is 'function'
+			@_backOperations.push fx
+			this # chain
+		removeBackOperation: (fx)->
+			arr= @_backOperations
+			i= arr.length
+			while i
+				if fx is arr[--i]
+					arr.splice i, 1
+					break
+			this # chain
+		###*
 		 * Load route
 		###
 		_loadRoute: (route)->
 			throw "Illegal path: #{path}" if ROUTE_ILLEGAL_PATH_REGEX.test(route)
 			settings= @_options
 			path= route
-			path= path.toLowerCase() unless settings.caseSensitive
+			isntCaseSensitive= not settings.caseSensitive
 			parts= path.split '/'
 			partsLen= parts.length
 			paramSet= new Set() # check params are not repeated
@@ -334,6 +393,7 @@ Router: do ->
 				# static node
 				else
 					part= part.slice(1) if part.startsWith('?') # escaped static part
+					part= part.toLowerCase() if isntCaseSensitive
 					node= currentNode.static[part] ?= do _createRouteNode
 					node.type= ROUTER_STATIC_NODE
 				# Check params not repeated
@@ -445,8 +505,7 @@ Router: do ->
 						wrappers= result.wrappers
 						# errHandlers= result.errorHandlers
 						paramArr= result.params
-						j=-1
-						for node in currentNode.path
+						for node, j in currentNode.path
 							# wrappers
 							if arr= node.wrappers
 								wrappers.push el for el in arr
@@ -459,8 +518,6 @@ Router: do ->
 									paramArr.push node.param, parts[j]
 								when ROUTER_WILDCARD_PARAM_NODE, ROUTER_WILDCARD_NODE
 									paramArr.push node.param, parts.slice(j).join('/')
-							# next
-							++j
 						break
 			catch err
 				err= new Error "ROUTER>> #{err}" if typeof err is 'string'

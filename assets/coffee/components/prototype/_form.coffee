@@ -1,19 +1,4 @@
-
-###*
- * Progress (from 0-100 )
-###
-progress: (loaded, total)->
-	$progress= @$progress or @$element.find('.progress:first')
-	$progressTrack= $progress.find '.track:first'
-	if total is Infinity
-		$progress.addClass 'loading'
-	else
-		$progress.removeClass 'loading'
-		$progressTrack.css 'width', "#{loaded*100/total}%"
-	return
-###*
- * Do Error animation on a form element
-###
+###* Do Error animation on a form element ###
 doErrorAnimation: (element)->
 	$(element).closest('.f-cntrl')
 		.addClass 'has-error-anim'
@@ -25,43 +10,57 @@ doErrorAnimation: (element)->
 	return
 
 
-###*
- * Execute validation on input when blur
-###
-_triggerBlurValidation: (element)->
-	console.log 'trigger blur>', element
-	element[INPUT_VALIDATED]= no
-	$fcntrl= $(element).closest('.f-cntrl').addClass 'loading'
-	state= false
-	try
-		actions= @type._blurActions
-		value= element.value
-		# Check it's a valid html element
-		if attributes= element.getAttributeNames?()
-			for attrName in attributes
-				if fx= actions[attrName]
-					value= await fx.call element, value, element.getAttribute(attrName), this
-			element.value= value # replace value
-			# Has success
-			$fcntrl.addClass 'has-done'
-			element[INPUT_VALIDATED]= yes
-			state= yes
-	catch err
-		$fcntrl.addClass if err is 'warn' then 'has-warn' else 'has-error'
-		@type.emit 'error', err unless err in [false, 'warn']
-	finally
-		$fcntrl.removeClass 'loading'
-		# trigger validation state
-		@type.emit 'validate',
-			component:	this
-			element:	element
-			status:		state
+###* Execute validation ###
+_triggerBlur: (element)->
+	# Check it's form element (not Anchor or other)
+	if element.form?
+		element[INPUT_VALIDATED]= no
+		$fcntrl= $(element).closest('.f-cntrl').addClass 'loading'
+		state= false
+		try
+			vAttributes= @_vAttrs
+			value= element.value
+			# Check it's a valid html element
+			if attributes= element.getAttributeNames?()
+				for attrName in attributes
+					if handler= vAttributes[attrName]
+						value= await handler.call this, value, element, element.getAttribute(attrName)
+				if element.type isnt 'file'
+					element.value= value # replace value
+				# Has success
+				$fcntrl.addClass 'has-done'
+				element[INPUT_VALIDATED]= yes
+				state= yes
+		catch err
+			if err is 'warn'
+				$fcntrl.addClass 'has-warn'
+			else
+				$fcntrl.addClass 'has-error'
+				@emit 'form-error', err unless err is false
+		finally
+			$fcntrl.removeClass 'loading'
+			# trigger validation state
+			@emit 'validate',
+				element:	element
+				status:		state
 	return state
 
-###*
- * Submit
-###
-_triggerSubmitValidation: (event)->
+###* FORM RESET ###
+_onFormReset: (event)->
+	form= event.target
+	# remove state classes
+	$('has-error has-done has-warn', form).removeClass 'has-error has-done has-warn'
+	# empty file upload queue
+	for inp in @querySelectorAll 'input[type="file"]'
+		if queue= inp[F_FILES_LIST]
+			queue.length= 0
+	$('.files-preview', form).empty()
+	# Emit this event
+	@emit 'form-reset', event
+	return
+
+###* Form submit ###
+_onSubmit: (event)->
 	form= event.target
 	$form= $(form).removeClass('form-has-error').addClass('loading')
 	try
@@ -71,11 +70,10 @@ _triggerSubmitValidation: (event)->
 		jobs= []
 		formElements= form.elements
 		for element in formElements
-			state= element[INPUT_VALIDATED]
-			if state?
+			if (state= element[INPUT_VALIDATED])?
 				jobs.push state
-			else
-				jobs.push @_triggerBlurValidation element
+			else unless element.disabled
+				jobs.push @_triggerBlur element
 		jobs= await Promise.all jobs
 		for v,i in jobs
 			if v is no
@@ -85,24 +83,26 @@ _triggerSubmitValidation: (event)->
 		# Callbacks before submit on elements
 		for element in formElements
 			if attr= element.getAttribute 'v-submit'
+				console.log 'submit: ', attr
 				parts= attr.trim().split /\s+/
-				cbName= parts[0].toLowerCase()
-				cb= @type._vSubmit[cbName]
-				throw new Error "Unknown submit callback: #{cbName}" unless cb
-				await cb.call element, event, parts, this
+				cbName= parts[0]
+				throw new Error "Unknown method for submit: #{cbName}" unless typeof @[cbName] is 'function'
+				await @[cbName] element, parts
 		# Check for cb
 		if attr= form.getAttribute 'v-submit'
 			parts= attr.trim().split /\s+/
-			cbName= parts[0].toLowerCase()
-			cb= @type._vSubmit[cbName]
-			throw new Error "Unknown submit callback: #{cbName}" unless cb
-			await cb.call form, event, parts, this
+			cbName= parts[0]
+			throw new Error "Unknown method for submit: #{cbName}" unless typeof @[cbName] is 'function'
+			await @[cbName] event, parts
 		else
 			form.submit()
 	catch err
 		unless (err is no) or (err?.aborted) # err.aborted => ajax
 			$form.addClass 'form-has-error'
-			@type.emit 'error', err
+			@emit 'form-error', err
 	finally
 		$form.removeClass 'loading'
 	return
+
+
+

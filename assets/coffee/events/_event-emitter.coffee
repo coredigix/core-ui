@@ -7,15 +7,17 @@ EventEmitter= do ->
 	 * Add event listeners
 	###
 	_on= (obj, isOnce, eventName, listener)->
-		throw new Error 'EventEmitter::on>> Event listener expected function'
+		throw new Error 'EventEmitter::on>> Event listener expected function' unless typeof listener is 'function'
 		if typeof eventName is 'string'
 			eventName= eventName.trim().split /\s+/
+		else if typeof eventName is 'number'
+			eventName= [eventName+'']
 		throw new Error 'Illegal event name' unless _isStrArray eventName
 		_addListener obj, isOnce, el, listener for el in eventName
 		return
 	_addListener= (obj, isOnce, eventName, listener)->
 		# Check no space
-		throw new Error 'EventEmitter::on>> Event name contains space' if /\s/.test eventName
+		# throw new Error 'EventEmitter::on>> Event name contains space' if /\s/.test eventName
 		# add queue
 		queue= obj[EVENT_QUEUE]?= new Map()
 		# Group
@@ -30,9 +32,9 @@ EventEmitter= do ->
 		eventName= eventName.toLowerCase()
 		# add
 		unless eventQ= queue.get eventName
-			queue= []
-			queue.set eventName, queue
-		queue.push listener, group, isOnce
+			eventQ= []
+			queue.set eventName, eventQ
+		eventQ.push listener, group, isOnce
 		# obj.emit '_listenerAdded',
 		# 	eventName: eventName,
 		# 	listener: listener
@@ -152,10 +154,13 @@ EventEmitter= do ->
 		 * Emit event
 		###
 		emit: (eventName)->
-			throw new Error 'Expected event name' unless typeof eventName is 'string'
-			throw new Error "Event name contains group: #{eventName}" if ~eventName.indexOf '.'
+			if typeof eventName is 'number'
+				eventName+= ''
+			else unless typeof eventName is 'string'
+				throw new Error '::emit>> Illegal event name'
+				throw new Error "::emit>> Event name contains group: #{eventName}" if ~eventName.indexOf '.'
 			eventName= eventName.toLowerCase()
-			if q= @[EVENT_QUEUE]?.get eventName
+			if queue= @[EVENT_QUEUE]?.get eventName
 				args= [].slice.call arguments, 1
 				# executor
 				execFx= (listener)=>
@@ -177,16 +182,16 @@ EventEmitter= do ->
 					listener= queue[i]
 					# remove if is once
 					if queue[i+2]
-						ar= queue.slice i, 3
+						queue.splice i, 3
 						len= queue.length
 					else
 						i+= 3
 					# exec
 					execFx listener
-			else if eventName is 'error'
-				Core.fatalError 'Emitter',
-					message: 'Uncaught error'
-					args: [].slice.call arguments, 1
+			else
+				args= ['Uncaught event']
+				args.push el for el in arguments
+				Core.warn.apply Core, args
 			this # chain
 		###*
 		 * eventNames

@@ -1,0 +1,20 @@
+//- DATE PICKER YEARS
+//- td.today 2020
+-var currentYear= currentDate.getFullYear();
+-var startYear= currentYear-5
+.date-picker-view
+	//- Head
+	.flex
+		.link.p-tiny.ico-chevron-left(d-click="go prev")
+		.link.p-tiny.grow1.t-center !{startYear}-!{startYear+11}
+		.link.p-tiny.ico-chevron-right(d-click="go next")
+	//- body
+	table.date-picker-table.years(align="center")
+		tbody
+			-var i=0;
+			while i++<4
+				tr
+					-var j=0;
+					while j++<3
+						-++startYear
+						td(d-click="select "+startYear) !{startYear}

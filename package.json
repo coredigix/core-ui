@@ -2,7 +2,7 @@
 	"name": "core-ui",
 	"version": "2.0.0",
 	"description": "web CSS/JS framework",
-	"main": "build-website/app/app.js",
+	"main": "build/index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -25,7 +25,5 @@
 		"gulp-gridfw": "^1.0.0",
 		"gulp": "^4.0.2"
 	},
-	"dependencies": {
-		"gridfw": "^2.0.2"
-	}
+	"dependencies": {}
 }

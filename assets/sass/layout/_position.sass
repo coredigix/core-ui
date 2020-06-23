@@ -2,8 +2,12 @@
 /***********
  * POSITION
  */
-.absolute, .abs
+%abs
 	position: absolute
+.absolute, .abs
+	@extend %abs
+	top: 0
+	right: 0
 .fixed
 	position: fixed
 .relative, .r
@@ -12,6 +16,24 @@
 	position: -webkit-sticky
 	position: sticky
 	top: 0
+
+.top
+	@extend %abs
+	top: 0
+.right
+	@extend %abs
+	right: 0
+.bottom
+	@extend %abs
+	bottom: 0
+.bottom-w
+	@extend %abs
+	bottom: 0
+	left: 0
+	right: 0
+.left
+	@extend %abs
+	left: 0
 
 
 /***********

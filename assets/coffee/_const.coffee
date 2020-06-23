@@ -12,3 +12,9 @@ EMAIL_REGEX= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[
 TEL_REGEX=	/^[0+][\d\s-]{5,}$/
 IS_NUMBER= /^\d+$/
 HEX_REGEX= /^[\da-f]+$/i
+
+###*
+ * SYMBOLS
+###
+F_FILES_LIST=	Symbol('files')
+

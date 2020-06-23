@@ -2,18 +2,15 @@
  * Event wrapper
 ###
 class EventWrapper
-	constructor: (isSync, eventName, customEvent, event, eventPath, currentTarget, component, target)->
-		@isPassive= @isAsync= !isSync # is event passive (async)
+	constructor: (eventName, event, currentTarget, target, isSync)->
 		@originalEvent= event
-		@type= customEvent		# custom event type
-		@originalType= eventName # native event type
-		# target
+		@type= eventName
+		@isSync= isSync
+		# TARGET
 		@target= target
-		@realTarget= event.target
+		@realTarget= event.realTarget or event.target
 		@currentTarget= currentTarget
-		@component=	component
-		@path= eventPath
-		# flags
+		# FLAGS
 		@bubbles= true
 		@bubblesImmediate= yes
 		return
@@ -27,13 +24,24 @@ class EventWrapper
 		@bubblesImmediate = off
 		this # chain
 
-	###* GETTERS ONCE ###
+	###* GETTERS ###
 	```
-	<% ['altKey', 'ctrlKey', 'shiftKey', 'timeStamp', 'which', 'x', 'y'].forEach(function(el){ %>
-	get <%-el %>(){
-		var v= this.originalEvent.<%-el %>;
-		_defineProperty(this, '<%-el %>', {value:v});
-		return v;
-	}
+	<% ['altKey', 'ctrlKey', 'metaKey', 'shiftKey', 'isTrusted', 'offsetX', 'offsetY', 'timeStamp', 'which'].forEach(function(el){ %>
+	get <%-el %>(){ return this.originalEvent.<%-el %>; }
 	<% }); %>
+	```
+	# x and y
+	```
+	get x(){var o=this.originalEvent; return o.x || o.clientX; }
+	get y(){var o=this.originalEvent; return o.y || o.clientY; }
+	get path(){
+		var path= [];
+		var target= this.target;
+		while(target && target != document){
+			path.push(target);
+			target= target.parentNode;
+		}
+		_defineProperty(this, 'path', {configurable:true, enumerable:true, value:path, writable:true});
+		return path;
+	}
 	```

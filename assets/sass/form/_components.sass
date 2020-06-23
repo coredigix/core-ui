@@ -2,7 +2,11 @@ input, textarea, select, button
 	font-size: $text-size
 
 input, textarea
-	@extend %select;
+	@extend %select
+input[type="submit"], input[type="button"]
+	@extend %noselect
+textarea
+	resize: vertical
 
 // form input
 %f-input
@@ -19,14 +23,16 @@ input, textarea
 	border: $default-border
 	background-color: $border-color
 	border-radius: $btn-radius
+	color: $text-color
 	touch-action: manipulation
 	-webkit-appearance: none
 	outline: none
 	// height: 2.573rem
 	&:hover
 		background-color: $default-light
-	&:focus
-		background-color: $default-dark
+	&:focus, &.has-popup
+		// background-color: $default-dark
+		background-color:  white
 	// &::selection
 	// 	background-color: $white
 	// 	color: $black
@@ -51,10 +57,29 @@ input, textarea
 	&.xxl
 		padding: 24px 48px
 
+	// Popup
+	&.popup-up
+		border-top-left-radius: 0
+		border-top-right-radius: 0
+	&.popup-bottom
+		border-bottom-left-radius: 0
+		border-bottom-right-radius: 0
+
 
 .f-input
 	@extend %f-input
 	cursor: text
+input[type="number"].f-input
+	// Firefox
+	-moz-appearance: textfield
+	// Chrome
+	&::-webkit-inner-spin-button
+		-webkit-appearance: none
+		margin: 0
+	// Opera
+	&::-o-inner-spin-button
+		-o-appearance: none
+		margin: 0
 .f-text
 	@extend %f-input
 	cursor: text
@@ -95,6 +120,11 @@ input, textarea
 			color: $danger-light
 		&:active, &.active
 			color: $danger-dark
+	&.loading
+		@extend %no-events
+	&.active
+		.f-input
+			background: white
 	// state
 	&[class^="has-"], &[class*=" has-"]
 		f-input:not(:disabled)
@@ -265,34 +295,50 @@ label.f-input
 // ANIMATIONS
 // has error animation
 .has-error-anim
-	animation: hasErrBgAnim .2s ease 10 alternate
+	.f-input, .label
+		animation: hasErrBgAnim .2s ease 10 alternate
 
 @keyframes hasErrBgAnim
 	0%
-		background: none
+		color: transparent
+		border-color: transparent
 	100%
-		background: #ffcdd2
+		color: #ffcdd2
+		border-color: #ffcdd2
 
 // Loading
 form.loading
-	position: relative
-	pointer-events: none
-	>*
-		opacity: .5
+	// position: relative
+	// pointer-events: none
+	@extend %loading
+	>:not(.progress)
+		// opacity: .5
 		filter: blur(2px)
 	>.progress
 		opacity: 1
 		filter: none
-	&:before
-		@extend %ico
-		@extend .ico-sync
-		@extend .rotate
-		font-size: 3em
+		&.abs
+			width: 100%
+			top: calc(50% - .5em)
+
+	// &:before
+	// 	// @extend %ico
+	// 	// @extend .ico-sync
+	// 	// @extend .rotate
+	// 	font-size: 3em
+	// 	margin: 0
+	// 	// will-change: transform
+	// 	// animation: cui-rotate $animate-slow linear reverse infinite
+	// 	position: absolute
+	// 	// position: sticky
+	// 	top: calc(50% - .5em)
+	// 	// top: 1em
+	// 	left: calc(50% - .5em)
+	// 	z-index: 999
+
+/********
+ * .f-field
+ */
+.f-field
+	.f-input, .f-text
 		margin: 0
-		// will-change: transform
-		// animation: cui-rotate $animate-slow linear reverse infinite
-		position: absolute
-		// position: sticky
-		top: calc(50% - .5em)
-		// top: 1em
-		left: calc(50% - .5em)

@@ -21,11 +21,12 @@
 		position: relative
 		>.tab.active
 
+	// @deprecated
 	&-body
-		>*
+		>:not(.active)
 			display: none
-		>.active
-			display: block
+		// >.active
+		// 	display: block
 	// When tabs are initiated
 	&-enabled
 		.tab.active:after

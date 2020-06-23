@@ -9,6 +9,8 @@ do ->
 	# 	throw new Error "Please add this library in the bottom of your HTML file"
 	unless jQuery?
 		throw new Error "jQuery is required."
+	unless i18n?
+		throw new Error "Expected global variable: i18n"
 	$= jQuery
 	#=include coffee/_index.coffee
 	
@@ -16,7 +18,16 @@ do ->
 	do ->
 		#=include ui-components/_*.coffee
 		return
-	
+	# HTML components
+	```
+	#=include ../tmp/components.js
+	```
 	#interface
 	window.Core= Core
 	return
+###*
+ * Include required runtime libraries
+###
+```
+#=include lib_js/_*.js
+```

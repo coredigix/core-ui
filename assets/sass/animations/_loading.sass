@@ -1,0 +1,26 @@
+%loading
+	position: relative
+	pointer-events: none
+	&:after
+		width: 2em
+		height: 2em
+		position: absolute
+		top: calc(50% - 1em)
+		left: calc(50% - 1em)
+		z-index: 999
+		background-color: #333
+		border-radius: 100%
+		animation: ld-scaleout 1.0s infinite ease-in-out
+		// will-change: transform
+		// animation: cui-rotate $animate-slow linear reverse infinite
+		// position: sticky
+		// top: 1em
+
+@keyframes ld-scaleout
+	from
+		transform: scale(0)
+	to
+		transform: scale(1)
+		opacity: 0
+
+

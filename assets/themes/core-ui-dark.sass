@@ -1,9 +1,111 @@
 /**
  * Dark theme
  */
-$html-background: rgb(21, 32, 43)
-$text-color: white
+$html-background: #22313a
+$text-color: #7996a9
+$border-color: #394e5a
+$link-hover: #dcf3ff
 
 html
 	background: $html-background
 	color:	$text-color
+	// font-family: Roboto, sans-serif
+
+
+// HEAD
+.head
+	border-bottom: 1px solid $border-color
+
+a, .link
+	color: #9bbcd1
+	&:hover
+		color: $link-hover
+
+.card
+	border-color: #2b3c46
+	background-color: #2b3c46
+	box-shadow: 0 3px 3px rgba(0,0,0,.05)
+	&-head
+		color: inherit
+		background-color: #2f414c
+		&:after
+			content: none
+
+
+// tabs
+.tabs-header
+	border-color: $border-color
+
+// Collapse
+.collapse-head.active
+	color: $link-hover
+
+.menu
+	a
+		// color: #9bbcd1
+		&:hover
+			color: #dcf3ff
+		&.active
+			background: #1e2a31
+			color: #27a4fb
+			border-radius: 4px
+
+// Heading
+h1, h2, h3, h4, h5, h6
+	color: #dcf3ff
+// Colors
+.t-green
+	color: #8bc34a
+
+// Separators
+hr, .divider
+	border-color: $border-color
+
+// TEXT FIELDS
+.f-input, .f-text
+	color: #9bbcd1
+	background: transparent
+	border: 1px solid #415969
+	border-radius: 5px
+	&:hover, &:focus
+		background: transparent
+		color: #9bbcd1
+		border-color: #6c8ea4
+	&::placeholder
+		color: #798ca4
+
+// STRIPED
+.striped
+	>:nth-child(odd)
+		background-color: #2f414c
+	&-even
+		>:nth-child(even)
+			background-color: #2f414c
+
+// LIST
+li.hover:hover
+	color: $link-hover
+	background: #394e5a
+
+// BTNS
+.btn
+	background: #394e5a
+	border-color: #394e5a
+	color: #b7d3e4
+	padding: 4px 12px
+	border-radius: 4px
+	font-size: 1em
+	&:hover
+		color: #dcf3ff
+		background: #3f5663
+		border-color: #3f5663
+	// &.flat
+	// 	color: #9bbcd1
+
+.progress
+	background: #1e2a31
+	// .track
+
+// Border & shadow
+.overlay
+	box-shadow: 0 0 0 8px #394e5a

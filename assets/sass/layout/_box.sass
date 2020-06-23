@@ -9,6 +9,15 @@
 @each $m in top, left, right, bottom
 	.m-#{$m}
 		margin-#{$m}: 14px
+	.m-x#{$m}
+		margin-#{$m}: 60px
+
+.m-end
+	margin-inline-end: 14px
+.m-start
+	margin-inline-start: 14px
+.m-auto
+	margin: auto
 
 // .m-start
 // 	&:dir(ltr)

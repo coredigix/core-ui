@@ -1,0 +1,29 @@
+// Simple loader
+.loader-points
+	position: relative
+	height: .5em
+	width: 20em
+	i
+		background: #9bbcd1
+		// box-shadow: 0 0 1px #fff, 0 0 2px #9bbcd1
+		width: .5em
+		height: .5em
+		border-radius: 100%
+		position: absolute
+		animation: loader-pnts 2.5s ease-in-out 10ms infinite
+		$colors: #8bc34a #e53935 #ac66f5 #ff5722 #2cc56f
+		@for $i from 1 through 5
+			&:nth-child(#{$i})
+				animation-delay: #{'.#{$i}s'}
+				background: nth($colors, $i)
+
+		@keyframes loader-pnts
+			0%
+				transform: translateX(0)
+			30%
+				transform: translateX(19.5em)
+			50%
+				transform: translateX(19.5em)
+			80%
+				transform: translateX(0)
+

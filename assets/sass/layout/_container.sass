@@ -1,0 +1,28 @@
+/**
+ * Container
+ */
+.container
+	margin-left: 5px
+	margin-right: 5px
+	@media(min-width: $md)
+		margin-left: 20px
+		margin-right: 20px
+
+/*** MOBILE ***/
+%container
+	margin-left: auto
+	margin-right: auto
+	width: 95%
+.container-xs
+	@extend %container
+	max-width: 330px
+.container-sm
+	@extend %container
+	max-width: 600px
+.container-md
+	@extend %container
+	max-width: 800px
+
+/*** HEAD ***/
+// .head
+// 	@extend %tiny-padding
