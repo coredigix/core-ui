@@ -25,8 +25,7 @@ class requestResponse
 						return tag[0].match(/url=([^\s"']+)"?/i)?[1]
 		return null
 	### parse JSON ###
-	json: -> JSON.parse @xhr.responseText
-
+	json: -> if data= @xhr.responseText then JSON.parse data else null
 
 # GETTERS
 _defineProperties requestResponse.prototype,
@@ -45,4 +44,3 @@ _defineProperties requestResponse.prototype,
 	text:		get: -> @xhr.responseText
 	# BINARY RESPONSE
 	response:	get: -> @xhr.response
-

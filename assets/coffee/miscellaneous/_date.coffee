@@ -54,5 +54,60 @@ datePatterns: do ->
 
 
 ###*
- * Date patterns cache
+ * Date relaxed
 ###
+dateRelaxed: (date, relativeDate)->
+	# i18n
+	throw new Error "Expected i18n.datePatterns.relaxed function" unless i18n? and (i18nDatePatterns=i18n.datePatterns) and typeof i18nDatePatterns.relaxed is 'function'
+	# Relative date
+	relativeDate= Date.now() unless relativeDate?
+	relativeMidnight= relativeDate - ( relativeDate % (1000 * 3600 * 24) )
+	# Exec
+	# Prepare
+	targetTime = if typeof date is 'number' then date else date.getTime()
+	# Calc
+	range= ~~((relativeDate - targetTime) / 1000)
+	return i18nDatePatterns.relaxed range, date
+htmlDateRelaxed: do ->
+	_ELEMENT_CLASS= '_core-dt-mng_'
+	_ELEMENT_SELECTOR= '.'+ _ELEMENT_CLASS
+	_interv= null
+	_exec= (htmlElements)->
+		# Relative Date
+		relativeDate= Date.now()
+		relativeMidnight= relativeDate - ( relativeDate % (1000 * 3600 * 24) )
+		i18nDatePatterns= i18n.datePatterns
+		for element in htmlElements
+			try
+				# Prepare
+				continue unless date= element.getAttribute 'datetime'
+				targetTime = if isNaN(date) then (new Date(date)).getTime() else parseInt date
+				# Calc
+				range= ~~((relativeDate - targetTime) / 1000)
+				value= i18nDatePatterns.relaxed range, targetTime, relativeMidnight
+				isntFinal= value isnt false
+				unless isntFinal
+					# Set finale value
+					pattern= element.getAttribute('d-pattern') or 'full'
+					value= _dateCache.upsert(pattern).format new Date targetTime
+				element.innerHTML= value
+				element.classList.toggle _ELEMENT_CLASS, isntFinal
+			catch error
+				Core.fatalError 'CORE', error
+		return
+	_intervExec= ->
+		elements= document.querySelectorAll _ELEMENT_SELECTOR
+		if elements.length then _exec elements
+		else
+			clearInterval _interv
+			_interv= null
+		return
+	return (htmlElements, relativeDate)->
+		# i18n
+		throw new Error "Expected i18n.datePatterns.relaxed function" unless i18n? and (i18nDatePatterns=i18n.datePatterns) and typeof i18nDatePatterns.relaxed is 'function'
+		# Exec
+		htmlElements= [htmlElements] unless typeof htmlElements.length is 'number'
+		_exec htmlElements
+		# Start _interv
+		_interv= setInterval _intervExec, 60000 unless _interv
+		return

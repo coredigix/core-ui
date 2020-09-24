@@ -14,6 +14,7 @@ goto: (utl)->
  * @optional @param {Number} options.maxLoops - Lookup max loop to prevent infinit loops @default 1000
  * @optional @param {function} options.out - called when quiting page
  * @optional @param {function} options.catch - called when error happend: Example: {code:404}
+ * @optional @param {Boolean} options.run - run router when page loaded, @default true
 ###
 defaultRouter: null # default router to use by the framework
 Router: do ->
@@ -25,6 +26,7 @@ Router: do ->
 		ignoreTrailingSlash:	yes
 		maxLoops:				1000
 		cacheMax:				50
+		run:					yes	# Run router when page loaded
 		out: (url, isForced)->	# called when leaving the page
 			document.location.replace url
 			return
@@ -41,10 +43,17 @@ Router: do ->
 	ROUTER_PARAM_NODE= 1
 	ROUTER_WILDCARD_PARAM_NODE= 2
 	ROUTER_WILDCARD_NODE= 3
+	ROUTER_STATIC_PARAM_NODE= 4
 	# ROUTES
 	ROUTE_ILLEGAL_PATH_REGEX= /[#]|[^\/]\?/
 	###* Create route node ###
 	_createRouteNode= ->
+		parent:		null # Parent node
+		# metadata
+		route:		null
+		param:		null
+		path:		null
+		# Controller
 		get:		null
 		wrappers:	null
 		# index
@@ -52,18 +61,12 @@ Router: do ->
 		params:		null
 		wildcards:	null
 		wildcard:	null
-		# metadata
-		param:		null
-		route:		null
-		path:		null
 	###* Resolve or create node inside array ###
-	_resolveNodeInArray= (part, paramMap, arr, upsert)->
-		paramName= part.slice 1
-		throw "Please use \"Router.param(...)\" method to define parameter: #{paramName}" unless paramMap.hasOwnProperty paramName
-		paramRegex= paramMap[paramName].regex
+	_resolveNodeInArray= (paramName, param, arr, upsert)->
+		paramRegex= param.regex
 		len= arr.length
 		i= 0
-		while i<len
+		while i < len
 			return arr[i+2] if arr[i+1] is paramName
 			i+= 3
 		if upsert
@@ -86,20 +89,47 @@ Router: do ->
 	PARAM_DEFAULT_REGEX= test: -> true
 	PARAM_DEFAULT_CONVERTER= (data)-> data
 	###*
+	 * Base path interface
+	 * Enables to group path declarations
+	###
+	class BasePath
+		constructor: (router, basePATH)->
+			@_router= router
+			@_currentNodes= router._loadRoute basePATH, router._tree
+			return
+		# Get
+		get: (route, node)->
+			throw new Error 'Illegal arguments' unless arguments.length is 2
+			# Add
+			router= @_router
+			if _isArray route
+				for r,i in route
+					router._get r, node, i, @_currentNodes
+			else
+				router._get route, node, 0, @_currentNodes
+			this # chain
+	###*
 	 * ROUTER
 	###
 	ID_GEN= 0 # Generate unique id for each create router
 	class Router
 		constructor: (options)->
+			@ctx= null # Current active context
 			# Options
-			@_options= _assign {}, DEFAULT_OPTIONS, options
+			@_options= options= _assign {}, DEFAULT_OPTIONS, options
 			# PARAMS
 			@_params= {}
+			@_staticParams= {}
 			# Router tree
-			@_tree= _createRouteNode()
-			@_tree.static['']= @_tree
+			treeNode= @_tree= _createRouteNode()
+			treeNode.route= '/'
+			treeNode.path= [treeNode]
+			treeNode.static['']= treeNode
+			# Base route
+			@_basePATH= new URL(Core.baseURL).pathname
 			# metadata
 			@_node= null # current node
+			@node= null
 			# URL
 			@referrer= @location= if document.referrer then new URL document.referrer else null
 			# Router id, used when calling ajax
@@ -108,32 +138,24 @@ Router: do ->
 			@_cache= new Core.LRU_TTL(max: @_options.cacheMax)
 			# prevent back and do an other action like closing popups
 			@_back= []
-			@_backOperations= [] # Operation to do over back
 			# Pop state
 			_popstateListener= (event)=>
 				# call callbacks
-				preventBack= no
-				if @_backOperations.length
+				backCb= @_back
+				if cb= backCb.pop()
 					try
-						@_backOperations.pop() event
-						preventBack= yes
+						cb event
 					catch err
 						Core.fatalError 'Router', err
-				else for cb in @_back
-					try
-						break if preventBack= cb event
-					catch err
-						Core.fatalError 'Router', err
-				if preventBack
-					history.pushState event.state, '', @location.href
+				# GOTO
 				else
-					path= event.state?.path or document.location.href
-					if typeof path is 'string'
-						@goto path, HISTORY_BACK
+					path= event.state?.path or document.location
+					@goto path, HISTORY_BACK
 				return
 			window.addEventListener 'popstate', _popstateListener, off
 			# start router
-			$ => @goto document.location.href, ROUTER_ROOT_PATH
+			if options.run
+				$ => @goto document.location.href, ROUTER_ROOT_PATH
 			# Default operations
 			unless Core.defaultRouter
 				Core.defaultRouter= this
@@ -154,6 +176,7 @@ Router: do ->
 					return this # chain
 				else unless typeof paramName is 'string'
 					throw 'Illegal param name'
+				throw "Illegal param name: #{paramName}" if paramName is '__proto__'
 				throw "Param '#{paramName}' already set" if @_params[paramName]
 				# Prepare arguments
 				if typeof regex is 'function'
@@ -173,32 +196,56 @@ Router: do ->
 				err= new Error "ROUTER.param>> #{err}" if typeof err is 'string'
 				throw err
 			this # chain
+		###* static params ###
+		staticParam: (paramName, values)->
+			throw new Error "ROUTER.staticParam>> Illegal argumets" unless arguments.length is 2 and typeof paramName is 'string' and _isStrArray values
+			throw new Error "Illegal param name: #{paramName}" if paramName is '__proto__'
+			throw new Error "ROUTER.staticParam>> Param '#{paramName}' already set" if @_params[paramName]
+			@_staticParams[paramName]= values
+			@_params[paramName]=
+				regex: PARAM_DEFAULT_REGEX
+				convert: PARAM_DEFAULT_CONVERTER
+			this # chain
 		###*
 		 * Wrap route
 		###
 		wrap: (route, wrapper)->
 			throw new Error 'Illegal arguments' unless arguments.length is 2 and typeof route is 'string' and typeof wrapper is 'function'
-			(@_loadRoute(route).wrappers?= []).push wrapper
+			nodes= @_loadRoute(route, @_tree)
+			(node.wrappers?= []).push wrapper for node in nodes
 			this # chain
+		###*
+		 * Base Path
+		###
+		route: (path)-> new BasePath this, path
 		###*
 		 * GET
 		###
 		get: (route, node)->
-			throw new Error 'Illegal arguments' unless arguments.length is 2 and typeof node is 'object' and node
+			throw new Error 'Illegal arguments' unless arguments.length is 2
 			# Add
 			if _isArray route
 				for r,i in route
-					@_get r, _assign {}, node, i
+					@_get r, node, i, @_tree
 			else
-				@_get route, node, 0
+				@_get route, node, 0, @_tree
 			this # chain
-		_get: (route, node, routeIndex)->
+		_get: (route, node, routeIndex, currentNodes)->
+			# Checks
 			throw new Error "Route expected string" unless typeof route is 'string'
-			routeObj= @_loadRoute(route)
-			throw new Error "Route already set: #{route}" if routeObj.get?
-			node.route?= route
-			node.routeIndex= routeIndex
-			routeObj.get= node
+			if typeof node is 'function'
+				node= {in: node}
+			else if typeof node is 'object' and node
+				node= _assign {}, node
+			else
+				throw "Second arg expected function or object"
+			# Add route
+			routeNodes= @_loadRoute(route, currentNodes)
+			for routeNode in routeNodes
+				throw new Error "Route already set: #{route}" if routeNode.get?
+				node.route?= route
+				node.routeIndex= routeIndex
+				routeNode.get= node
 			return
 		###*
 		 * Goto
@@ -215,10 +262,14 @@ Router: do ->
 				# create context
 				path=		url.pathname
 				@location=	url
-				ctx=
+				@href=	url.href
+				jsonURL= new URL(url)
+				jsonURL.searchParams.set 'type', 'json'
+				@ctx= ctx=
 					isRoot:			doState is ROUTER_ROOT_PATH
 					url:			url
 					path:			path
+					jsonPath:		jsonURL.href # Shortcut to call json api
 					isHistoryBack:	doState is HISTORY_BACK # if this is fired by history.back
 					isNew:			(doState is ROUTER_ROOT_PATH) or (doState is ROUTER_RELOAD) or (path isnt previousPath)
 					isReload:		doState is ROUTER_RELOAD
@@ -234,7 +285,8 @@ Router: do ->
 				unless result= @_cache.get path
 					result= @_resolvePath path
 					@_cache.set path, result
-				@_node= result
+				@_node= result.node
+				@node= result.node?.get
 				throw result.error or {code: result.status} unless result.status is 200
 				ctx.options= result.node
 				ctx.route= result.route
@@ -264,14 +316,15 @@ Router: do ->
 					await previousNodeOptions.outOnce? ctx if ctx.isNew
 				# push in history
 				urlHref= url.href
-				if doState is ROUTER_ROOT_PATH
-					history?.pushState (path:urlHref), '', urlHref
-				else unless (doState is HISTORY_BACK) or (previousLocation and urlHref is previousLocation.href) # do not push if it's history back or same URL
-					historyState= path: urlHref
-					if doState is HISTORY_REPLACE
-						history?.replaceState historyState, '', urlHref
-					else unless doState is HISTORY_NO_STATE
-						history?.pushState historyState, '', urlHref
+				if history?
+					if doState is ROUTER_ROOT_PATH
+						# history?.pushState (path:urlHref), '', urlHref
+					else unless (doState is HISTORY_BACK) or (previousLocation and urlHref is previousLocation.href) # do not push if it's history back or same URL
+						historyState= path: urlHref
+						if doState is HISTORY_REPLACE
+							history?.replaceState historyState, '', urlHref
+						else unless doState is HISTORY_NO_STATE
+							history?.pushState historyState, '', urlHref
 				# call listeners
 				if (wrappers= result.wrappers) and wrappers.length
 					wrapperI= 0
@@ -315,6 +368,13 @@ Router: do ->
 				history?.pushState {path: urlHref}, '', urlHref
 			this # chain
 		###*
+		 * Restart the router
+		###
+		restart: ->
+			Core.ajax.abort @id
+			@goto @location, ROUTER_ROOT_PATH
+			return
+		###*
 		 * Reload
 		###
 		reload: (forced)->
@@ -323,6 +383,9 @@ Router: do ->
 			else
 				@goto @location, ROUTER_RELOAD
 			this # chain
+		repaint: ->
+			@goto @location
+			this
 		###*
 		 * Replace
 		###
@@ -335,81 +398,108 @@ Router: do ->
 				history.back()
 			else
 				@goto ''
-		onBack: (cb)->
+		###* Execute a callback when history.back instead of changing view ###
+		whenBack: (cb)->
 			throw new Error 'Expected 1 argument as function' unless arguments.length is 1 and typeof cb is 'function'
 			@_back.push cb
-			this # chain
-		###*
-		 * Execute operations over going back: like closing menu
-		###
-		addBackOperation: (fx)->
-			throw new Error 'Illegal arguments' unless arguments.length is 1 and typeof fx is 'function'
-			@_backOperations.push fx
-			this # chain
-		removeBackOperation: (fx)->
-			arr= @_backOperations
-			i= arr.length
-			while i
-				if fx is arr[--i]
-					arr.splice i, 1
-					break
+			history.pushState {}, '', @location.href
 			this # chain
 		###*
 		 * Load route
 		###
-		_loadRoute: (route)->
-			throw "Illegal path: #{path}" if ROUTE_ILLEGAL_PATH_REGEX.test(route)
-			settings= @_options
+		_loadRoute: (route, currentNodes)->
+			throw "Illegal route: #{route}" if ROUTE_ILLEGAL_PATH_REGEX.test(route)
+			# Convert to abs route
 			path= route
+			if currentNodes is @_tree
+				path= @_basePATH + path unless path.startsWith '/'
+				currentNodes= [currentNodes]
+			else
+				currentNodes= currentNodes.slice 0
+			# Add
+			settings= @_options
 			isntCaseSensitive= not settings.caseSensitive
 			parts= path.split '/'
 			partsLen= parts.length
 			paramSet= new Set() # check params are not repeated
 			paramMap= @_params
+			staticParamsMap= @_staticParams
 			# Settings
-			avoidTrailingSlash= not settings.ignoreTrailingSlash
-			# metadata
-			nodePath= []
+			avoidTrailingSlash= !!settings.ignoreTrailingSlash
 			# Go through tree
-			currentNode= @_tree
+			currentNodes2= []
 			for part,i in parts
-				# wild card
-				if part is '*'
-					throw "Illegal use of wildcard: #{route}" unless i+1 is partsLen
-					node= currentNode.wildcard ?= do _createRouteNode
-					node.param= '*'
-					node.type= ROUTER_WILDCARD_NODE
-				#  parametered wildcard
-				else if part.startsWith '*'
-					throw "Illegal use of wildcard: #{route}" unless i+1 is partsLen
-					currentNode.wildcards?= []
-					node= _resolveNodeInArray part, paramMap, currentNode.wildcards, yes
-					node.type= ROUTER_WILDCARD_PARAM_NODE
-				# parametred node
-				else if part.startsWith ':'
-					currentNode.params?= []
-					node= _resolveNodeInArray part, paramMap, currentNode.params, yes
-					node.type= ROUTER_PARAM_NODE
-				# static node
-				else
-					part= part.slice(1) if part.startsWith('?') # escaped static part
-					part= part.toLowerCase() if isntCaseSensitive
-					node= currentNode.static[part] ?= do _createRouteNode
-					node.type= ROUTER_STATIC_NODE
+				tmpC= currentNodes
+				currentNodes= currentNodes2
+				currentNodes2= tmpC
+				currentNodes.length= 0
+				# Resolve sub nodes
+				for currentNode in currentNodes2
+					# wild card
+					if part is '*'
+						throw "Illegal use of wildcard: #{route}" unless i+1 is partsLen
+						unless node= currentNode.wildcard
+							node= currentNode.wildcard= do _createRouteNode
+							node.param= '*'
+							node.type= ROUTER_WILDCARD_NODE
+							node.parent= currentNode
+						currentNodes.push node
+					#  parametered wildcard
+					else if part.startsWith '*'
+						throw "Illegal use of wildcard: #{route}" unless i+1 is partsLen
+						currentNode.wildcards?= []
+						paramName= part.slice 1
+						throw "Undefined parameter: #{paramName}" unless param= paramMap[paramName]
+						node= _resolveNodeInArray paramName, param, currentNode.wildcards, yes
+						node.type= ROUTER_WILDCARD_PARAM_NODE
+						node.parent= currentNode
+						currentNodes.push node
+					# parametred node
+					else if part.startsWith ':'
+						paramName= part.slice 1
+						# Static path param
+						if param= staticParamsMap[paramName]
+							for paramEl in param
+								paramEl= paramEl.toLowerCase() if isntCaseSensitive
+								unless node= currentNode.static[paramEl]
+									node= currentNode.static[paramEl]= do _createRouteNode
+									node.param= paramName
+									node.type= ROUTER_STATIC_PARAM_NODE
+									node.parent= currentNode
+								currentNodes.push node
+						# Path param
+						else if param= paramMap[paramName]
+							currentNode.params?= []
+							node= _resolveNodeInArray paramName, param, currentNode.params, yes
+							node.type= ROUTER_PARAM_NODE
+							node.parent= currentNode
+							currentNodes.push node
+						else
+							throw "Undefined parameter: #{paramName}"
+					# static node
+					else
+						part= part.slice(1) if part.startsWith('?') # escaped static part
+						part= part.toLowerCase() if isntCaseSensitive
+						unless node= currentNode.static[part]
+							node= currentNode.static[part]= do _createRouteNode
+							node.type= ROUTER_STATIC_NODE
+							node.parent= currentNode
+						currentNodes.push node
 				# Check params not repeated
-				if vl= node.param
+				if vl= currentNodes[0].param
 					throw "Repeated param [#{vl}] in route: #{path}" if paramSet.has vl
 					paramSet.add vl
-				# Avoid trailing slash and multiple slashes
-				node.static['']= node if avoidTrailingSlash # Avoid trailing slash and multiple slashes
-				# stack
-				nodePath.push node
-				unless node.path
-					node.path?= nodePath.slice(0)
-					node.route= parts.slice(0, i+1).join('/')
-				# next
-				currentNode= node
-			return currentNode
+				# Finalize nodes
+				for node in currentNodes
+					# Avoid trailing slash and multiple slashes
+					node.static['']= node if avoidTrailingSlash # Avoid trailing slash and multiple slashes
+					# stack
+					unless node.path
+						nodePath= node.parent.path.slice(0)
+						nodePath.push node
+						node.path= nodePath
+						node.route= parts.slice(0, i+1).join('/')
+			return currentNodes
 		###*
 		 * Resolve path
 		 * @return {Object} {status, node, wrappers:[], error, params:[] }
@@ -447,7 +537,7 @@ Router: do ->
 					part= parts[dept]
 					# switch nodetype
 					switch nodeType
-						when ROUTER_STATIC_NODE # Static
+						when ROUTER_STATIC_NODE, ROUTER_STATIC_PARAM_NODE # Static
 							# add alts
 							if currentNode.wildcard
 								nodeStack.push currentNode
@@ -468,7 +558,7 @@ Router: do ->
 						when ROUTER_PARAM_NODE # path param
 							params= currentNode.params
 							len= params.length
-							while nodeIndex<len
+							while nodeIndex < len
 								if params[nodeIndex].test part
 									# save current index
 									nodeStack.push currentNode
@@ -485,7 +575,7 @@ Router: do ->
 							params= currentNode.wildcards
 							len= params.length
 							pathEnd= parts.slice(dept).join('/')
-							while nodeIndex<len
+							while nodeIndex < len
 								if params[nodeIndex].test pathEnd
 									# go to sub route
 									currentNode= params[nodeIndex+2]
@@ -514,7 +604,7 @@ Router: do ->
 							# 	errHandlers.push el for el in arr
 							# params
 							switch node.type
-								when ROUTER_PARAM_NODE
+								when ROUTER_PARAM_NODE, ROUTER_STATIC_PARAM_NODE
 									paramArr.push node.param, parts[j]
 								when ROUTER_WILDCARD_PARAM_NODE, ROUTER_WILDCARD_NODE
 									paramArr.push node.param, parts.slice(j).join('/')

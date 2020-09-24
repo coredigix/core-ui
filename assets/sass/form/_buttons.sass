@@ -109,6 +109,8 @@
 				color: $warning
 			&.danger
 				color: $danger
+			&.hover
+				color: inherit
 	&.flat
 		// &:not(:active), &:not(:hover)
 		border-color: transparent
@@ -136,11 +138,11 @@
 
 	// social media
 	// (flattr #8aba42 white) (wikipedia #fff #000) (w3c #fbfbfb #050505) (reddit #fff #222) (blogger #ee5a22 white) (flickr #ff0084 white) (googleplus #dd4b39 white)  (vk #45688E white)  (skype #00a2ed white) (yahoo #a200c2 white) (cloudapp #fbfbfb #050505) (buffer #232323 white) (superpowers #fbfbfb #050505) 
-	@each $n, $bg, $clr in (facebook #4863ae white) (paypal #fff #32689a) (pinterest #c91618 white) (google #4e6cf7 white) (appstore #000 white) (googleplay #000 white) (viadeo #fff #000) (linkedin #0083a8 white)(rss #ff7f25 white) (twitter #46c0fb white) (youtube #f00 white) (vimeo #00a2cd white) (amazon #ffad1d #030037) (tumblr #374a61 white) (soundcloud #fff #312c2a) (gmail #efefef #222) (itunes #efefeb #312c2a) (dropbox #fff #312c2a) (stackoverflow #fff #555) (github #fbfbfb #050505) (instagram #3f729b white)
-		&.ico-#{$n}
-			&:hover, &.active, &.hover
-				color: $clr
-				background-color: $bg
+	// @each $n, $bg, $clr in (facebook #4863ae white) (paypal #fff #32689a) (pinterest #c91618 white) (google #4e6cf7 white) (appstore #000 white) (googleplay #000 white) (viadeo #fff #000) (linkedin #0083a8 white)(rss #ff7f25 white) (twitter #46c0fb white) (youtube #f00 white) (vimeo #00a2cd white) (amazon #ffad1d #030037) (tumblr #374a61 white) (soundcloud #fff #312c2a) (gmail #efefef #222) (itunes #efefeb #312c2a) (dropbox #fff #312c2a) (stackoverflow #fff #555) (github #fbfbfb #050505) (instagram #3f729b white)
+	// 	&.ico-#{$n}
+	// 		&:hover, &.active, &.hover
+	// 			color: $clr
+	// 			background-color: $bg
 
 // a
 a.btn

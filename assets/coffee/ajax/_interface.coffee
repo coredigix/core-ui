@@ -11,6 +11,21 @@ getJSONOnce:_xhrWrapper method: 'GET', once: yes, reponseType: 'json'
 post:		_xhrWrapper method: 'POST'
 postJSON:	_xhrWrapper method: 'POST', dataType: 'json'
 
+# CONVERTS
+formToObj:	_convertFormDataToJSON
+formToURL:	_convertFormDataToUrlEncoded
+
+toFormData: (form)->
+	data= new FormData form
+	# check for input files
+	for inp in form.querySelectorAll 'input[type="file"]'
+		if inp[F_FILES_LIST]
+			_replace_input_file_form inp, data
+		# remove empty files
+		else unless inp.files.length
+			data.delete inp.name
+	return data
+
 ###
  * INTERFACE
  * Core.get('url').then(...)
@@ -29,11 +44,11 @@ postJSON:	_xhrWrapper method: 'POST', dataType: 'json'
  *
  * 		# POST
  * 		data: Object, Form, FormData, String		# data to send
- * 		
+ *
  * 		# RESPONSE PARSING
  * 		reponseType: "json"	# parse response data as JSON
  * 		dataType: "json"	# serialize data as JSON
- *   		
+ *
  *   	# PROGRESS AND CALLBACKS
  *   	upload:	 (event)->
  *   	download: (event)->

@@ -15,7 +15,8 @@ _triggerBlur: (element)->
 	# Check it's form element (not Anchor or other)
 	if element.form?
 		element[INPUT_VALIDATED]= no
-		$fcntrl= $(element).closest('.f-cntrl').addClass 'loading'
+		$fcntrl= $(element).closest('.f-cntrl').removeClass 'has-done has-warn has-error'
+		$fcntrl.addClass 'loading'
 		state= false
 		try
 			vAttributes= @_vAttrs
@@ -70,7 +71,9 @@ _onSubmit: (event)->
 		jobs= []
 		formElements= form.elements
 		for element in formElements
-			if (state= element[INPUT_VALIDATED])?
+			if element.disabled
+				jobs.push yes
+			else if (state= element[INPUT_VALIDATED])?
 				jobs.push state
 			else unless element.disabled
 				jobs.push @_triggerBlur element
@@ -82,8 +85,7 @@ _onSubmit: (event)->
 				throw no
 		# Callbacks before submit on elements
 		for element in formElements
-			if attr= element.getAttribute 'v-submit'
-				console.log 'submit: ', attr
+			if not element.disabled and (attr= element.getAttribute 'v-submit')
 				parts= attr.trim().split /\s+/
 				cbName= parts[0]
 				throw new Error "Unknown method for submit: #{cbName}" unless typeof @[cbName] is 'function'
@@ -103,6 +105,3 @@ _onSubmit: (event)->
 	finally
 		$form.removeClass 'loading'
 	return
-
-
-

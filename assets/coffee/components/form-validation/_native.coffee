@@ -34,6 +34,15 @@ _blurListener= (event)->
 			catch err
 				Core.fatalError 'Uncaught error', err
 	else
+		# Form fixes
+		try
+			# Fix input number decimals
+			element.value= (+element.value).toFixed d if element.hasAttribute('d-decimals') and (d= +element.getAttribute 'd-decimals') and Number.isSafeInteger(d) and d>0
+		catch err
+			Core.error 'Form-Blur', err
+		
+			
+		# Trigger blur
 		_closestComponent(element.parentNode)._triggerBlur element
 	return
 window.addEventListener 'blur', _blurListener, _evlistenerOptions

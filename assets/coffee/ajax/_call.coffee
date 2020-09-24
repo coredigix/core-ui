@@ -89,7 +89,7 @@ _sendRequest= (options, onLoad, onError)->
 	), false
 	### PREPARE DATA ###
 	options.headers ?= _create null
-	dataType= options.dataType or options.headers['Content-Type']
+	dataType= options.dataType or options.type or options.headers['Content-Type']
 	# decode mimetype
 	dataType= MIME_TYPES[dataType] or dataType
 	# encode data
@@ -115,7 +115,9 @@ _sendRequest= (options, onLoad, onError)->
 				data= _convertFormDataToJSON data
 			else if dataType is MIME_TYPES.urlencoded
 				data= _convertFormDataToUrlEncoded data
-			else if dataType and dataType isnt MIME_TYPES.multipart
+			else if dataType is MIME_TYPES.multipart
+				dataType= undefined # TO enable adding multipart data boundries
+			else if dataType
 				throw new Error 'Could not convert FormData to: ' + dataType
 		# Object
 		else if not dataType or dataType is MIME_TYPES.json

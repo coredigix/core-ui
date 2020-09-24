@@ -13,8 +13,7 @@ _getOwnPropertyDescriptors=	Object.getOwnPropertyDescriptors
 _isArray= Array.isArray
 _isStrArray= (arr)->
 	return false unless _isArray arr
-	for el in arr
-		return false unless typeof el is 'string'
+	return false for el in arr when typeof el isnt 'string'
 	return true
 
 # Parse HTML and returns element
@@ -24,10 +23,14 @@ _toHTMLElement= (html)->
 	_toHTMLElementDiv.innerHTML= html
 	element= _toHTMLElementDiv.firstElementChild
 	# Empty div
-	while el= _toHTMLElementDiv.firstChild
-		_toHTMLElementDiv.removeChild el
+	_toHTMLElementDiv.removeChild el while el= _toHTMLElementDiv.lastChild
 	# return
 	return element
+_toHTMLFragment= (html)->
+	frag= document.createDocumentFragment()
+	_toHTMLElementDiv.innerHTML= html
+	frag.appendChild element while element= _toHTMLElementDiv.firstChild
+	return frag
 
 # ESCAPE HTML
 escapeHTML_txtNode= document.createTextNode('')

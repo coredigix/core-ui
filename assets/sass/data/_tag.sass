@@ -1,12 +1,16 @@
 .tag
 	display: inline-block
-	color: white
-	background-color: $text-color
-	padding: 0 10px
+	// color: white
+	background-color: $border-color
+	padding: 2px 20px 2px 2px
 	line-height: 30px
 	font-size: 12px
-	border-radius: 4px
+	border-radius: 2em
 	white-space: nowrap
+	.avatar
+		border-radius: 50% 0 0 50%
+		vertical-align: middle
+		margin-inline-end: 5px
 
 	&:empty
 		padding: 6px
@@ -22,7 +26,7 @@
 		background-color: $danger
 	&.disabled
 		background-color: $bg-disabled
-		color: $color-disabled
+		color: $disabled
 
 	&.outline
 		background-color: transparent
@@ -40,4 +44,7 @@
 			color: $danger
 		&.disabled
 			background-color: $bg-disabled
-			color: $color-disabled
+			color: $disabled
+a.tag
+	&:hover
+		text-decoration: none

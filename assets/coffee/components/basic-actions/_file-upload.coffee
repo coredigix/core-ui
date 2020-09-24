@@ -23,7 +23,7 @@ fileUpload: do ->
 				# add to queue
 				fileLst.push file
 			# Preview fx
-			if fxName= input.getAttribute('d-preview').trim()
+			if (fxName= input.getAttribute 'd-preview') and (fxName= fxName.trim())
 				args= fxName.split(/\s+/)
 				fxName= args[0]
 				previewFx= @[fxName]
@@ -71,9 +71,9 @@ filePreview: (input, addedFiles, allFiles, args)->
 	if args[1] is 'bg'
 		if file= addedFiles[0]
 			selector= args.slice(2).join(' ')
+			$preview= $(input).closest('.f-cntrl').find(selector).addClass('loading')
 			fileData= await _readFile file
-			$preview= $(input).closest('.f-cntrl').find(selector)
-			$preview.css 'background-image': "url(#{fileData})"
+			$preview.removeClass('loading').css 'background-image': "url(#{fileData})"
 	# Multiple images
 	else
 		selector= if args.length > 1 then args.slice(1).join(' ') else '.files-preview'

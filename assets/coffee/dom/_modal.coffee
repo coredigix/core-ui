@@ -1,57 +1,63 @@
 ###*
  * Show modals
- * TODO
+ * @param {String} html - HTML modal
+ * @return {Object} Model object
 ###
-# modal: (modalName, options)->
+# modal: (html)->
 # 	html= Components._ modalName, options
 # 	return modal
 #TODO
 
-modal: (htmlFactory, options)->
+modal: (html)->
 	# Create promise
 	_close= null
-	_body= null
+	element= null
+	# return promise
 	p= new Promise (res, rej)->
 		# close Fx
-		_close= -> res 'close'
+		_close= ->
+			res 'close'
+			return
+		# Close modal when history back
+		Core.defaultRouter?.whenBack _close
 		# DOM
 		body= document.body
 		body.classList.add 'modal-open'
 		# Render
-		_body= _toHTMLElement htmlFactory options
-		body.appendChild _body
+		element= _toHTMLElement html
+		body.appendChild element
 		# Promise
 		_click= (event)->
-			if btn= @closest('[d-value]')
+			target= event.target
+			if btn= target.closest('[d-value]')
 				res btn.getAttribute 'd-value'
-			else unless @closest '.mini-container'
+			else unless target.closest '.mini-container'
 				res 'close'
 			return
-		_body.addEventListener 'click', _click, false
+		element.addEventListener 'click', _click, false
 		return
 	# Add finnaly
 	p= p.finally (res)->
 		body= document.body
-		body.removeChild _body if _body?
+		body.removeChild element if element?
 		body.classList.remove 'modal-open' unless body.querySelector ':scope>.modal'
 		return res
 	# Add APIs
-	p.body= _body
+	p.body= element
 	p.close= _close
 	# Return
 	return p
-	
-	
+
 alert: (message)->
 	if typeof message is 'string' then opt= text: message
 	else if message? then opt= message
 	else throw new Error "Illegal arguments"
 	opt.ok ?= i18n.ok or 'ok'
-	@modal Core.html.alert, opt
+	@modal Core.html.alert opt
 confirm: (message)->
 	if typeof message is 'string' then opt= text: message
 	else if message? then opt= message
 	else throw new Error "Illegal arguments"
 	opt.ok ?= i18n.ok or 'ok'
 	opt.cancel ?= i18n.cancel or 'Cancel'
-	@modal Core.html.confirm, opt
+	@modal Core.html.confirm opt

@@ -80,6 +80,9 @@ input[type="number"].f-input
 	&::-o-inner-spin-button
 		-o-appearance: none
 		margin: 0
+select.f-input
+	-webkit-appearance: auto
+
 .f-text
 	@extend %f-input
 	cursor: text
@@ -92,34 +95,36 @@ input[type="number"].f-input
 		display: block
 	&.has-primary
 		color: $primary
-		&:hover
-			color: $primary-light
-		&:active, &.active
-			color: $primary-dark
+		// &:hover
+		// 	color: $primary-light
+		// &:active, &.active
+		// 	color: $primary-dark
 	&.has-done
 		color: $success
-		&:hover
-			color: $success-light
-		&:active, &.active
-			color: $success-dark
+		// &:hover
+		// 	color: $success-light
+		// &:active, &.active
+		// 	color: $success-dark
 	&.has-info
 		color: $info
-		&:hover
-			color: $info-light
-		&:active, &.active
-			color: $info-dark
+		// &:hover
+		// 	color: $info-light
+		// &:active, &.active
+		// 	color: $info-dark
 	&.has-warn
 		color: $warning
-		&:hover
-			color: $warn-light
-		&:active, &.active
-			color: $warn-dark
+		// &:hover
+		// 	color: $warn-light
+		// &:active, &.active
+		// 	color: $warn-dark
 	&.has-error
 		color: $danger
-		&:hover
-			color: $danger-light
-		&:active, &.active
-			color: $danger-dark
+		// .f-text, .f-input
+		// 	color: $danger
+		// &:hover
+		// 	color: $danger-light
+		// &:active, &.active
+		// 	color: $danger-dark
 	&.loading
 		@extend %no-events
 	&.active
@@ -127,12 +132,13 @@ input[type="number"].f-input
 			background: white
 	// state
 	&[class^="has-"], &[class*=" has-"]
-		f-input:not(:disabled)
-			color: inherit
-			border-color: currentColor
-			background-color: $white
-			&::placeholder
+		.f-input, .f-text
+			&:not(:disabled)
 				color: inherit
+				border-color: currentColor
+				background-color: $white
+				&::placeholder
+					color: inherit
 	// 	border-color: currentColor
 
 // States
@@ -141,8 +147,14 @@ input[type="number"].f-input
 @each $el in primary, success, info, warn, error
 	.has-#{$el} .when-#{$el}
 		display: block!important
-.loading .when-loading
-	display: block!important
+
+.when-loading
+	display: none
+.loading
+	.when-loading
+		display: block!important
+	.hide-when-loading
+		display: none!important
 
 // input with icons
 label.f-input
@@ -178,6 +190,7 @@ label.f-input
 			background: transparent
 			// background-clip: content-box
 			transition: padding .2s ease
+			line-height: 1.2em
 	@each $el, $clr in (primary, $primary), (success, $success), (info, $info), (warn, $warning), (danger, $danger)
 		&.#{$el}:not(.disabled)
 			input
@@ -311,12 +324,12 @@ form.loading
 	// position: relative
 	// pointer-events: none
 	@extend %loading
-	>:not(.progress)
+	>:not(.progress):not(.when-loading)
 		// opacity: .5
 		filter: blur(2px)
-	>.progress
-		opacity: 1
-		filter: none
+	>.progress, >.when-loading
+		// opacity: 1
+		// filter: none
 		&.abs
 			width: 100%
 			top: calc(50% - .5em)

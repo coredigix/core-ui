@@ -4,20 +4,27 @@
  * MARGINS
  */
 %margin, .margin
-	margin: 14px 0
+	margin: 24px 0
 
 @each $m in top, left, right, bottom
+	.m-s#{$m}
+		margin-#{$m}: 10px
 	.m-#{$m}
-		margin-#{$m}: 14px
+		margin-#{$m}: 24px
 	.m-x#{$m}
 		margin-#{$m}: 60px
 
 .m-end
-	margin-inline-end: 14px
+	margin-inline-end: 24px
 .m-start
-	margin-inline-start: 14px
+	margin-inline-start: 24px
 .m-auto
 	margin: auto
+@media(min-width: 600px)
+	.md-end
+		margin-inline-end: 24px
+	.md-start
+		margin-inline-start: 24px
 
 // .m-start
 // 	&:dir(ltr)
@@ -41,6 +48,10 @@
 %padding, .padding
 	padding: 20px 24px
 
+.p2
+	padding: 2px
+.p5
+	padding: 5px
 
 
 

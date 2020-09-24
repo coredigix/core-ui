@@ -13,7 +13,7 @@ do ->
 		throw new Error "Expected global variable: i18n"
 	$= jQuery
 	#=include coffee/_index.coffee
-	
+
 	# UI-COMPONENTS
 	do ->
 		#=include ui-components/_*.coffee

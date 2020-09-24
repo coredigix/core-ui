@@ -18,11 +18,26 @@
 		width: 30px
 		height: 32px
 
+%square-avatar
+	display: inline-block
+	background: #eee center no-repeat
+	background-size: cover
+.square
+	&-512
+		@extend %square-avatar
+		width: 512px
+		height: 512px
+	&-256
+		@extend %square-avatar
+		width: 256px
+		height: 256px
+	&-64
+		@extend %square-avatar
+		width: 64px
+		height: 64px
+
 
 // .figure: image doesnt exeed 100%
 .figure
 	max-width: 100%
 	object-fit: contain
-
-
-
